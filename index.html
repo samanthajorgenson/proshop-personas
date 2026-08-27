@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProShop Personas · Interactive Teaching Tool</title>
+<style>
+  :root{
+    --ink:#0B061C;--ink-soft:#3C3849;--mute:#6D6A77;--line:#E7E6E8;
+    --paper:#FFFFFF;--wash:#FBFAFC;--flame:#FF4F00;--flame-wash:#FFF6F2;
+    --flame-line:#FFDCCC;--blue:#1357FF;--green:#198754;--amber:#B45309;--amber-wash:#FEF3C7;
+    --sans:"Helvetica Neue",Arial,sans-serif;--mono:"SFMono-Regular",Consolas,Menlo,monospace;
+    --shadow:0 8px 30px rgba(11,6,28,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--sans);color:var(--ink);background:#F4F3F6;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  /* top bar */
+  .topbar{background:var(--ink);color:#fff;position:sticky;top:0;z-index:50;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:16px;letter-spacing:-.01em;}
+  .brand .logo{width:26px;height:26px;border-radius:6px;background:var(--flame);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;}
+  .brand small{font-weight:500;color:#9B98A6;font-size:11px;letter-spacing:.04em;}
+  .topnav{display:flex;gap:4px;}
+  .topnav button{background:none;border:none;color:#C9C6D2;font-family:inherit;font-size:12.5px;font-weight:600;padding:8px 13px;border-radius:7px;cursor:pointer;transition:.15s;}
+  .topnav button:hover{color:#fff;background:rgba(255,255,255,.08);}
+
+  /* hero */
+  .hero{background:var(--ink);color:#fff;padding:34px 0 40px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-60px;top:-60px;width:280px;height:280px;background:var(--flame);opacity:.13;transform:rotate(45deg);}
+  .hero .kick{font-size:11px;letter-spacing:.22em;font-weight:700;color:var(--flame);text-transform:uppercase;margin-bottom:12px;}
+  .hero h1{font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.03;max-width:16em;}
+  .hero p{font-size:15px;color:#C9C6D2;margin-top:14px;max-width:44em;}
+  .hero .dlrow{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:12.5px;font-weight:700;padding:9px 15px;border-radius:8px;cursor:pointer;border:none;transition:.15s;text-decoration:none;}
+  .btn.flame{background:var(--flame);color:#fff;}
+  .btn.flame:hover{background:#e64700;}
+  .btn.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.18);}
+  .btn.ghost:hover{background:rgba(255,255,255,.15);}
+
+  section.band{padding:38px 0;}
+  section.band.alt{background:#fff;}
+  .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--flame);margin-bottom:6px;}
+  h2.title{font-size:24px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px;}
+  .subtitle{font-size:14px;color:var(--ink-soft);max-width:56em;margin-bottom:22px;}
+
+  /* three-up ERP/MES/QMS */
+  .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .defcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;}
+  section.alt .defcard{background:var(--wash);}
+  .defcard .abbr{font-size:26px;font-weight:800;color:var(--flame);}
+  .defcard .full{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:700;margin:3px 0 11px;}
+  .defcard p{font-size:12.5px;color:var(--ink-soft);}
+
+  /* journey */
+  .stagebar{display:grid;grid-template-columns:0.9fr 1.6fr 1.1fr 1.4fr;gap:10px;margin-bottom:14px;}
+  .stagechip{background:var(--flame-wash);border:1px solid var(--flame-line);border-radius:9px;text-align:center;padding:8px 6px;}
+  .stagechip .s{font-family:var(--mono);font-size:10px;color:var(--flame);font-weight:700;}
+  .stagechip .n{font-size:12px;font-weight:800;color:var(--ink);}
+  .journey{display:flex;align-items:stretch;gap:0;flex-wrap:nowrap;}
+  .jp{flex:1;min-width:0;border:2px solid var(--flame);background:#fff;border-radius:13px;padding:14px 9px 12px;text-align:center;cursor:pointer;position:relative;transition:.16s;}
+  .jp:hover{background:var(--flame-wash);transform:translateY(-3px);box-shadow:var(--shadow);}
+  .jp .bar{position:absolute;left:0;top:0;width:100%;height:5px;border-radius:5px 5px 0 0;background:var(--flame);}
+  .jp .num{width:30px;height:30px;border-radius:50%;background:var(--flame);color:#fff;font-size:15px;font-weight:800;line-height:30px;margin:5px auto 7px;}
+  .jp .who{font-size:12.5px;font-weight:800;color:var(--ink);line-height:1.12;}
+  .jp .what{font-size:9.5px;color:var(--mute);margin-top:4px;font-style:italic;line-height:1.25;}
+  .jp .more{font-size:9px;color:var(--flame);font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-top:8px;opacity:0;transition:.16s;}
+  .jp:hover .more{opacity:1;}
+  .jarr{display:flex;align-items:center;justify-content:center;padding:0 4px;min-width:34px;color:var(--flame);}
+  .jarr svg{width:24px;height:11px;}
+
+  /* buyer persona callout */
+  .buyerband{margin-top:16px;background:var(--ink);border-radius:14px;padding:16px 22px;display:flex;align-items:center;gap:18px;cursor:pointer;transition:.16s;}
+  .buyerband:hover{box-shadow:var(--shadow);transform:translateY(-2px);}
+  .buyerband .bdg{width:44px;height:44px;border-radius:50%;background:var(--flame);color:#fff;font-size:20px;font-weight:800;line-height:44px;text-align:center;flex:none;}
+  .buyerband .txt{flex:1;}
+  .buyerband .cc{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--flame);}
+  .buyerband .nm{font-size:17px;font-weight:800;color:#fff;margin:1px 0 3px;}
+  .buyerband .ds{font-size:11.5px;color:#C9C6D2;}
+  .buyerband .go{font-size:11px;font-weight:800;color:var(--flame);white-space:nowrap;}
+
+  /* qa cross-cut note */
+  .qanote{margin-top:14px;display:flex;align-items:center;gap:14px;background:var(--flame-wash);border:1px solid var(--flame-line);border-radius:12px;padding:13px 18px;cursor:pointer;transition:.16s;}
+  .qanote:hover{box-shadow:var(--shadow);}
+  .qanote .q{width:36px;height:36px;border-radius:50%;background:var(--flame);color:#fff;font-size:17px;font-weight:800;line-height:36px;text-align:center;flex:none;}
+  .qanote p{font-size:12px;color:var(--ink-soft);}
+  .qanote b{color:var(--ink);}
+
+  /* shared threads mini-grid */
+  .threads{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .tcard{background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px;}
+  section.alt .tcard{background:var(--wash);}
+  .tcard .th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;margin-bottom:2px;}
+  .tcard .sh{font-size:11px;color:var(--flame);font-weight:700;margin-bottom:9px;}
+  .tcard p{font-size:11.5px;color:var(--ink-soft);}
+
+  /* company context */
+  .timeline{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}
+  .tl{background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 12px;}
+  section.alt .tl{background:var(--wash);}
+  .tl .y{font-size:14px;font-weight:800;color:var(--flame);}
+  .tl .d{font-size:10.5px;color:var(--ink-soft);margin-top:3px;}
+  .icp{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px;}
+  .icpcard{border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#fff;}
+  section.alt .icpcard{background:var(--wash);}
+  .icpcard .head{color:#fff;font-size:12px;font-weight:800;padding:9px 16px;letter-spacing:.05em;}
+  .icpcard .body{padding:14px 16px;font-size:12px;color:var(--ink-soft);line-height:1.7;}
+  .icpcard .body b{color:var(--ink);}
+
+  /* downloads */
+  .dlgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .dlcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 16px;display:flex;flex-direction:column;gap:9px;}
+  .dlcard .nm{font-size:13px;font-weight:800;color:var(--ink);}
+  .dlcard .meta{font-size:10.5px;color:var(--mute);}
+  .dlcard .btn{align-self:flex-start;}
+
+  /* modal / panel */
+  .scrim{position:fixed;inset:0;background:rgba(11,6,28,.55);opacity:0;pointer-events:none;transition:.2s;z-index:100;}
+  .scrim.on{opacity:1;pointer-events:auto;}
+  .panel{position:fixed;top:0;right:0;height:100%;width:min(720px,94vw);background:#fff;box-shadow:-12px 0 40px rgba(11,6,28,.25);transform:translateX(100%);transition:transform .26s cubic-bezier(.4,0,.2,1);z-index:101;overflow-y:auto;}
+  .panel.on{transform:translateX(0);}
+  .panel .phead{background:var(--ink);color:#fff;padding:24px 30px 22px;position:relative;overflow:hidden;}
+  .panel .phead::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;background:var(--flame);opacity:.15;transform:rotate(45deg);}
+  .panel .pk{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--flame);margin-bottom:7px;}
+  .panel .pname{font-size:28px;font-weight:800;letter-spacing:-.01em;}
+  .panel .ptag{font-size:12.5px;color:#C9C6D2;margin-top:8px;max-width:90%;}
+  .panel .pchip{position:absolute;right:30px;bottom:22px;background:var(--flame);color:#fff;font-size:10px;font-weight:700;letter-spacing:.05em;padding:5px 11px;border-radius:999px;text-transform:uppercase;}
+  .closeb{position:absolute;top:16px;right:18px;background:rgba(255,255,255,.14);border:none;color:#fff;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;z-index:2;transition:.15s;}
+  .closeb:hover{background:rgba(255,255,255,.28);}
+  .pbody{padding:24px 30px 40px;}
+  .pquote{display:flex;gap:11px;margin-bottom:20px;}
+  .pquote .m{font-family:Georgia,serif;font-size:38px;color:var(--flame);font-weight:800;line-height:.8;}
+  .pquote p{font-size:14px;font-style:italic;color:var(--ink-soft);padding-top:4px;}
+  .psec{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--ink);padding-bottom:5px;border-bottom:2px solid var(--flame);margin:22px 0 12px;}
+  .psec:first-of-type{margin-top:0;}
+  .pbody p.txt{font-size:12.5px;color:var(--ink-soft);}
+  .pbody p.txt + p.txt{margin-top:8px;}
+  .snap{display:grid;grid-template-columns:1fr 1fr;gap:0 22px;}
+  .snap .r{display:flex;justify-content:space-between;font-size:11.5px;padding:5px 0;border-bottom:1px dashed var(--flame-line);}
+  .snap .r .k{color:var(--mute);font-weight:600;}
+  .snap .r .v{color:var(--ink);font-weight:700;text-align:right;}
+  .tl2 .row{display:flex;gap:12px;padding:6px 0;}
+  .tl2 .t{font-family:var(--mono);font-size:10.5px;color:var(--flame);font-weight:700;width:50px;flex:none;padding-top:1px;}
+  .tl2 .x{font-size:12px;color:var(--ink-soft);}
+  .tl2 .x b{color:var(--ink);}
+  .trip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+  .pnl{border:1px solid var(--line);border-radius:11px;padding:13px;}
+  .pnl .h{display:flex;align-items:center;gap:7px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;margin-bottom:9px;}
+  .pnl .dot{width:8px;height:8px;border-radius:50%;}
+  .pnl.g .dot{background:var(--green);}.pnl.f .dot{background:var(--amber);}.pnl.n .dot{background:var(--flame);}
+  .pnl ul{list-style:none;}
+  .pnl li{font-size:11px;color:var(--ink-soft);padding-left:13px;position:relative;margin-bottom:7px;line-height:1.35;}
+  .pnl li::before{content:"";position:absolute;left:0;top:6px;width:5px;height:5px;border-radius:50%;}
+  .pnl.g li::before{background:var(--green);}.pnl.f li::before{background:var(--amber);}.pnl.n li::before{background:var(--flame);}
+  .meters .m{margin-bottom:9px;}
+  .meters .lab{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-soft);margin-bottom:3px;}
+  .meters .track{height:6px;background:#EBE9EF;border-radius:4px;overflow:hidden;}
+  .meters .fill{height:100%;background:var(--flame);border-radius:4px;}
+  .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .kpi{border:1px solid var(--line);border-radius:10px;padding:11px 12px;}
+  .kpi .big{font-size:17px;font-weight:800;color:var(--flame);}
+  .kpi .lab{font-size:10.5px;color:var(--ink-soft);margin-top:2px;}
+  .mods{display:flex;flex-wrap:wrap;gap:7px;}
+  .mod{font-size:11px;font-weight:600;background:var(--wash);border:1px solid var(--line);border-radius:7px;padding:6px 10px;color:var(--ink-soft);}
+  .mod.p{background:var(--flame-wash);border-color:var(--flame-line);color:var(--ink);font-weight:700;}
+  .mod .tag{color:var(--flame);font-weight:800;font-size:9px;margin-left:6px;letter-spacing:.06em;text-transform:uppercase;}
+  .flowrow{display:grid;grid-template-columns:1fr auto 1.1fr auto 1fr;align-items:stretch;gap:0;}
+  .fnode{border:1px solid var(--line);border-radius:11px;padding:11px 12px;}
+  .fnode.me{border:2px solid var(--flame);background:var(--flame-wash);}
+  .fnode .l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:800;margin-bottom:3px;}
+  .fnode.me .l{color:var(--flame);}
+  .fnode .w{font-size:12px;font-weight:800;}
+  .fnode .ww{font-size:10px;color:var(--mute);margin-top:3px;line-height:1.3;}
+  .farr{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 8px;color:var(--flame);}
+  .farr .tt{font-size:8px;color:var(--mute);font-weight:700;text-transform:uppercase;margin-bottom:2px;white-space:nowrap;}
+  .farr svg{width:22px;height:10px;}
+  .pdlrow{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .pdlrow .note{font-size:10px;color:var(--mute);}
+
+  footer.foot{background:var(--ink);color:#9B98A6;padding:24px 0;font-size:11px;margin-top:20px;}
+  footer.foot .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;}
+  footer.foot b{color:#fff;}
+
+  @media (max-width:820px){
+    .trio,.threads,.icp,.dlgrid,.trip,.kpis,.snap{grid-template-columns:1fr;}
+    .timeline{grid-template-columns:1fr 1fr 1fr;}
+    .stagebar{grid-template-columns:1fr 1fr;}
+    .journey{flex-wrap:wrap;gap:8px;}
+    .jp{flex:1 1 40%;}
+    .jarr{display:none;}
+    .flowrow{grid-template-columns:1fr;gap:8px;}
+    .farr{flex-direction:row;padding:2px 0;}
+    .hero h1{font-size:30px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="logo">P</span> ProShop Personas <small>Teaching Tool</small></div>
+    <nav class="topnav">
+      <button onclick="jump('primer')">ProShop 101</button>
+      <button onclick="jump('journey')">The Roles</button>
+      <button onclick="jump('threads')">How They Relate</button>
+      <button onclick="jump('company')">Company</button>
+      <button onclick="jump('downloads')">Downloads</button>
+    </nav>
+  </div>
+</div>
+
+<div class="hero" id="top">
+  <div class="wrap">
+    <div class="kick">Product &amp; Design Onboarding</div>
+    <h1>Who ProShop is for</h1>
+    <p>An interactive tour of the people who use ProShop every day. Start with the 10-minute primer, then click any role on the journey to go deep. Every document here can be downloaded as a print-ready PDF.</p>
+    <div class="dlrow">
+      <button class="btn flame" onclick="jump('journey')">Explore the roles &rarr;</button>
+      <button class="btn ghost" onclick="jump('downloads')">Download the PDFs</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRIMER -->
+<section class="band alt" id="primer">
+  <div class="wrap">
+    <div class="eyebrow">ProShop 101</div>
+    <h2 class="title">What ProShop is, in one minute</h2>
+    <p class="subtitle">ProShop is an all-in-one, paperless operating system for precision machine shops. It replaces spreadsheets, whiteboards, paper travelers, and tribal knowledge with one connected system &mdash; where the quote becomes the work order becomes the inspection record becomes the invoice, with no duplicate entry. It's really three products in one:</p>
+    <div class="trio">
+      <div class="defcard"><div class="abbr">ERP</div><div class="full">Enterprise Resource Planning</div><p>The business backbone &mdash; quoting, orders, purchasing, inventory, scheduling, costing, invoicing. The record of what the shop is doing and what it costs.</p></div>
+      <div class="defcard"><div class="abbr">MES</div><div class="full">Manufacturing Execution System</div><p>The shop-floor layer &mdash; live work-order status, time tracking, scheduling, work instructions. The record of how the work is running right now.</p></div>
+      <div class="defcard"><div class="abbr">QMS</div><div class="full">Quality Management System</div><p>The compliance layer &mdash; inspection, calibration, cert packets, non-conformance, audits. The record of proving the parts meet spec.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="band" id="journey">
+  <div class="wrap">
+    <div class="eyebrow">The Roles</div>
+    <h2 class="title">The journey of a job through ProShop</h2>
+    <p class="subtitle">Six roles hand the job forward through four stages. Click any card to open the full persona. Above them sits the Shop Owner (the buyer) and cutting across them all is QA.</p>
+
+    <div class="buyerband" onclick="openP('00_shopowner')">
+      <div class="bdg">$</div>
+      <div class="txt"><div class="cc">Buyer / Decision-Maker &mdash; sits above the workflow</div><div class="nm">The Shop Owner</div><div class="ds">The technical founder who buys ProShop and rolls it out to every role below. Win them with ROI and trust.</div></div>
+      <div class="go">Open persona &rarr;</div>
+    </div>
+
+    <div style="height:18px"></div>
+
+    <div class="stagebar">
+      <div class="stagechip"><div class="s">Stage 1</div><div class="n">Pre-Production</div></div>
+      <div class="stagechip"><div class="s">Stage 1 &rarr; 2</div><div class="n">Planning &amp; Procurement</div></div>
+      <div class="stagechip"><div class="s">Stage 3</div><div class="n">Production</div></div>
+      <div class="stagechip"><div class="s">Stage 4</div><div class="n">Post-Production</div></div>
+    </div>
+
+    <div class="journey" id="journeyCards"></div>
+
+    <div class="qanote" onclick="openP('07_qa')">
+      <div class="q">Q</div>
+      <p><b>Functional QA cross-cuts every stage.</b> It sets requirements upstream (Contact page), gates production mid-stream (print approval), and closes the loop downstream (cert packet) &mdash; the only role that touches all four stages. Click to open.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THREADS -->
+<section class="band alt" id="threads">
+  <div class="wrap">
+    <div class="eyebrow">How They Relate</div>
+    <h2 class="title">Four things they all share</h2>
+    <p class="subtitle">ProShop's whole value is that these roles share one database. These records only make sense once you see several personas depending on them &mdash; one person sets or contributes, several depend on the result.</p>
+    <div class="threads">
+      <div class="tcard"><div class="th">Customer Contact page</div><div class="sh">Set once by QA &amp; Order Entry, read everywhere</div><p>Flags set once (FAI, CFC, form format, terms) silently flow into the cert packet, the AS9102 form, and the invoice. A missed flag surfaces as a rejected shipment downstream.</p></div>
+      <div class="tcard"><div class="th">Cert packet</div><div class="sh">Everyone contributes, one packet ships</div><p>Vendor certs (Receiver), material specs (Planner), inspection results (Operator + QA), requirement flags (Order Entry) &mdash; all converge into one packet. Any missing piece and the customer's dock rejects the box.</p></div>
+      <div class="tcard"><div class="th">On-time delivery</div><div class="sh">Cascaded upstream, measured downstream</div><p>Not one KPI but a cascade: the Buyer holds vendors to 97% so the Planner can hit the shop's 95% so the customer counts the delivery on time.</p></div>
+      <div class="tcard"><div class="th">Dashboards</div><div class="sh">Same database, nine filtered views</div><p>Customer service, Project assignment, Scheduling, Purchasing, Receiving, Work cell, Inspection, Inventory control, Shipping &mdash; each is a filtered view of the same work orders. Change one, everyone downstream sees it.</p></div>
+    </div>
+    <div style="margin-top:16px"><button class="btn flame" onclick="dl('Cross-Persona Summary')">Download the full relationship map (PDF) &darr;</button></div>
+  </div>
+</section>
+
+<!-- COMPANY -->
+<section class="band" id="company">
+  <div class="wrap">
+    <div class="eyebrow">Company Context</div>
+    <h2 class="title">By machinists, for machinists</h2>
+    <p class="subtitle">ProShop wasn't built by a software company that discovered manufacturing &mdash; it was built by machinists who got tired of running a shop on spreadsheets. That origin is why the product fits the way it does.</p>
+    <div class="timeline">
+      <div class="tl"><div class="y">1997</div><div class="d">Pro CNC machine shop founded</div></div>
+      <div class="tl"><div class="y">2000</div><div class="d">Outgrew Excel; began building ProShop</div></div>
+      <div class="tl"><div class="y">2008</div><div class="d">First external ProShop ERP client</div></div>
+      <div class="tl"><div class="y">2014</div><div class="d">Sold the Pro CNC machine shop</div></div>
+      <div class="tl"><div class="y">2016</div><div class="d">Launched as software co. (then Adion)</div></div>
+      <div class="tl"><div class="y">2026</div><div class="d">600+ clients, 100+ employees</div></div>
+    </div>
+
+    <div style="margin-top:26px" class="eyebrow">Ideal Customer</div>
+    <h2 class="title" style="font-size:20px">Who buys ProShop</h2>
+    <p class="subtitle">Deliberately targeted at high-stakes machine shops &mdash; not &ldquo;anyone with a machine,&rdquo; but shops where a mistake could be catastrophic, and growing mid-market shops where tribal knowledge is starting to break the business.</p>
+    <div class="icp">
+      <div class="icpcard"><div class="head" style="background:var(--flame)">BULLSEYE</div><div class="body"><b>Industry:</b> Aerospace, Defense, Medical<br><b>Size:</b> 20&ndash;75 employees<br><b>Compliance:</b> AS9100, ITAR, CMMC, ISO 13485 (mandatory)<br><b>Pain:</b> <em>&ldquo;We lose contracts if we fail audits.&rdquo;</em><br><b>Buys because:</b> Risk mitigation &amp; survival</div></div>
+      <div class="icpcard"><div class="head" style="background:#C15A20">STRONG FIT</div><div class="body"><b>Industry:</b> Industrial, Auto, Robotics, Energy, Oil &amp; Gas<br><b>Size:</b> 10&ndash;19 or 76&ndash;150 employees<br><b>Compliance:</b> ISO 9001, or aspiring to bullseye certs<br><b>Pain:</b> <em>&ldquo;Manual errors are killing our margin.&rdquo;</em><br><b>Buys because:</b> Scaling &amp; professionalization</div></div>
+    </div>
+    <div style="margin-top:16px"><button class="btn flame" onclick="dl('The Shop Owner')">Download the Shop Owner persona (PDF) &darr;</button></div>
+  </div>
+</section>
+
+<!-- DOWNLOADS -->
+<section class="band alt" id="downloads">
+  <div class="wrap">
+    <div class="eyebrow">Downloads</div>
+    <h2 class="title">Every document, print-ready</h2>
+    <p class="subtitle">All eleven documents as PDFs. Each carries the generation credit in its footer. These are the same artifacts embedded in this page.</p>
+    <div class="dlgrid" id="dlGrid"></div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>ProShop Personas &middot; Interactive teaching tool</span>
+    <span>Generated <b>8/27/2026</b> by <b>Samantha Jorgenson</b>, Product Operations Manager</span>
+  </div>
+</footer>
+
+<!-- PANEL -->
+<div class="scrim" id="scrim" onclick="closeP()"></div>
+<aside class="panel" id="panel">
+  <button class="closeb" onclick="closeP()">&times;</button>
+  <div id="panelContent"></div>
+</aside>
+
+<script>
+const PERSONAS = [{"series_label": "Buyer / Decision-Maker Persona", "index": "00", "name": "The Shop Owner", "stage": "Decision-Maker", "tagline": "The person who buys ProShop &mdash; a technical founder betting the business (and often their retirement) on getting the shop under control.", "quote": "I can run the machines in my sleep. It's running the <em>business</em> that keeps me up at night.", "who1": "The Shop Owner is usually a technical founder &mdash; a machinist or engineer who was great on the floor and started their own shop. They know the craft cold but were never trained to run a business, and the shop often <em>is</em> their retirement plan. They're the economic buyer for ProShop: skeptical of software promises, protective of hard-won margins, and responsible for every hire, contract, and audit.", "who2": "Many run multi-generation, family-owned shops. They're pragmatic, salt-of-the-earth, and carry a high &lsquo;BS meter&rsquo; &mdash; they've been pitched a lot of tools that didn't deliver. Winning them means proving real ROI, fast, in language that respects their expertise.", "day": [["Floor", "Starts on the floor &mdash; still the best troubleshooter in the building, pulled into every hard setup and quality escape."], ["Fires", "Fields the day's fires: a late job, a sick operator, a customer escalation, a machine down."], ["Quote", "Reviews or writes quotes personally &mdash; pricing is too important to fully delegate."], ["Cash", "Worries about cash flow, payroll, and whether the big customer will pay on time."], ["Grow", "Tries to carve out time for the actual business &mdash; hiring, capacity, the next big contract."], ["Late", "Does the books or the scheduling after hours, because the day never left room for it."]], "snapshot": [["Role type", "Economic buyer"], ["Background", "Technical founder"], ["Company", "Often multi-gen, family"], ["Typical size", "20&ndash;75 employees"], ["The shop is", "Their retirement plan"]], "environment": "Splits their day between the shop floor and a cramped office. Comfortable with machines and CAD, wary of business software that overpromises. Time-starved and interrupt-driven &mdash; evaluates tools by whether they visibly save time or money, not by feature lists. Trust is earned slowly and lost fast.", "meters": [["Manufacturing expertise", "Very high", 97], ["Business / software comfort", "Low&ndash;Medium", 42], ["Skepticism of vendor claims", "Very high", 90]], "inwords": "&ldquo;We existed on tribal knowledge for almost 30 years. We just <em>existed</em> &mdash; but we wanted to thrive. I thought it'd be hard to learn, but this old dog is learning new tricks.&rdquo;", "goals": ["Get the whole business under control &mdash; out of spreadsheets and out of their head.", "Protect margin and cash flow; stop losing money to chaos and rework.", "Capture tribal knowledge before key veterans retire.", "Build something sellable &mdash; a shop that runs without them for the eventual exit."], "frustrations": ["Disconnected systems and paper mean no one has the real picture, including them.", "They're the bottleneck &mdash; too many decisions still route through the owner.", "Every ERP they've seen felt built for big factories, not a 40-person shop.", "Hard to trust a number when the data lives in five places and a whiteboard."], "needs": ["Fast, visible ROI &mdash; proof it saves real hours or dollars in weeks, not years.", "A system a high-schooler or a 30-year machinist can both actually use.", "One source of truth so they can step back without the shop falling over.", "Onboarding and support from people who've actually run a shop, not just sold software."], "kpis": [["Margin", "Are jobs actually profitable &mdash; and which ones aren't?"], ["On-time %", "Delivery performance that keeps demanding customers."], ["Cash flow", "Money in vs. out &mdash; the number that keeps the doors open."], ["Owner load", "How much still depends on them personally to run."]], "modules": [["Company Hub / Dashboards", "home", true], ["Job Costing & Financial Data", "home", true], ["Sales & Work Orders", "reads", false], ["Quality Systems & Inspection", "reads", false], ["Shop Floor & Scheduling", "reads", false]], "upstream": ["Evaluates", "The market", "Weighs ProShop against spreadsheets &amp; rival ERPs"], "in_arrow": "Decides", "flow_self": "Buys, champions &amp; funds ProShop for the whole shop", "out_arrow": "Rolls&nbsp;out", "downstream": ["Enables", "All nine user roles", "Every persona in this set works in what they bought"], "flow_note": "The Shop Owner is the buyer, not a workflow role &mdash; so they sit above the job journey rather than in it. Their decision to adopt ProShop is what puts every other persona into the system. Win the owner with ROI and trust; keep them with a shop that finally runs on data instead of memory.", "footnote": "Buyer / decision-maker persona &mdash; distinct from the nine workflow user personas. Source: ProShop company deck (ICP &amp; shop-owner profile) + customer testimonials. Demographic detail softened toward business-relevant traits for onboarding use.", "_key": "00_shopowner"}, {"series_label": "ProShop User Persona", "index": "01", "name": "The Estimator", "stage": "Pre-Production", "tagline": "Turns a customer's request into a priced, winnable quote &mdash; fast enough to beat competitors, accurate enough to protect margin.", "quote": "We sell a service, not just a part &mdash; my job is to know what it will really cost to make it before anyone touches a machine.", "who1": "The Estimator translates drawings, models, and vague verbal requests into a manufacturing plan &mdash; material, operations, machine time, outside processing, and cost. They live at the very front of the shop's workflow, where nothing is billable yet and speed competes directly with accuracy: quote too slowly and a competitor wins the job; quote too cheaply and the shop loses money once it's won.", "who2": "In small shops this is the owner doing it between everything else. In larger shops it's a dedicated seat &mdash; sometimes an entry-level engineer &mdash; who leans heavily on templates and past jobs to move fast.", "day": [["RFQ in", "An RFQ lands by email, customer portal, or automated quoting tool. <b>Logs it in a tracker</b> and makes a bid / no-bid call based on fit and shop capacity."], ["Scope", "Reviews the print and model &mdash; <b>quantity, tolerances, finish, flagged notes</b> like masking or cosmetic class."], ["Build", "Copies a similar past estimate for speed, or builds from scratch &mdash; picks the value stream and <b>lays out the operations</b>."], ["Cost", "Sources material and outside-processing prices, sets <b>setup and cycle-time targets</b>, applies labor, overhead, and markup."], ["Send", "Gut-checks price against the market, routes for a <b>second-person review</b>, then generates the quote PDF and emails it."]], "snapshot": [["Workflow stage", "Pre-production"], ["Also known as", "Sales / Estimator"], ["Reports toward", "Sales / Owner"], ["Speed target", "~2&ndash;3 min / quote*"], ["Work is billable?", "No &mdash; pre-sale"]], "environment": "Desk-based, dual-monitor, mouse-and-keyboard. Fluent in CAD viewers, spreadsheets, and quoting tools. Comfortable with software &mdash; this is a knowledge-worker seat, not a shop-floor one.", "meters": [["Software proficiency", "High", 85], ["Manufacturing depth", "High", 88], ["Tolerance for slow UI", "Low", 22]], "inwords": "&ldquo;If I can copy a template and be done in three minutes instead of twenty, that's the difference between quoting ten jobs today or three.&rdquo;", "goals": ["Quote fast without sacrificing accuracy &mdash; speed wins the job.", "Build the estimate once, well, so planning inherits it with no rework.", "Price to protect margin while staying competitive in the market.", "Reduce reliance on the tribal knowledge of retiring machinists."], "frustrations": ["Incomplete prints force guesswork &mdash; a missing thread call-out can swing cost.", "RFQ intake and quote logging happen <em>outside</em> the system, so there's no audit trail.", "Waiting on vendor pricing for material and outside processing stalls turnaround.", "Quoting isn't billable, so effort must be rationed by how likely the job is to land."], "needs": ["Fast template reuse &mdash; clone a past estimate and adjust, don't rebuild.", "A quoting workspace that keeps the bid/no-bid log <em>inside</em> the system.", "Cost roll-ups that update live as material, OSP, and markup change.", "A clean handoff so a won quote becomes a work order with zero re-entry."], "kpis": [["Win rate", "Per client. Too low means wasted effort; too high can mean under-pricing."], ["Turnaround", "Speed from RFQ received to quote sent &mdash; often the deciding factor."], ["< 30%", "Material + services as a share of part price, kept well controlled."], ["Accuracy", "Estimated cost & time vs. what the job actually takes once it runs."]], "modules": [["Estimating & Quoting", "home", true], ["Sales & Work Orders", "home", true], ["Shop Floor & Scheduling", "reads", false], ["Job Costing & Financial Data", "reads", false], ["Inventory & Material Planning", "reads", false]], "upstream": ["Upstream", "Customer", "Submits an RFQ with prints, models &amp; specs"], "in_arrow": "RFQ", "flow_self": "Scopes, costs &amp; prices the job; sends the quote", "out_arrow": "Won&nbsp;quote", "downstream": ["Downstream", "Order Entry", "Turns the won estimate into a work order"], "flow_note": "The estimate carries directly into the work order &mdash; no re-entry. Every assumption the Estimator makes here becomes a target the Operator is later measured against, and feeds back into future quotes.", "footnote": "*Speed target reflects template-based quoting; from-scratch estimates take substantially longer. Source: ProShop persona sessions + product docs.", "_key": "01_estimator"}, {"series_label": "ProShop User Persona", "index": "02", "name": "Order Entry", "stage": "Pre-Production", "tagline": "Turns an incoming customer PO into a live job inside ProShop &mdash; the first paid step, and the record every other role inherits.", "quote": "Getting the order into ProShop is like getting the keys into the ignition &mdash; it's where the whole shop starts moving.", "who1": "Order Entry (often the same person as Customer Service) transcribes a customer's purchase order into ProShop, verbatim and completely. They surface the terms and quality requirements hidden inside the PO and its linked documents, acknowledge the client, and create the part header and work order so PMs, planners, and buyers can pick it up. This is the first point in the workflow where the shop is actually being paid to work.", "who2": "In small shops this is the owner or ops manager. In larger shops it's a dedicated seat watching email and customer portals all day, entering same-day and confirming within 24&ndash;48 hours.", "day": [["PO in", "Watches email and customer portals (Boeing, Lockheed, Collins) for new orders. Downloads the PO and reads it <b>end to end</b>."], ["Ack", "Sends a &lsquo;received, under review&rsquo; acknowledgement so the client knows the order landed. Logs it same-day."], ["Header", "Transcribes admin block <b>verbatim</b>: bill-to, ship-to, payment, tax, FOB, delivery priority, project code."], ["Lines", "Enters each line &mdash; part #, revision, quantity, price, promise date, order type."], ["Build", "Creates the part header (auto-builds folder, inventory table, rev control) and the work order for planning."], ["Confirm", "After technical review OKs dates &amp; pricing, sends the formal order confirmation back to the client."]], "snapshot": [["Workflow stage", "Pre-production"], ["Also known as", "Customer Service"], ["Reports toward", "Sales / Ops"], ["Entry standard", "Same day"], ["Confirm standard", "24&ndash;48 hours"]], "environment": "Desk-based, email- and portal-heavy, mouse-and-keyboard. Comfortable navigating many customer portals and reading dense contract documents. Values speed and accuracy over exploration &mdash; wants the fewest clicks between PO and work order.", "meters": [["Software proficiency", "High", 82], ["Contract / document literacy", "High", 86], ["Tolerance for repetitive entry", "Low", 25]], "inwords": "&ldquo;Every customer's PO looks different, and half the important stuff isn't even on the PO &mdash; it's buried in the terms they link to.&rdquo;", "goals": ["Get orders in fast and clean so no downstream seat is blocked.", "Surface risky terms early &mdash; DPAS ratings, ITAR, cosmetic class, masking notes.", "Give the client a professional, predictable acknowledgement and confirmation loop.", "Cut the manual click-count between PO, part, and work order."], "frustrations": ["Every customer's PO looks different &mdash; there's no standard template to lean on.", "Key terms live in linked web pages, not on the PO itself.", "Portals must be checked daily; dates can change silently inside them.", "There's no built-in acknowledgement form &mdash; it's done manually by email."], "needs": ["A guided PO-entry flow that flags missing bill-to / ship-to / terms before submit.", "A single view that reconciles PO line items against the original estimate.", "Built-in acknowledgement and confirmation templates, not manual email.", "Portal-change alerts so a silently moved date doesn't slip through."], "kpis": [["Same-day", "Rate of POs entered the day they arrive (order-date vs. entry-date)."], ["24&ndash;48h", "Order-confirmation turnaround back to the customer."], ["Accuracy", "Zero fat-fingered quantity, price, revision, or promise date."], ["Coverage", "No missed orders sitting unseen in a customer portal."]], "modules": [["Sales & Work Orders", "home", true], ["Data Management", "home", true], ["Estimating & Quoting", "reads", false], ["Quality Systems & Inspection", "reads", false], ["Inventory & Material Planning", "reads", false]], "upstream": ["Upstream", "The Estimator", "Hands over the won quote / estimate"], "in_arrow": "Won&nbsp;quote", "flow_self": "Transcribes the PO; creates part header &amp; work order", "out_arrow": "Work&nbsp;order", "downstream": ["Downstream", "Planner / PM", "Picks up the WO and builds the config plan"], "flow_note": "Everything Order Entry enters becomes the audit trail every other seat relies on &mdash; planning inherits it, purchasing inherits it, quality inherits it, accounting inherits it. A missed DPAS or ITAR flag here becomes real legal exposure downstream.", "footnote": "Source: ProShop persona sessions + product docs. Customer names shown are illustrative of the aerospace / defense client base.", "_key": "02_orderentry"}, {"series_label": "ProShop User Persona", "index": "03", "name": "Planner / PM", "stage": "Pre-Production", "tagline": "Owns the configuration plan &mdash; turning a customer's requirements into a manufacturable, executable job before parts ever hit a machine.", "quote": "My job as a planner is to get the parts through my own QA first &mdash; the client's inspection is round two.", "who1": "The Planner / Project Manager turns a work order into a complete configuration plan: operations, machines, sequence, work-holding, setup and run targets, material, and outside processing. They serve two customers at once &mdash; their own quality system first, then the client's incoming QA &mdash; and coordinate across scheduling, purchasing, OSP, quality, and programming so every job is finalized, resourced, and ready to run on time.", "who2": "In small shops this is the owner running everything A-to-Z. In larger shops it's a dedicated PM or planner with, as they put it, &lsquo;all the responsibility and none of the authority&rsquo; &mdash; collaboration is the entire job.", "day": [["Notify", "Scrubs the System Agent inbox for new POs and PM alerts &mdash; uses it as a live task list."], ["Prioritize", "Reads the Project Manager dashboard (the &lsquo;thousand-foot view&rsquo;) and cross-checks Customer Service for what ships this week."], ["Digest", "Reads the PO, T&amp;Cs, quality specs, and print revision; works the <b>pre-planning checklist</b> top to bottom."], ["Configure", "Builds the config plan &mdash; operations, machines, targets, work-holding, material spec, OSP flow-down."], ["Schedule", "Sets must-leave-by and must-be-back-on dates; flows demand to Purchasing."], ["Finalize", "Finalizes the WO &mdash; kicks it to the programming queue. <b>If it ain't green, it ain't on the machine.</b>"]], "snapshot": [["Workflow stage", "Pre-production"], ["Serves", "Internal QMS + client QA"], ["Finalize target", "24&ndash;48 hours"], ["Ready-to-run", "By 72 hours"], ["Coordinates with", "5+ departments"]], "environment": "Desk-based but constantly context-switching across dashboards. Power user who lives in red/yellow/green status cues and drills into work orders all day. Wants dense information visible at a glance, and gets frustrated by 'mental gymnastics' to piece a picture together.", "meters": [["Software proficiency", "High", 90], ["Manufacturing depth", "High", 92], ["Tolerance for slow drill-downs", "Low", 20]], "inwords": "&ldquo;The cost of getting this wrong shows up at setup &mdash; the most expensive moment in machining. A missed tool, a wrong material cutoff, and the spindle stops.&rdquo;", "goals": ["Reduce the risk of false starts at setup &mdash; the shop's most expensive moment.", "Get every job through internal QA before customer QA ever sees it.", "Hit 95%+ on-time delivery consistently, by client and by PM.", "Level-load work across the PM team so no one is drowning."], "frustrations": ["Dashboards take &lsquo;mental gymnastics&rsquo; &mdash; there's no dependency / pipeline view.", "The Late dashboard flags what's late but not <em>why</em> &mdash; every WO needs a drill-in.", "The pre-planning checklist wipes clean on finalize &mdash; timestamps are lost.", "Budget arrives already set by the estimate &mdash; variances are hard to unwind mid-job."], "needs": ["A dependency / Gantt view so blockers are visible without drilling into each WO.", "&lsquo;Why is this late&rsquo; surfaced on the Late dashboard, not buried in the record.", "PO due dates on hover, so purchasing status is readable at a glance.", "Preserved checklist history &mdash; keep the timestamps after finalize."], "kpis": [["95% OTD", "On-time delivery to the client; vendors held to a higher 97% bar."], ["Time-to-floor", "Finalize in 24&ndash;48h, ready-to-run by 72h."], ["NCR count", "Did we mitigate risk correctly before the job ran?"], ["Variance", "Estimated vs. actual cost and time, by work order."]], "modules": [["Sales & Work Orders", "home", true], ["Visual Work Instructions", "home", true], ["Shop Floor & Scheduling", "home", true], ["Inventory & Material Planning", "reads", false], ["Job Costing & Financial Data", "reads", false]], "upstream": ["Upstream", "Order Entry", "Hands over the created work order"], "in_arrow": "Work&nbsp;order", "flow_self": "Builds &amp; finalizes the configuration plan", "out_arrow": "Ready&nbsp;WO", "downstream": ["Downstream", "Buyer &amp; Programming", "Receive demand + the finalized job"], "flow_note": "ProShop is a configuration-management platform, and the Planner builds the configuration. Finalizing a WO both queues it for programming and creates the purchasing demand the Buyer sees &mdash; so an empty status-date field means the Buyer never sees the need.", "footnote": "Source: ProShop persona sessions + product docs. On-time-delivery targets are representative benchmarks cited in-session.", "_key": "03_planner"}, {"series_label": "ProShop User Persona", "index": "04", "name": "Buyer &amp; Receiver", "stage": "Procurement", "tagline": "The paired supply-chain roles that keep the shop fed &mdash; buying the right material and services at the right time, and verifying every box that arrives.", "quote": "Nothing gets made until the material shows up, the paperwork clears, and the dock says it's good to go.", "who1": "The Buyer works ProShop's demand-based Purchasing dashboard, placing vendor POs for material, tooling, commercial hardware, and outside-processing services at the right time, cost, and lead time. The Receiver works the Receiving dashboard, verifying every box against its PO and packing slip, inspecting quality and documents, and routing material to the work cell or into inventory.", "who2": "In small shops one person does both; in larger shops they're separate desks that lend each other staff on busy weeks and jointly own supplier performance. Notably, in ProShop purchasing and receiving live on the <em>same record</em> &mdash; unusual versus other ERPs.", "day": [["Demand", "Buyer opens the Purchasing dashboard &mdash; four tabs of queued demand: part stock, COTS, tooling, OSP."], ["Quote", "For new items, negotiates ~3 quotes for competitive price and lead time before placing."], ["Order", "Batches lines into carts by vendor; places POs by PDF+email or vendor portal; sets status to Outstanding."], ["Receive", "Receiver starts on the Receiving dashboard &mdash; today's, late, and future POs; verifies against packing slip."], ["Inspect", "Quality-checks each delivery, captures certs and lot numbers; quarantines anything with missing docs."], ["Release", "Records receipt (partial OK); routes part stock to the work cell or COTS to the inventory table."]], "snapshot": [["Workflow stage", "Procurement"], ["Buyer PO types", "4 (stock/COTS/tool/OSP)"], ["Quotes per new item", "~3"], ["Shared record?", "Purchasing = Receiving"], ["Feeds", "Supplier scorecards"]], "environment": "Buyer is desk-based in dashboards and vendor portals; Receiver is on their feet at the dock with a scanner, packing slips, and inspection tools. Between them they span pure knowledge work and physical, glove-on verification &mdash; two quite different UI contexts on one shared record.", "meters": [["Software proficiency", "Medium&ndash;High", 72], ["Manufacturing depth", "Medium", 60], ["Time pressure at the dock", "High", 82]], "inwords": "&ldquo;ProShop is demand-based &mdash; I don't decide what to buy, the shop's work-order load does. My job is to make sure nothing needed gets missed.&rdquo;", "goals": ["Get the right material and services in at the right time, cost, and paperwork.", "Consolidate demand into batched POs to cut vendor noise and shipping fees.", "Get ahead of demand using forecasts &mdash; don't wait for the WO to trigger.", "Hold the line on quality inspection under production pressure."], "frustrations": ["No RFQ module for vendor POs yet &mdash; buyers still work in email and Excel.", "Stale inventory counts erode trust in the on-hand numbers.", "Planners sometimes queue POs with impossible past-due dates.", "Receivers get pressured to skip inspection when production is desperate."], "needs": ["A vendor RFQ workspace inside ProShop, not email + spreadsheets.", "Trustworthy on-hand counts &mdash; a &lsquo;quantity verified&rsquo; freshness signal.", "PO due dates surfaced on the work-order view, not hidden until drill-in.", "A fast, glove-friendly receiving flow that still enforces the cert capture."], "kpis": [["Supplier OTD", "Vendor on-time delivery &mdash; upstream of the shop's 95% to the client."], ["Scorecards", "Quality, packaging, lead time, price, and service, per supplier."], ["3 quotes", "Price competitiveness &mdash; three quotes for every new item."], ["RMA count", "Discrepancies caught at the dock, not on the machine."]], "modules": [["Inventory & Material Planning", "home", true], ["Tool & Fixture Management", "home", true], ["Sales & Work Orders", "reads", false], ["Quality Systems & Inspection", "reads", false], ["Job Costing & Financial Data", "reads", false]], "upstream": ["Upstream", "Planner / PM", "Queues purchasing demand from finalized WOs"], "in_arrow": "Demand", "flow_self": "Buys, receives, inspects &amp; releases material", "out_arrow": "Material", "downstream": ["Downstream", "Tool Crib &amp; Operator", "Get released material at the machine"], "flow_note": "Six demand streams pool into one Purchasing dashboard so nothing needed gets missed. If a planner's status-date field is empty the Buyer never sees the demand &mdash; and the Receiver is the last line of defense before material reaches the floor with bad paperwork.", "footnote": "Source: ProShop persona sessions + product docs. The no-RFQ-module gap was flagged in-session as on the roadmap.", "_key": "04_buyer_receiver"}, {"series_label": "ProShop User Persona", "index": "05", "name": "Operator &amp; Tool Crib", "stage": "Production", "tagline": "The people at the machine making parts, and the people who keep them fed &mdash; where every upstream decision becomes a green light or a red flag.", "quote": "Green means go. Anything else means stop and fix something before the first chip flies.", "who1": "The Operator (machinist) checks the schedule, verifies readiness, runs setup, gets the first article inspected and certified, then runs production while doing in-process checks and keeping the time clock honest. The Tool Crib &mdash; a dedicated role in larger shops, absorbed by the operator in smaller ones &mdash; assembles cutting tools, material, and fixtures onto a cart and delivers it machine-side so the operator can start clean.", "who2": "Everything upstream &mdash; estimating, planning, programming, purchasing &mdash; either shows up as green on the work order, or as a red flag the operator has to escalate before running a single part.", "day": [["Kit", "Tool Crib pulls cutting tools per WO sequence, kits a cart (tools + material + fixtures), and delivers it to the bay."], ["Check", "Operator walks up, checks the machine schedule top-down for the next WO, looking for green cues."], ["Verify", "Confirms readiness: material at the machine, tools kitted, <b>pre-plan checklist all green</b> in the operator section."], ["Setup", "Starts the setup clock (60-min target), runs the first part, does the <b>First Article Inspection</b>, certifies to run."], ["Run", "Switches to running mode &mdash; cycle-time clock on, <b>in-process checks</b> per piece, deburr, coolant, chips."], ["Close", "Enters quantity completed &amp; queued to next op, prints traceability labels, checks off teardown."]], "snapshot": [["Workflow stage", "Production"], ["Setup target", "~60 minutes"], ["Time tracking", "Manual play / pause"], ["Gate to run", "First Article + green"], ["Tooling cost", "$100+ per endmill"]], "environment": "This is the shop-floor persona. Operator is standing at a machine, often in gloves, hands dirty, glancing at a shared terminal between cutting cycles &mdash; not seated at a clean desk. Glance-ability, large touch targets, and minimal typing matter enormously. Software comfort varies widely by individual and shift.", "meters": [["Software proficiency", "Mixed", 50], ["Manufacturing depth", "Very high", 96], ["Time free to interact with UI", "Low", 24]], "inwords": "&ldquo;For us machinists, we see green &mdash; that's the whole language. If the work order's green, I can run it. If it's not, I'm not touching the machine.&rdquo;", "goals": ["Hit setup and cycle-time targets, feeding accurate actuals back into costing.", "Never crash the machine &mdash; right speeds &amp; feeds, work-holding, and program.", "Protect tool life &mdash; faster isn't cheaper when endmills cost $100+ each.", "Get the first article approved fast so the machine runs instead of sitting idle."], "frustrations": ["Time tracking is manual &mdash; easy to forget play/pause at lunch or a break.", "The machine sits idle waiting for QA buyoff of the first article.", "Tool wear history isn't shown per-tool &mdash; it's judged by feel and jagged edges.", "The color system takes training &mdash; you must know which role owns each section."], "needs": ["A glance-able, glove-friendly WO view &mdash; big status, minimal typing.", "Frictionless (or automatic) time tracking so actuals stay honest.", "A self-inspect path so the machine doesn't idle waiting for QA.", "Per-tool wear signals so tool changes aren't a guess."], "kpis": [["Setup time", "Actual vs. target &mdash; auto-updates the target for the next run."], ["Runtime", "Cycle time per part (min / pc)."], ["Tool life", "Parts-per-endmill vs. target &mdash; speed traded against wear."], ["Scrap", "Scrap and rework rate; zero safety incidents."]], "modules": [["Shop Floor & Scheduling", "home", true], ["Visual Work Instructions", "home", true], ["Tool & Fixture Management", "home", true], ["Quality Systems & Inspection", "reads", false], ["Job Costing & Financial Data", "feeds", false]], "upstream": ["Upstream", "Buyer &amp; Planner", "Deliver material + the finalized, green WO"], "in_arrow": "Ready&nbsp;WO", "flow_self": "Sets up, cuts, inspects &amp; queues to next op", "out_arrow": "Finished", "downstream": ["Downstream", "QA / Inspection", "Final-inspects the finished parts"], "flow_note": "This is where all the upstream discipline becomes real cost: crash a machine, scrap a first article, or set up on the wrong revision and the shop pays for hours it can't bill. The manual play/pause clock is also the feedback loop into costing &mdash; a forgotten pause quietly corrupts the next estimator's targets.", "footnote": "Source: ProShop persona sessions + product docs. Setup target and tooling cost are representative figures cited in-session.", "_key": "05_operator_toolcrib"}, {"series_label": "ProShop User Persona", "index": "06", "name": "Inventory &amp; Shipping", "stage": "Post-Production", "tagline": "The last stops before the customer &mdash; keeping counts trustworthy in the warehouse, and getting every box out the door complete and on time.", "quote": "The stockroom keeps the trust; the shipping dock keeps the promise.", "who1": "The Inventory Manager takes released material and build-to-inventory parts, warehouses them with accurate ProShop locations, and keeps counts trustworthy through cycle counts and &lsquo;quantity verified&rsquo; timestamps. The Shipper is the final stop &mdash; assembling packing slips, certs of conformance, AS9102s, and material certs into the shipped box, and getting it out via the right carrier.", "who2": "Together they own traceability and on-time delivery. Alone, each inherits whatever the upstream teams did or didn't finish &mdash; which is why Shipping is often the &lsquo;Hail Mary&rsquo; department that rarely gets the lead time everyone else had.", "day": [["Put away", "Inventory picks up released COTS and BTI parts; assigns warehouse / rack / shelf / bin and updates ProShop."], ["Verify", "Labels physical material for traceability and ticks <b>quantity verified</b>; runs rotating cycle counts."], ["Queue", "Shipper opens the Shipping dashboard &mdash; both final-inspected and outgoing-inspected (OSP) queues."], ["Pack", "Cycle-counts the physical parts; handles partial shipments, back-orders, or routes extras to inventory."], ["Certify", "Assembles the cert packet (CFC + AS9102 + material certs) via the ProShop PDF generator."], ["Ship", "Picks the carrier, prints the packing slip, uploads the full packet to the customer's portal."]], "snapshot": [["Workflow stage", "Post-production"], ["Inventory streams", "COTS + BTI parts"], ["Trust signal", "&lsquo;Quantity verified&rsquo;"], ["Cert formats", "AS9102 / LM / default"], ["Delivery counts when", "Paperwork clears"]], "environment": "Both roles are on their feet &mdash; Inventory at warehouse racks with a scanner, Shipper at a packing station juggling parts, labels, and printed cert packets. Physical, mobile work with a terminal nearby. UI needs to survive interruption: pick it up, put it down, don't lose your place.", "meters": [["Software proficiency", "Medium", 58], ["Manufacturing depth", "Medium", 55], ["Physical / interrupt-driven work", "High", 85]], "inwords": "&ldquo;Aerospace and medical clients count delivery from the day the paperwork clears &mdash; not the day the box lands on their dock.&rdquo;", "goals": ["Keep inventory numbers accurate enough that purchasing can trust them.", "Optimize warehouse layout for both safety and lookup speed.", "Preserve the traceability chain from vendor cert to shelf to shipped box.", "Every box out the door: right parts, right paperwork, right carrier, on time."], "frustrations": ["No default &lsquo;released, waiting for inventory&rsquo; dashboard &mdash; the team builds a custom query.", "The location field has no history &mdash; moving a rack loses the prior location.", "The cert packet still needs print-to-PDF, save, then attach-to-email.", "Shipping absorbs upstream lead-time slippage &mdash; always the &lsquo;Hail Mary&rsquo; dept."], "needs": ["A first-class &lsquo;waiting for inventory&rsquo; view, not a hand-built query.", "Location history and an overflow / second-location field, not free-text notes.", "One-click cert-packet email straight from the WO, no manual PDF shuffle.", "Standard op numbering surfaced so shippers aren't slowed by inconsistent WOs."], "kpis": [["Inventory turn", "How long parts sit before they're pulled."], ["Accuracy", "Cycle-count discrepancy rate &mdash; is on-hand trustworthy?"], ["OTD", "On-time delivery per customer, verified at ship."], ["Clean ship", "Damaged-shipment and wrong-quantity rate."]], "modules": [["Inventory & Material Planning", "home", true], ["Quality Systems & Inspection", "home", true], ["Sales & Work Orders", "reads", false], ["Data Management", "reads", false], ["Job Costing & Financial Data", "feeds", false]], "upstream": ["Upstream", "QA / Inspection", "Releases final-inspected parts + cert data"], "in_arrow": "Passed", "flow_self": "Warehouses, packs, certifies &amp; ships", "out_arrow": "Shipment", "downstream": ["Downstream", "Customer + Accounting", "Receive the goods; invoice is generated"], "flow_note": "Everything upstream converges here: the certs the Receiver uploaded, the WO history Planning built, the CFC flag Order Entry set. If any piece is missing, the customer's dock closes the box and counts &lsquo;delivery&rsquo; as the day the paperwork finally arrives.", "footnote": "Source: ProShop persona sessions + product docs. Cert-packet email was flagged in-session as on the roadmap.", "_key": "06_inventory_shipping"}, {"series_label": "ProShop User Persona", "index": "07", "name": "Functional QA", "stage": "Cross-Cutting", "tagline": "Owns product quality and system quality at once &mdash; proving every part meets its print, and keeping the whole shop certified.", "quote": "If it isn't measured, documented, and cert-packed, it doesn't leave the building.", "who1": "Functionally, QA proves every part meets its print &mdash; approving inspection plans, calibrating equipment, running incoming / in-process / final inspections, generating first-article reports, and assembling the cert packet that ships in the box. Systemically, they own the QMS: the Standard (AS9100 / ISO), Quality Manual, Procedures, Task/Training records, Audit Reports, and controlled Documents that keep the shop certified.", "who2": "In small shops it's one seat wearing both hats. In larger shops it splits into a shop-floor Inspector and a QMS / Compliance Manager working off the same modules. Unlike the other roles, QA cross-cuts every stage rather than sitting in one.", "day": [["Require", "Reviews new POs; flags FAI, CFC, and form format on the <b>Customer Contact page</b> &mdash; requirements flow from here."], ["Plan", "Reviews the planner's dim-tagged inspection plan; confirms each dim has the right equipment assigned."], ["Approve", "Approves the print &mdash; that's what turns the WO banner green so operators can start."], ["Calibrate", "Keeps the Equipment module current &mdash; gauges cycle between in-cal, active, and retired."], ["Inspect", "Works the Inspection dashboard top-down; runs final &amp; FAI, records results, generates the cert packet."], ["Close", "Creates NCRs for out-of-tol dims; dispositions use-as-is / repair / scrap; handles RMAs on returns."]], "snapshot": [["Workflow role", "Cross-cutting"], ["Two jobs", "Parts + the QMS"], ["Gate they own", "Print approval"], ["Standards", "AS9100 / ISO 13485"], ["Reviewed", "Monthly mgmt review"]], "environment": "Split personality by design: an Inspector at a bench with gauges, CMMs, and physical parts, and a Compliance Manager at a desk in documents and audit records. Precision-obsessed, detail-driven, and accountable to external auditors &mdash; correctness always beats speed here.", "meters": [["Software proficiency", "High", 80], ["Compliance / standards depth", "Very high", 95], ["Tolerance for ambiguity", "Very low", 12]], "inwords": "&ldquo;Every requirement in the Standard has to tie to a procedure, to the training that certifies who can do it. The whole chain is the difference between keeping certification and losing the customer.&rdquo;", "goals": ["Zero bad parts shipped, zero missing certs in the packet.", "Every dim traceable to the gauge that measured it and who signed off.", "Pass every external audit clean &mdash; keep AS9100 / ISO current.", "Turn NCRs into procedure updates so the same issue doesn't recur."], "frustrations": ["AS9102 form contents are constantly debated by clients &mdash; what populates where.", "No multi-part FAI: one WO = one FAI, even when a client wants a batch.", "Serial numbers for identified parts don't auto-populate to the AS9102 form.", "The cert-packet PDF combine can fail if the file drive isn't set up."], "needs": ["Configurable AS9102 / CFC field mapping to end the client-by-client debates.", "Multi-part FAI support &mdash; one report across a batch of work orders.", "Auto-populated serial numbers and identified-part fields on the forms.", "A cert-packet generator that never silently fails to assemble."], "kpis": [["OTD", "Date-shipped vs. due-date, measured when the packing slip is created."], ["NCR count", "Out-of-tolerance dims caught &mdash; and how many escaped."], ["RMA rate", "Customer returns and how fast they're dispositioned."], ["Audit findings", "Internal and external &mdash; and corrective-action closure time."]], "modules": [["Quality Systems & Inspection", "home", true], ["Calibration & Preventative", "home", true], ["Sales & Work Orders", "reads", false], ["Visual Work Instructions", "reads", false], ["Data Management", "reads", false]], "upstream": ["Touches all", "Every stage", "Sets requirements, gates the print, checks parts"], "in_arrow": "Specs", "flow_self": "Proves the parts and proves the system", "out_arrow": "Cert&nbsp;packet", "downstream": ["Feeds", "Shipping", "Receives the passed parts + cert packet"], "flow_note": "Functional QA proves the part; the QMS proves the shop. QA is drawn here as cross-cutting because it sets requirements upstream (Contact page), gates production mid-stream (print approval), and closes the loop downstream (cert packet) &mdash; the only persona that touches every stage.", "footnote": "Source: ProShop persona sessions + product docs. Multi-part FAI and form-mapping gaps were raised by clients in-session.", "_key": "07_qa"}, {"series_label": "ProShop User Persona", "index": "08", "name": "Accounting", "stage": "Post-Production", "tagline": "Closes the financial loop &mdash; turning a shipped job into an invoice, and matching every supplier bill so the shop actually gets paid for the work.", "quote": "The part shipping is only half the job &mdash; it isn't finished until it's invoiced, paid, and reconciled.", "who1": "Accounting sits at the tail of the workflow, converting completed work into money in and money out. They generate customer invoices from packing slips, push them into the accounting package, mark customer PO lines complete, and generate vendor bills in ProShop to match against supplier invoices. They're the bridge between the shop-floor system of record and the financial system of record.", "who2": "In small shops this is the owner or a bookkeeper doing it part-time; in larger shops it's a dedicated finance seat, often working across ProShop and a separate accounting platform like QuickBooks via integration.", "day": [["Invoice", "Generates the customer invoice <b>from the packing slip</b> &mdash; the shipment is the trigger."], ["Sync", "Adds the invoice to the accounting package, via integration or manually."], ["Close", "Checks &lsquo;WO complete&rsquo; on the customer PO line to mark it invoiced and done."], ["Bills", "Generates vendor bills in ProShop to match against incoming supplier invoices."], ["Match", "Reconciles invoices to customer payments and bills to supplier invoices in the accounting software."], ["Report", "Feeds job-cost actuals back so the shop knows which jobs actually made money."]], "snapshot": [["Workflow stage", "Post-production"], ["Invoice trigger", "Packing slip"], ["Works across", "ProShop + accounting SW"], ["Closes", "Customer PO lines"], ["Two-way", "Invoices + vendor bills"]], "environment": "Desk-based, spreadsheet- and finance-software-fluent, mouse-and-keyboard. Lives half in ProShop and half in a dedicated accounting platform, so the quality of the integration between them is a daily reality. Values reconciliation accuracy and a clean audit trail over speed.", "meters": [["Software proficiency", "High", 84], ["Manufacturing depth", "Low&ndash;Medium", 40], ["Tolerance for reconciliation errors", "Very low", 15]], "inwords": "&ldquo;If the invoice doesn't tie cleanly back to the PO line and the packing slip, I'm chasing paper across two systems to figure out what we actually owe or are owed.&rdquo;", "goals": ["Invoice accurately and promptly so cash comes in on time.", "Match every supplier bill to its PO and receipt with no leakage.", "Keep ProShop and the accounting package in clean, reliable sync.", "Give leadership true job-cost actuals &mdash; which work made money."], "frustrations": ["Invoicing spans two systems, so integration gaps mean manual double-entry.", "A WO left un-closed on a PO line quietly stalls the invoice.", "Vendor bills and supplier invoices can drift out of match without a clear flag.", "Job-cost actuals depend on operators tracking time honestly upstream."], "needs": ["A rock-solid accounting integration &mdash; invoices and bills that sync without rekeying.", "A clear queue of shipped-but-not-invoiced jobs so nothing is missed.", "Bill-to-PO-to-receipt three-way matching surfaced inside ProShop.", "Trustworthy job-cost roll-ups that reflect real time and material."], "kpis": [["DSO", "Days sales outstanding \u2014 how fast invoices convert to cash."], ["Match rate", "Supplier bills cleanly matched to POs and receipts."], ["Invoice lag", "Time from shipment to invoice sent."], ["Job margin", "Actual profit per job vs. the original estimate."]], "modules": [["Job Costing & Financial Data", "home", true], ["Sales & Work Orders", "home", true], ["Inventory & Material Planning", "reads", false], ["Integrations", "reads", false], ["Data Management", "reads", false]], "upstream": ["Upstream", "Shipping", "Creates the packing slip that triggers the invoice"], "in_arrow": "Shipment", "flow_self": "Invoices, bills, matches &amp; closes the job", "out_arrow": "Closed", "downstream": ["Downstream", "The Estimator", "Uses real job margins to sharpen future quotes"], "flow_note": "Accounting closes the loop the Estimator opened: real job-cost actuals flow back so the next quote is sharper. This persona is reconstructed from ProShop's HR onboarding deck and product docs rather than a dedicated persona session, so treat its detail as directional pending validation.", "footnote": "Source: ProShop HR onboarding deck + product docs. No dedicated persona session existed for this role &mdash; validate before treating as authoritative.", "_key": "08_accounting"}];
+const PDFS = {"Start Here (ProShop 101)": "Persona_00_Start_Here.pdf", "The Shop Owner": "Persona_ShopOwner.pdf", "The Estimator": "Persona_01_Estimator.pdf", "Order Entry": "Persona_02_Order_Entry.pdf", "Planner / PM": "Persona_03_Planner_PM.pdf", "Buyer & Receiver": "Persona_04_Buyer_Receiver.pdf", "Operator & Tool Crib": "Persona_05_Operator_Tool_Crib.pdf", "Inventory & Shipping": "Persona_06_Inventory_Shipping.pdf", "Functional QA": "Persona_07_Functional_QA.pdf", "Accounting": "Persona_08_Accounting.pdf", "Cross-Persona Summary": "Persona_09_Cross_Persona_Summary.pdf"};
+
+// map persona _key -> download label
+const KEY2PDF = {
+  '00_shopowner':'The Shop Owner','01_estimator':'The Estimator','02_orderentry':'Order Entry',
+  '03_planner':'Planner / PM','04_buyer_receiver':'Buyer & Receiver','05_operator_toolcrib':'Operator & Tool Crib',
+  '06_inventory_shipping':'Inventory & Shipping','07_qa':'Functional QA','08_accounting':'Accounting'
+};
+const PDF_META = {
+  'Start Here (ProShop 101)':'3 pages · primer','The Shop Owner':'2 pages · buyer persona',
+  'The Estimator':'2 pages','Order Entry':'2 pages','Planner / PM':'2 pages',
+  'Buyer & Receiver':'2 pages','Operator & Tool Crib':'2 pages','Inventory & Shipping':'2 pages',
+  'Functional QA':'2 pages','Accounting':'2 pages','Cross-Persona Summary':'2 pages · landscape'
+};
+const DL_ORDER = ['Start Here (ProShop 101)','The Shop Owner','The Estimator','Order Entry','Planner / PM','Buyer & Receiver','Operator & Tool Crib','Inventory & Shipping','Functional QA','Accounting','Cross-Persona Summary'];
+
+function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+function dl(label){
+  const fn = PDFS[label]; if(!fn) return;
+  // Files are hosted alongside index.html in the /pdfs folder.
+  const a=document.createElement('a');
+  a.href='pdfs/'+fn;
+  a.download=fn;
+  a.target='_blank';
+  a.rel='noopener';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+// build journey cards (workflow personas: indices 01-06 grouping; we show 6 workflow cards)
+const WORKFLOW = ['01_estimator','02_orderentry','03_planner','04_buyer_receiver','05_operator_toolcrib','06_inventory_shipping'];
+const ARROWS = ['Won quote','PO + alert','Must-be-back','Released','Finished'];
+function arrowSVG(){return '<svg viewBox="0 0 24 11"><line x1="0" y1="5.5" x2="17" y2="5.5" stroke="#FF4F00" stroke-width="2"/><polygon points="17,1.5 24,5.5 17,9.5" fill="#FF4F00"/></svg>';}
+function buildJourney(){
+  const host=document.getElementById('journeyCards');
+  let html='';
+  WORKFLOW.forEach((k,i)=>{
+    const p=PERSONAS.find(x=>x._key===k);
+    const num=parseInt(p.index,10);
+    html+=`<div class="jp" onclick="openP('${k}')"><div class="bar"></div><div class="num">${num}</div><div class="who">${p.name}</div><div class="what">${p.flow_self.replace(/&amp;/g,'&')}</div><div class="more">Open &rarr;</div></div>`;
+    if(i<WORKFLOW.length-1){html+=`<div class="jarr">${arrowSVG()}</div>`;}
+  });
+  host.innerHTML=html;
+}
+
+function buildDownloads(){
+  const host=document.getElementById('dlGrid');
+  host.innerHTML = DL_ORDER.map(label=>{
+    const meta = PDF_META[label]||'';
+    return `<div class="dlcard"><div class="nm">${label}</div><div class="meta">${meta}</div><button class="btn flame" onclick="dl('${label.replace(/'/g,"\\'")}')">Download PDF &darr;</button></div>`;
+  }).join('');
+}
+
+function li(items){return items.map(x=>`<li>${x}</li>`).join('');}
+
+function openP(key){
+  const p=PERSONAS.find(x=>x._key===key);
+  if(!p) return;
+  const snap = p.snapshot.map(([k,v])=>`<div class="r"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('');
+  const day = p.day.map(([t,x])=>`<div class="row"><div class="t">${t}</div><div class="x">${x}</div></div>`).join('');
+  const meters = p.meters.map(([lab,lvl,pct])=>`<div class="m"><div class="lab"><span>${lab}</span><span>${lvl}</span></div><div class="track"><div class="fill" style="width:${pct}%"></div></div></div>`).join('');
+  const kpis = p.kpis.map(([b,l])=>`<div class="kpi"><div class="big">${b}</div><div class="lab">${l}</div></div>`).join('');
+  const mods = p.modules.map(([n,tag,prim])=>`<span class="mod ${prim?'p':''}">${n}<span class="tag" style="${prim?'':'color:var(--mute)'}">${tag}</span></span>`).join('');
+  const [ul,uw,uwt]=p.upstream, [dl_,dw,dwt]=p.downstream;
+  const pdfLabel = KEY2PDF[key];
+  const arrow='<svg viewBox="0 0 22 10"><line x1="0" y1="5" x2="15" y2="5" stroke="#FF4F00" stroke-width="2"/><polygon points="15,1 22,5 15,9" fill="#FF4F00"/></svg>';
+
+  document.getElementById('panelContent').innerHTML = `
+    <div class="phead">
+      <div class="pk">${p.series_label||'ProShop User Persona'} &middot; ${p.index}</div>
+      <div class="pname">${p.name}</div>
+      <div class="ptag">${p.tagline}</div>
+      <div class="pchip">${p.stage}</div>
+    </div>
+    <div class="pbody">
+      <div class="pquote"><span class="m">&ldquo;</span><p>${p.quote}</p></div>
+
+      <div class="psec">Who they are</div>
+      <p class="txt">${p.who1}</p>
+      ${p.who2?`<p class="txt">${p.who2}</p>`:''}
+
+      <div class="psec">A day in the life</div>
+      <div class="tl2">${day}</div>
+
+      <div class="psec">Snapshot</div>
+      <div class="snap">${snap}</div>
+
+      <div class="psec">Environment &amp; tech comfort</div>
+      <p class="txt" style="margin-bottom:12px">${p.environment}</p>
+      <div class="meters">${meters}</div>
+
+      <div class="psec">Goals, frustrations &amp; needs</div>
+      <div class="trip">
+        <div class="pnl g"><div class="h"><span class="dot"></span>Goals</div><ul>${li(p.goals)}</ul></div>
+        <div class="pnl f"><div class="h"><span class="dot"></span>Frustrations</div><ul>${li(p.frustrations)}</ul></div>
+        <div class="pnl n"><div class="h"><span class="dot"></span>Needs</div><ul>${li(p.needs)}</ul></div>
+      </div>
+
+      <div class="psec">Measured on</div>
+      <div class="kpis">${kpis}</div>
+
+      <div class="psec">ProShop modules they live in</div>
+      <div class="mods">${mods}</div>
+
+      <div class="psec">Where they sit in the flow</div>
+      <div class="flowrow">
+        <div class="fnode"><div class="l">${ul}</div><div class="w">${uw}</div><div class="ww">${uwt}</div></div>
+        <div class="farr"><span class="tt">${p.in_arrow.replace(/&nbsp;/g,' ')}</span>${arrow}</div>
+        <div class="fnode me"><div class="l">This persona</div><div class="w">${p.name}</div><div class="ww">${p.flow_self}</div></div>
+        <div class="farr"><span class="tt">${p.out_arrow.replace(/&nbsp;/g,' ')}</span>${arrow}</div>
+        <div class="fnode"><div class="l">${dl_}</div><div class="w">${dw}</div><div class="ww">${dwt}</div></div>
+      </div>
+      <p class="txt" style="font-size:11px;color:var(--mute);margin-top:9px">${p.flow_note}</p>
+
+      <div class="pdlrow">
+        <span class="note">Authored and updated 8/27/2026 by Samantha Jorgenson, Product Operations Manager</span>
+        ${pdfLabel?`<button class="btn flame" onclick="dl('${pdfLabel.replace(/'/g,"\\'")}')">Download this persona (PDF) &darr;</button>`:''}
+      </div>
+    </div>`;
+  document.getElementById('scrim').classList.add('on');
+  document.getElementById('panel').classList.add('on');
+  document.getElementById('panel').scrollTop=0;
+  document.body.style.overflow='hidden';
+}
+function closeP(){
+  document.getElementById('scrim').classList.remove('on');
+  document.getElementById('panel').classList.remove('on');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeP();});
+
+buildJourney();
+buildDownloads();
+</script>
+</body>
+</html>
