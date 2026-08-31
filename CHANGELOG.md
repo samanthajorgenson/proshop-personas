@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-08-31 — Navigation Areas (web tool only)
+
+Added an authoritative "Navigation Areas" field to 8 of 9 persona sheets in the interactive
+site, sourced from the design team's official persona doc — grounds each role in ProShop's
+actual screens/modules, additive to the existing inferred "modules they live in" section.
+
+**`index.html`**
+- `nav_areas` (+ optional `nav_areas_note`) added to the `PERSONAS` data for all personas
+  except Accounting (no design-team equivalent to source from)
+- New "Navigation Areas" section in the slide-in panel, rendered as ink-toned chips distinct
+  from the existing orange "modules" chips
+
+**Not yet done:** the PDFs and `gen_persona.py` still lack this field — that requires the
+generator source, which isn't in this repo. See [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md).
+Footer date left at 8/27/2026 rather than bumped, to avoid the web tool and PDFs disagreeing
+on the revision date until the PDF side ships too.
+
 ## 2026-08-27 — Initial site
 
 Interactive onboarding tool for the ProShop Product & Design team, introducing

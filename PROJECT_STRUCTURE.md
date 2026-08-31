@@ -127,6 +127,16 @@ journey, glossary, module map, company history/mission, ICP (Bullseye vs Strong 
 **Cross-persona summary (1):** how the roles relate — journey map, QA cross-cut, and four shared
 threads (Customer Contact page, cert packet, on-time-delivery cascade, and the nine dashboards).
 
+**Navigation Areas (web tool only, added 2026-08-31):** each persona's `nav_areas` array in the
+`PERSONAS` data embedded in `index.html` — the official product screens/modules for that role,
+sourced from the design team's persona doc, rendered as a distinct section in the slide-in panel
+alongside (not replacing) the existing inferred "modules they live in" section. The Shop Owner
+carries a single summary entry (`nav_areas_note` explains it's full admin access); Accounting has
+no `nav_areas` at all, since the design team has no separate Accounting persona to source from.
+**This has not yet been ported into the PDFs or `gen_persona.py`** — that requires the generator
+source, which isn't in this repo (see "The mental model" above). Until that happens, the PDFs and
+the web tool are out of sync on this one field.
+
 ---
 
 ## Known gaps & open questions
