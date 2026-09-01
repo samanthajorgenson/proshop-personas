@@ -54,13 +54,19 @@
   .defcard .full{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:700;margin:3px 0 11px;}
   .defcard p{font-size:12.5px;color:var(--ink-soft);}
 
-  /* journey */
-  .stagebar{display:grid;grid-template-columns:0.9fr 1.6fr 1.1fr 1.4fr;gap:10px;margin-bottom:14px;}
-  .stagechip{background:var(--flame-wash);border:1px solid var(--flame-line);border-radius:9px;text-align:center;padding:8px 6px;}
+  /* journey — stagebar and journey share the same 11-track grid (6 cards + 5 arrow
+     gaps) so stage labels line up exactly with the persona cards they describe. */
+  .jgrid{grid-template-columns:1fr 34px 1fr 34px 1fr 34px 1fr 34px 1fr 34px 1fr;}
+  .stagebar{display:grid;gap:0;margin-bottom:14px;}
+  .stagechip{background:var(--flame-wash);border:1px solid var(--flame-line);border-radius:9px;text-align:center;padding:8px 6px;margin:0 5px;}
   .stagechip .s{font-family:var(--mono);font-size:10px;color:var(--flame);font-weight:700;}
   .stagechip .n{font-size:12px;font-weight:800;color:var(--ink);}
-  .journey{display:flex;align-items:stretch;gap:0;flex-wrap:nowrap;}
-  .jp{flex:1;min-width:0;border:2px solid var(--flame);background:#fff;border-radius:13px;padding:14px 9px 12px;text-align:center;cursor:pointer;position:relative;transition:.16s;}
+  .stg-1{grid-column:1/2;}
+  .stg-2{grid-column:3/6;}
+  .stg-3{grid-column:7/10;}
+  .stg-4{grid-column:11/12;}
+  .journey{display:grid;align-items:stretch;}
+  .jp{min-width:0;border:2px solid var(--flame);background:#fff;border-radius:13px;padding:14px 9px 12px;text-align:center;cursor:pointer;position:relative;transition:.16s;}
   .jp:hover{background:var(--flame-wash);transform:translateY(-3px);box-shadow:var(--shadow);}
   .jp .bar{position:absolute;left:0;top:0;width:100%;height:5px;border-radius:5px 5px 0 0;background:var(--flame);}
   .jp .num{width:30px;height:30px;border-radius:50%;background:var(--flame);color:#fff;font-size:15px;font-weight:800;line-height:30px;margin:5px auto 7px;}
@@ -68,7 +74,7 @@
   .jp .what{font-size:9.5px;color:var(--mute);margin-top:4px;font-style:italic;line-height:1.25;}
   .jp .more{font-size:9px;color:var(--flame);font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-top:8px;opacity:0;transition:.16s;}
   .jp:hover .more{opacity:1;}
-  .jarr{display:flex;align-items:center;justify-content:center;padding:0 4px;min-width:34px;color:var(--flame);}
+  .jarr{display:flex;align-items:center;justify-content:center;padding:0 4px;color:var(--flame);}
   .jarr svg{width:24px;height:11px;}
 
   /* buyer persona callout */
@@ -190,8 +196,8 @@
     .trio,.threads,.icp,.dlgrid,.trip,.kpis,.snap{grid-template-columns:1fr;}
     .timeline{grid-template-columns:1fr 1fr 1fr;}
     .stagebar{grid-template-columns:1fr 1fr;}
-    .journey{flex-wrap:wrap;gap:8px;}
-    .jp{flex:1 1 40%;}
+    .stagebar .stagechip{grid-column:auto;margin:0;}
+    .journey{grid-template-columns:1fr 1fr;gap:8px;}
     .jarr{display:none;}
     .flowrow{grid-template-columns:1fr;gap:8px;}
     .farr{flex-direction:row;padding:2px 0;}
@@ -255,14 +261,14 @@
 
     <div style="height:18px"></div>
 
-    <div class="stagebar">
-      <div class="stagechip"><div class="s">Stage 1</div><div class="n">Pre-Production</div></div>
-      <div class="stagechip"><div class="s">Stage 1 &rarr; 2</div><div class="n">Planning &amp; Procurement</div></div>
-      <div class="stagechip"><div class="s">Stage 3</div><div class="n">Production</div></div>
-      <div class="stagechip"><div class="s">Stage 4</div><div class="n">Post-Production</div></div>
+    <div class="stagebar jgrid">
+      <div class="stagechip stg-1"><div class="s">Stage 1</div><div class="n">Pre-Production</div></div>
+      <div class="stagechip stg-2"><div class="s">Stage 1 &rarr; 2</div><div class="n">Planning &amp; Procurement</div></div>
+      <div class="stagechip stg-3"><div class="s">Stage 3</div><div class="n">Production</div></div>
+      <div class="stagechip stg-4"><div class="s">Stage 4</div><div class="n">Post-Production</div></div>
     </div>
 
-    <div class="journey" id="journeyCards"></div>
+    <div class="journey jgrid" id="journeyCards"></div>
 
     <div class="qanote" onclick="openP('07_qa')">
       <div class="q">Q</div>
