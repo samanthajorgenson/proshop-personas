@@ -36,14 +36,25 @@ in a separate working environment. This repo holds the **published outputs only*
   HTML or PDF in this repo directly.
 - To change how *all* personas *look*, you edit the template/generator there — one change flows
   to all — then re-export and copy the results here.
-- `index.html` and the files in `pdfs/` are **build outputs**. Don't hand-edit `index.html`
-  expecting it to survive the next regeneration; treat it as disposable.
+- The files in `pdfs/` are **build outputs** — regenerate them from source, don't edit them.
 
 ```
    data files  ─►  generator + template  ─►  HTML pages  ─►  PDFs
   (the content)     (the look, one place)    (the site)     (downloads)
    \_____________________ separate working environment _____________________/  \_ this repo _/
 ```
+
+> ### ⚠️ `index.html` is no longer a disposable build output
+>
+> As of 2026-08-31 `index.html` carries hand-authored work that does **not** exist in the
+> generator source: the `nav_areas` data, the "Navigation Areas" panel section, and the
+> full web-native redesign (journey stage grouping, scroll effects, button/accessibility
+> treatment, responsive rules).
+>
+> **Re-running `build_interactive.py` would overwrite all of it.** Before regenerating,
+> either port these changes into the generator/template first, or diff the generated file
+> against this one and merge. Treat this repo's `index.html` as the current source of truth
+> for the web tool until the generator catches up.
 
 ---
 

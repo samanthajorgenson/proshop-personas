@@ -1,5 +1,38 @@
 # Changelog
 
+## 2026-08-31 — Web-native redesign of the interactive site
+
+Reworked `index.html` so it reads as a designed web page rather than a document on a
+screen. Content is unchanged — all persona data, copy, and PDF links are identical.
+
+**Job journey — restructured**
+- Each stage now *owns* its persona cards: one block holds the stage label and the roles
+  it covers, so the two can't drift apart. Previously the stage bar and the cards were
+  separate containers that only coincidentally lined up, and any reflow broke the
+  association — stage labels sat above unrelated roles on tablet and mobile.
+- Verified at 16 viewport widths (360–1600px): every stage label sits above its own
+  cards, with no cross-stage overlap and no horizontal overflow. This also resolves a
+  pre-existing horizontal-overflow bug on small screens.
+
+**Scroll behaviour**
+- Reading-progress bar, fade-and-rise reveals on section entry (staggered across grid
+  children), sticky translucent nav with scroll-spy, animated hero, scroll cue.
+- Scroll-spy derives the active section from scroll position rather than
+  IntersectionObserver callbacks, which could land out of order after an anchor jump
+  and leave the wrong nav item highlighted.
+- All motion is disabled under `prefers-reduced-motion`.
+
+**Clickable affordances**
+- Every interactive element is a real `<button>` (previously `<div onclick>`, which was
+  unreachable by keyboard and invisible to screen readers), with focus rings, hover
+  lift, and a pressed state.
+- Journey cards carry a permanent "Open persona →" call-to-action instead of one that
+  only appeared on hover. Static cards intentionally have no hover treatment, so
+  "clickable" reads unambiguously.
+
+Known gap: the section nav is hidden below 820px (no mobile menu yet) — small screens
+scroll rather than jump between sections.
+
 ## 2026-08-31 — Navigation Areas (web tool only)
 
 Added an authoritative "Navigation Areas" field to 8 of 9 persona sheets in the interactive
