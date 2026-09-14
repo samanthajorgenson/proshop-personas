@@ -3,207 +3,211 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ProShop Personas · Interactive Teaching Tool</title>
+<title>ProShop Persona Hub</title>
+<link rel="stylesheet" href="design-tokens.css">
 <style>
-  :root{
-    --ink:#0B061C;--ink-soft:#3C3849;--mute:#6D6A77;--line:#E7E6E8;
-    --paper:#FFFFFF;--wash:#FBFAFC;--flame:#FF4F00;--flame-wash:#FFF6F2;
-    --flame-line:#FFDCCC;--blue:#1357FF;--green:#198754;--amber:#B45309;--amber-wash:#FEF3C7;
-    --sans:"Helvetica Neue",Arial,sans-serif;--mono:"SFMono-Regular",Consolas,Menlo,monospace;
-    --shadow:0 8px 30px rgba(11,6,28,.12);
-    --shadow-lg:0 20px 54px rgba(11,6,28,.20);
-    --ring:0 0 0 3px #fff,0 0 0 6px rgba(255,79,0,.55);
-    --nav-h:60px;
-    --chip-block:64px;   /* stagechip min-height + gap: keeps card rows aligned across stages */
-    --ease:cubic-bezier(.16,1,.3,1);
-  }
+  /* All colour/size values come from design-tokens.css. Nothing here hard-codes
+     a brand colour, so the pending Figma swap stays a one-file change. */
   *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 20px);}
-  body{font-family:var(--sans);color:var(--ink);background:#F4F3F6;line-height:1.5;-webkit-font-smoothing:antialiased;}
-  a{color:inherit;}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  body{font-family:var(--sans);color:var(--ink);background:var(--wash);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  [hidden]{display:none !important;}
 
-  /* ---- scroll reveal ---- */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:var(--d,0ms);}
-  .reveal.in{opacity:1;transform:none;}
+  /* ---------- generic interactive affordance ---------- */
+  .act{cursor:pointer;font:inherit;color:inherit;text-align:left;border:none;background:none;
+       transition:transform var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease),border-color var(--t-fast);}
+  .act:focus-visible,.btn:focus-visible,.tab:focus-visible{outline:none;box-shadow:var(--ring);}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:12.5px;font-weight:700;
+       padding:10px 16px;border-radius:var(--radius-sm);cursor:pointer;border:none;
+       transition:transform var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease),background var(--t-fast);}
+  .btn.flame{background:var(--flame);color:var(--paper);box-shadow:0 2px 0 #BE3A00,0 7px 20px rgba(255,79,0,.28);}
+  .btn.flame:hover{transform:translateY(-2px);box-shadow:0 4px 0 #BE3A00,0 12px 26px rgba(255,79,0,.34);}
+  .btn.flame:active{transform:translateY(1px);box-shadow:0 1px 0 #BE3A00;}
+  .btn.line{background:var(--paper);color:var(--ink);border:1.5px solid var(--line);}
+  .btn.line:hover{border-color:var(--accent,var(--flame));transform:translateY(-2px);}
+  .btn.line:active{transform:translateY(1px);}
+  .btn.ghost{background:rgba(255,255,255,.10);color:var(--paper);border:1px solid rgba(255,255,255,.22);}
+  .btn.ghost:hover{background:rgba(255,255,255,.2);}
 
-  /* ---- interactive affordances ----
-     Anything the user can click gets .act: pointer, lift, ring, and a visible CTA.
-     Static cards deliberately get none of it, so "clickable" reads unambiguously. */
-  .act{cursor:pointer;font:inherit;color:inherit;text-align:left;border:none;background:none;transition:transform .18s var(--ease),box-shadow .18s var(--ease),border-color .18s;}
-  .act:focus-visible{outline:none;box-shadow:var(--ring);}
-  .ic{flex:none;transition:transform .18s var(--ease);}
-  .act:hover .ic,.btn:hover .ic{transform:translateX(3px);}
-  .btn.dl:hover .ic{transform:translateY(2px);}
-
-  /* ---- top bar ---- */
-  .topbar{background:rgba(11,6,28,.92);backdrop-filter:saturate(150%) blur(12px);-webkit-backdrop-filter:saturate(150%) blur(12px);color:#fff;position:sticky;top:0;z-index:50;}
-  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h);gap:16px;}
-  .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:16px;letter-spacing:-.01em;background:none;border:none;color:#fff;cursor:pointer;font-family:inherit;padding:4px 6px;border-radius:8px;}
-  .brand:focus-visible{outline:none;box-shadow:var(--ring);}
-  .brand .logo{width:26px;height:26px;border-radius:7px;background:var(--flame);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;}
+  /* ---------- top bar ---------- */
+  .topbar{background:var(--ink);color:var(--paper);position:sticky;top:0;z-index:40;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;min-height:var(--nav-h);gap:16px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:16px;letter-spacing:-.01em;
+         background:none;border:none;color:var(--paper);cursor:pointer;font-family:inherit;padding:4px 6px;border-radius:var(--radius-sm);}
+  .brand .logo{width:26px;height:26px;border-radius:7px;background:var(--flame);display:grid;place-items:center;font-size:15px;}
   .brand small{font-weight:500;color:#9B98A6;font-size:11px;letter-spacing:.04em;}
-  .topnav{display:flex;gap:2px;}
-  .topnav button{position:relative;background:none;border:none;color:#C9C6D2;font-family:inherit;font-size:12.5px;font-weight:600;padding:9px 13px;border-radius:8px;cursor:pointer;transition:color .18s,background .18s;}
-  .topnav button::after{content:"";position:absolute;left:13px;right:13px;bottom:4px;height:2px;border-radius:2px;background:var(--flame);transform:scaleX(0);transform-origin:center;transition:transform .22s var(--ease);}
-  .topnav button:hover{color:#fff;background:rgba(255,255,255,.07);}
-  .topnav button:hover::after,.topnav button.active::after{transform:scaleX(1);}
-  .topnav button.active{color:#fff;}
-  .topnav button:focus-visible{outline:none;box-shadow:var(--ring);}
-  .progress{position:absolute;left:0;bottom:0;height:3px;width:0;background:linear-gradient(90deg,#FF8A3D,var(--flame));transition:width .08s linear;}
+  .whoami{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#9B98A6;}
+  .whoami select{font-family:inherit;font-size:11.5px;font-weight:700;color:var(--paper);background:rgba(255,255,255,.10);
+                 border:1px solid rgba(255,255,255,.22);border-radius:var(--radius-sm);padding:7px 10px;cursor:pointer;}
+  .whoami select:focus-visible{outline:none;box-shadow:var(--ring);}
 
-  /* ---- hero ---- */
-  .hero{background:radial-gradient(900px 420px at 82% -20%,#2E1238 0%,transparent 62%),var(--ink);color:#fff;padding:84px 0 92px;position:relative;overflow:hidden;}
-  .hero::after{content:"";position:absolute;right:-70px;top:-70px;width:300px;height:300px;background:var(--flame);opacity:.13;transform:rotate(45deg);animation:drift 9s ease-in-out infinite;}
-  @keyframes drift{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(26px)}}
-  .hero .wrap{position:relative;z-index:1;}
-  .hero .kick{font-size:11px;letter-spacing:.22em;font-weight:700;color:var(--flame);text-transform:uppercase;margin-bottom:14px;}
-  .hero h1{font-size:52px;font-weight:800;letter-spacing:-.028em;line-height:1.02;max-width:15em;}
-  .hero h1 em{font-style:normal;color:var(--flame);}
-  .hero p{font-size:16px;color:#C9C6D2;margin-top:16px;max-width:40em;}
-  .hero .dlrow{margin-top:28px;display:flex;gap:11px;flex-wrap:wrap;}
-  .herostats{margin-top:38px;display:flex;gap:34px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.13);padding-top:20px;}
-  .herostats .st .v{font-size:22px;font-weight:800;color:#fff;}
-  .herostats .st .l{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#9B98A6;font-weight:700;margin-top:2px;}
-  .scrollcue{position:absolute;left:50%;bottom:20px;z-index:2;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.22);color:#fff;cursor:pointer;display:grid;place-items:center;animation:bob 2.4s ease-in-out infinite;}
-  .scrollcue:hover{background:rgba(255,255,255,.2);}
-  .scrollcue:focus-visible{outline:none;box-shadow:var(--ring);}
-  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+  /* ---------- lens tabs ---------- */
+  .lensbar{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);position:sticky;top:var(--nav-h);z-index:39;}
+  .lensbar .wrap{display:flex;gap:4px;overflow-x:auto;}
+  .tab{position:relative;background:none;border:none;color:#C9C6D2;font-family:inherit;cursor:pointer;
+       padding:13px 16px 12px;border-radius:var(--radius-sm) var(--radius-sm) 0 0;white-space:nowrap;transition:color var(--t-fast),background var(--t-fast);}
+  .tab .tl{font-size:13px;font-weight:800;display:block;}
+  .tab .tw{font-size:10px;font-weight:600;color:#83808F;letter-spacing:.04em;}
+  .tab::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:3px;border-radius:3px 3px 0 0;
+              background:var(--tint);transform:scaleX(0);transform-origin:center;transition:transform var(--t-med) var(--ease);}
+  .tab:hover{color:var(--paper);background:rgba(255,255,255,.06);}
+  .tab[aria-selected="true"]{color:var(--paper);}
+  .tab[aria-selected="true"]::after{transform:scaleX(1);}
+  .tab[data-lens="buyer"]{--tint:var(--lens-buyer);}
+  .tab[data-lens="user"]{--tint:var(--lens-user);}
+  .tab[data-lens="role"]{--tint:var(--lens-role);}
+  .tab[data-lens="position"]{--tint:var(--lens-position);}
 
-  /* ---- buttons: raised, with a pressed state, so they read as buttons ---- */
-  .btn{display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:12.5px;font-weight:700;padding:10px 16px;border-radius:9px;cursor:pointer;border:none;text-decoration:none;transition:transform .16s var(--ease),box-shadow .16s var(--ease),background .16s;}
-  .btn:focus-visible{outline:none;box-shadow:var(--ring);}
-  .btn.lg{font-size:13.5px;padding:13px 20px;border-radius:10px;}
-  .btn.sm{font-size:11.5px;padding:8px 13px;}
-  .btn.flame{background:var(--flame);color:#fff;box-shadow:0 2px 0 #BE3A00,0 7px 20px rgba(255,79,0,.30);}
-  .btn.flame:hover{background:#FF6320;transform:translateY(-2px);box-shadow:0 4px 0 #BE3A00,0 12px 26px rgba(255,79,0,.36);}
-  .btn.flame:active{transform:translateY(1px);box-shadow:0 1px 0 #BE3A00,0 4px 12px rgba(255,79,0,.28);}
-  .btn.ghost{background:rgba(255,255,255,.09);color:#fff;border:1px solid rgba(255,255,255,.22);}
-  .btn.ghost:hover{background:rgba(255,255,255,.18);transform:translateY(-2px);}
-  .btn.ghost:active{transform:translateY(1px);}
-  .btn.dark{background:var(--ink);color:#fff;box-shadow:0 2px 0 #000,0 7px 18px rgba(11,6,28,.28);}
-  .btn.dark:hover{background:#1B1230;transform:translateY(-2px);}
-  .btn.dark:active{transform:translateY(1px);box-shadow:0 1px 0 #000;}
+  /* ---------- first-run team picker ---------- */
+  .picker{background:var(--flame-wash);border-bottom:1px solid var(--flame-line);}
+  .picker .wrap{padding:16px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .picker .q{font-size:13px;font-weight:800;}
+  .picker .sub{font-size:11.5px;color:var(--mute);width:100%;margin-top:-6px;}
+  .picker .opts{display:flex;gap:8px;flex-wrap:wrap;}
+  .picker .opt{font-size:12px;font-weight:700;background:var(--paper);border:1.5px solid var(--flame-line);
+               border-radius:999px;padding:8px 14px;cursor:pointer;font-family:inherit;transition:var(--t-fast);}
+  .picker .opt:hover{border-color:var(--flame);transform:translateY(-1px);}
+  .picker .skip{margin-left:auto;font-size:11.5px;color:var(--mute);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline;}
 
-  /* ---- sections ---- */
-  section.band{padding:76px 0;}
-  section.band.alt{background:#fff;}
-  .shead{margin-bottom:30px;}
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--flame);margin-bottom:9px;}
-  .eyebrow::before{content:"";width:22px;height:2px;background:var(--flame);border-radius:2px;}
-  h2.title{font-size:32px;font-weight:800;letter-spacing:-.02em;margin-bottom:9px;line-height:1.12;}
-  .subtitle{font-size:14.5px;color:var(--ink-soft);max-width:56em;}
+  /* ---------- lens intro ---------- */
+  .lensintro{background:var(--paper);border-bottom:1px solid var(--line);}
+  .lensintro .wrap{padding:26px 24px 22px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--accent);margin-bottom:8px;}
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--accent);border-radius:2px;}
+  h1.ltitle{font-size:29px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;}
+  .ldesc{font-size:14px;color:var(--ink-soft);max-width:60em;}
+  .lmeta{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .pill{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:999px;}
+  .pill.built{background:rgba(25,135,84,.12);color:var(--green);}
+  .pill.scaffold{background:var(--amber-wash);color:var(--amber);}
+  .pill.owner{background:var(--wash);color:var(--mute);border:1px solid var(--line);}
+  .filterbtn{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--mute);background:var(--wash);
+             border:1px dashed var(--line);border-radius:var(--radius-sm);padding:8px 12px;cursor:not-allowed;font-family:inherit;}
 
-  /* ---- three-up ERP/MES/QMS ---- */
-  .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-  .defcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;}
-  section.alt .defcard{background:var(--wash);}
-  .defcard .abbr{font-size:28px;font-weight:800;color:var(--flame);letter-spacing:-.01em;}
-  .defcard .full{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:700;margin:4px 0 12px;}
-  .defcard p{font-size:13px;color:var(--ink-soft);}
+  main{padding:28px 0 60px;}
 
-  /* ---- journey ----
-     Each stage OWNS its persona cards (chip + row in one .jstage block), so the
-     stage label can never drift away from the roles it describes at any width. */
-  .journey{display:flex;align-items:stretch;gap:10px;}
-  .jstage{flex:var(--c,1) 1 0;min-width:0;display:flex;flex-direction:column;gap:10px;}
-  .stagechip{position:relative;background:var(--flame-wash);border:1px solid var(--flame-line);border-radius:11px;text-align:center;padding:9px 8px;min-height:54px;display:flex;flex-direction:column;justify-content:center;}
-  .stagechip::after{content:"";position:absolute;left:50%;bottom:-6px;width:10px;height:10px;background:var(--flame-wash);border-right:1px solid var(--flame-line);border-bottom:1px solid var(--flame-line);transform:translateX(-50%) rotate(45deg);}
-  .stagechip .s{font-family:var(--mono);font-size:10px;color:var(--flame);font-weight:700;}
-  .stagechip .n{font-size:12.5px;font-weight:800;color:var(--ink);}
-  .jrow{display:flex;align-items:stretch;gap:8px;flex:1;}
-  .jsep{flex:0 0 26px;display:flex;align-items:center;justify-content:center;padding-top:var(--chip-block);color:var(--flame);}
-  .jarr{flex:0 0 22px;display:flex;align-items:center;justify-content:center;color:var(--flame);}
-  .jsep svg,.jarr svg{width:24px;height:11px;}
-  .jp{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:17px 12px 14px;position:relative;overflow:hidden;}
-  .jp::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:var(--flame);opacity:.55;transition:opacity .18s;}
-  .jp:hover{border-color:var(--flame);transform:translateY(-5px);box-shadow:var(--shadow-lg);}
-  .jp:hover::before{opacity:1;}
-  .jp .num{width:32px;height:32px;border-radius:50%;background:var(--flame);color:#fff;font-size:15px;font-weight:800;display:grid;place-items:center;margin:4px 0 9px;}
-  .jp .who{font-size:13.5px;font-weight:800;color:var(--ink);line-height:1.14;}
-  .jp .what{font-size:10px;color:var(--mute);margin-top:5px;font-style:italic;line-height:1.3;}
-  .jp .cta{margin-top:auto;padding-top:12px;display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--flame);}
+  /* ---------- board / focus swap ---------- */
+  .stack{position:relative;}
+  .view{transition:opacity var(--t-med) var(--ease),transform var(--t-med) var(--ease);}
+  .view.out{opacity:0;transform:translateY(10px);pointer-events:none;position:absolute;inset:0;}
 
-  /* ---- buyer persona callout (clickable) ---- */
-  .buyerband{width:100%;margin-bottom:26px;background:var(--ink);border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:20px;position:relative;overflow:hidden;}
-  .buyerband::after{content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;background:var(--flame);opacity:.14;transform:rotate(45deg);transition:opacity .2s;}
-  .buyerband:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
-  .buyerband:hover::after{opacity:.24;}
-  .buyerband .bdg{width:48px;height:48px;border-radius:50%;background:var(--flame);color:#fff;font-size:21px;font-weight:800;display:grid;place-items:center;flex:none;z-index:1;}
-  .buyerband .txt{flex:1;z-index:1;}
-  .buyerband .cc{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--flame);}
-  .buyerband .nm{font-size:19px;font-weight:800;color:#fff;margin:2px 0 4px;}
-  .buyerband .ds{font-size:12px;color:#C9C6D2;}
-  .buyerband .go{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#fff;white-space:nowrap;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);padding:9px 14px;border-radius:9px;z-index:1;}
-  .buyerband:hover .go{background:var(--flame);border-color:var(--flame);}
+  /* ---------- board ---------- */
+  .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start;}
+  .stagecol{display:flex;flex-direction:column;gap:10px;}
+  .stagehead{background:var(--flame-wash);border:1px solid var(--flame-line);border-radius:var(--radius-sm);padding:9px 12px;}
+  .stagehead .s{font-family:var(--mono);font-size:10px;color:var(--flame);font-weight:700;}
+  .stagehead .n{font-size:12.5px;font-weight:800;}
+  .stagehead .a{font-size:10px;color:var(--mute);font-weight:600;}
 
-  /* ---- qa cross-cut note (clickable) ---- */
-  .qanote{width:100%;margin-top:22px;display:flex;align-items:center;gap:16px;background:var(--flame-wash);border:1px solid var(--flame-line);border-radius:14px;padding:16px 20px;}
-  .qanote:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--flame);}
-  .qanote .q{width:38px;height:38px;border-radius:50%;background:var(--flame);color:#fff;font-size:17px;font-weight:800;display:grid;place-items:center;flex:none;}
-  .qanote p{font-size:12.5px;color:var(--ink-soft);flex:1;}
-  .qanote b{color:var(--ink);}
-  .qanote .go{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--flame);white-space:nowrap;}
+  .gcard{width:100%;background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius);
+         padding:15px 14px 13px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;}
+  .gcard::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:var(--accent);opacity:.5;transition:opacity var(--t-fast);}
+  .gcard:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+  .gcard:hover::before{opacity:1;}
+  .gcard .gn{font-size:14px;font-weight:800;letter-spacing:-.01em;}
+  .gcard .gs{font-size:11px;color:var(--mute);line-height:1.35;}
+  .gcard .grow{margin-top:auto;padding-top:9px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .gcard .cta{font-size:9.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:4px;}
+  .cnt{font-size:9.5px;font-weight:800;color:var(--mute);background:var(--wash);border:1px solid var(--line);border-radius:999px;padding:3px 8px;white-space:nowrap;}
+  .cnt.warn{background:var(--amber-wash);color:var(--amber);border-color:transparent;}
 
-  /* ---- shared threads ---- */
-  .threads{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  .tcard{background:#fff;border:1px solid var(--line);border-radius:15px;padding:20px 22px;}
-  section.alt .tcard{background:var(--wash);}
-  .tcard .th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;margin-bottom:3px;}
-  .tcard .sh{font-size:11.5px;color:var(--flame);font-weight:700;margin-bottom:10px;}
-  .tcard p{font-size:12.5px;color:var(--ink-soft);}
+  .crossband{margin-top:16px;background:var(--ink);border-radius:var(--radius);padding:18px 20px;}
+  .crossband .ch{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--flame);margin-bottom:4px;}
+  .crossband .cd{font-size:11.5px;color:#C9C6D2;margin-bottom:14px;}
+  .crossgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;}
+  .crossband .gcard{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);color:var(--paper);}
+  .crossband .gcard .gs{color:#C9C6D2;}
+  .crossband .gcard .cnt{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:#C9C6D2;}
+  .crossband .gcard .cnt.warn{background:var(--amber-wash);color:var(--amber);}
 
-  /* ---- company context ---- */
-  .timeline{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
-  .tl{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px 14px;}
-  section.alt .tl{background:var(--wash);}
-  .tl .y{font-size:15px;font-weight:800;color:var(--flame);}
-  .tl .d{font-size:11px;color:var(--ink-soft);margin-top:4px;}
-  .icp{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-  .icpcard{border:1px solid var(--line);border-radius:15px;overflow:hidden;background:#fff;}
-  section.alt .icpcard{background:var(--wash);}
-  .icpcard .head{color:#fff;font-size:12px;font-weight:800;padding:11px 18px;letter-spacing:.05em;}
-  .icpcard .body{padding:16px 18px;font-size:12.5px;color:var(--ink-soft);line-height:1.75;}
-  .icpcard .body b{color:var(--ink);}
+  /* ---------- focus view ---------- */
+  .railbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .backall{flex:none;font-size:12px;font-weight:800;background:var(--paper);border:1.5px solid var(--line);
+           border-radius:var(--radius-sm);padding:9px 13px;cursor:pointer;font-family:inherit;transition:var(--t-fast);}
+  .backall:hover{border-color:var(--accent);transform:translateX(-2px);}
+  .rail{display:flex;gap:7px;overflow-x:auto;padding-bottom:3px;}
+  .railchip{flex:none;font-size:11.5px;font-weight:700;background:var(--paper);border:1.5px solid var(--line);
+            border-radius:999px;padding:8px 14px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:var(--t-fast);}
+  .railchip:hover{border-color:var(--accent);}
+  .railchip[aria-current="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper);}
 
-  /* ---- downloads ---- */
-  .dlgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-  .dlcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:4px;}
-  .dlcard .dlnm{font-size:13.5px;font-weight:800;color:var(--ink);}
-  .dlcard .dlmeta{font-size:11px;color:var(--mute);margin-bottom:12px;}
-  .dlcard .btn{align-self:flex-start;margin-top:auto;}
+  .fpanel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .fhead{padding:24px 26px 22px;border-bottom:1px solid var(--line);}
+  .fhead .fstage{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--accent);margin-bottom:7px;}
+  .fhead h2{font-size:26px;font-weight:800;letter-spacing:-.02em;}
+  .fhead .fsum{font-size:13.5px;color:var(--ink-soft);margin-top:8px;max-width:62em;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;}
+  .chip{font-size:11px;font-weight:600;background:var(--wash);border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--ink-soft);}
+  .chip.home{background:var(--flame-wash);border-color:var(--flame-line);color:var(--ink);font-weight:700;}
+  .chip.pos{background:var(--ink);color:var(--paper);border-color:var(--ink);font-weight:700;}
+  .fbody{padding:22px 26px 26px;}
+  .fsec{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+        padding-bottom:6px;border-bottom:2px solid var(--accent);margin:0 0 14px;}
+  .fsec.mt{margin-top:26px;}
 
-  /* ---- slide-in panel ---- */
-  .scrim{position:fixed;inset:0;background:rgba(11,6,28,.58);opacity:0;pointer-events:none;transition:opacity .24s;z-index:100;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);}
-  .scrim.on{opacity:1;pointer-events:auto;}
-  .panel{position:fixed;top:0;right:0;height:100%;width:min(740px,95vw);background:#fff;box-shadow:-14px 0 46px rgba(11,6,28,.28);transform:translateX(100%);transition:transform .32s var(--ease);z-index:101;overflow-y:auto;overscroll-behavior:contain;}
-  .panel.on{transform:translateX(0);}
-  .panel .phead{background:var(--ink);color:#fff;padding:28px 34px 26px;position:relative;overflow:hidden;}
-  .panel .phead::after{content:"";position:absolute;right:-30px;top:-30px;width:130px;height:130px;background:var(--flame);opacity:.16;transform:rotate(45deg);}
-  .panel .pk{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--flame);margin-bottom:8px;}
-  .panel .pname{font-size:31px;font-weight:800;letter-spacing:-.018em;}
-  .panel .ptag{font-size:13px;color:#C9C6D2;margin-top:9px;max-width:88%;}
-  .panel .pchip{position:absolute;right:34px;bottom:26px;background:var(--flame);color:#fff;font-size:10px;font-weight:700;letter-spacing:.05em;padding:6px 12px;border-radius:999px;text-transform:uppercase;}
-  .closeb{position:fixed;top:18px;right:20px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.26);color:#fff;width:36px;height:36px;border-radius:10px;font-size:19px;line-height:1;cursor:pointer;z-index:103;display:none;place-items:center;transition:.16s;}
-  .panel.on ~ .closeb,.closeb.on{display:grid;}
-  .closeb:hover{background:var(--flame);border-color:var(--flame);transform:rotate(90deg);}
-  .closeb:focus-visible{outline:none;box-shadow:var(--ring);}
-  .pbody{padding:26px 34px 46px;}
-  .pquote{display:flex;gap:12px;margin-bottom:22px;}
+  /* ---------- accordion ---------- */
+  .acc{display:flex;flex-direction:column;gap:9px;}
+  .accitem{border:1.5px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;background:var(--paper);}
+  .accitem[data-open="true"]{border-color:var(--accent);}
+  .acchead{width:100%;display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;
+           font-family:inherit;background:none;border:none;text-align:left;transition:background var(--t-fast);}
+  .acchead:hover{background:var(--wash);}
+  .acchead:focus-visible{outline:none;box-shadow:var(--ring);}
+  .acchead .an{display:block;font-size:13.5px;font-weight:800;}
+  .acchead .as{display:block;font-size:11px;color:var(--mute);margin-top:1px;}
+  .acchead .atxt{flex:1;min-width:0;}
+  .chev{flex:none;width:11px;height:11px;border-right:2.4px solid var(--accent);border-bottom:2.4px solid var(--accent);
+        transform:rotate(45deg);transition:transform var(--t-med) var(--ease);margin-right:3px;}
+  .accitem[data-open="true"] .chev{transform:rotate(-135deg);}
+  .accbody{max-height:0;overflow:hidden;transition:max-height var(--t-med) var(--ease);}
+  .accinner{padding:2px 15px 16px;display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .col h4{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+  .col h4 .dot{width:7px;height:7px;border-radius:50%;}
+  .col.pain h4 .dot{background:var(--amber);}
+  .col.out h4 .dot{background:var(--green);}
+  .col ul{list-style:none;}
+  .col li{font-size:11.5px;color:var(--ink-soft);padding-left:14px;position:relative;margin-bottom:7px;line-height:1.4;}
+  .col li::before{content:"";position:absolute;left:0;top:6px;width:5px;height:5px;border-radius:50%;}
+  .col.pain li::before{background:var(--amber);}
+  .col.out li::before{background:var(--green);}
+  .accmeta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-top:4px;border-top:1px dashed var(--line);margin-top:2px;}
+  .src{font-size:10px;color:var(--mute);}
+  .tag{font-size:9.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:999px;}
+  .tag.confirmed{background:rgba(25,135,84,.12);color:var(--green);}
+  .tag.proposed{background:var(--amber-wash);color:var(--amber);}
+  .tag.unnested{background:var(--wash);color:var(--mute);border:1px solid var(--line);}
+  .xlens{font-size:10px;font-weight:800;background:var(--lens-buyer);color:var(--paper);border:none;
+         border-radius:999px;padding:5px 11px;cursor:pointer;font-family:inherit;transition:var(--t-fast);}
+  .xlens:hover{transform:translateY(-1px);}
+  .xlens:focus-visible{outline:none;box-shadow:var(--ring);}
+
+  /* ---------- notices ---------- */
+  .notice{display:flex;gap:12px;align-items:flex-start;background:var(--amber-wash);border:1px solid rgba(180,83,9,.25);
+          border-radius:var(--radius-sm);padding:13px 16px;font-size:12px;color:var(--ink-soft);}
+  .notice .ni{font-weight:800;color:var(--amber);flex:none;}
+  .notice b{color:var(--ink);}
+  .notice.plain{background:var(--wash);border-color:var(--line);}
+  .notice.plain .ni{color:var(--mute);}
+
+  /* ---------- level 3 ---------- */
+  .l3toggle{margin-top:24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .l3note{font-size:11px;color:var(--mute);}
+  .level3{margin-top:20px;border-top:2px solid var(--accent);padding-top:22px;}
+  .psec{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--ink);
+        padding-bottom:6px;border-bottom:2px solid var(--flame);margin:26px 0 13px;}
+  .psec:first-child{margin-top:0;}
+  .pquote{display:flex;gap:12px;margin-bottom:6px;}
   .pquote .m{font-family:Georgia,serif;font-size:40px;color:var(--flame);font-weight:800;line-height:.8;}
   .pquote p{font-size:14.5px;font-style:italic;color:var(--ink-soft);padding-top:5px;}
-  .psec{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--ink);padding-bottom:6px;border-bottom:2px solid var(--flame);margin:26px 0 13px;}
-  .psec:first-of-type{margin-top:0;}
-  .pbody p.txt{font-size:13px;color:var(--ink-soft);}
-  .pbody p.txt + p.txt{margin-top:9px;}
+  p.txt{font-size:13px;color:var(--ink-soft);}
+  p.txt + p.txt{margin-top:9px;}
   .snap{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;}
   .snap .r{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px dashed var(--flame-line);}
   .snap .r .k{color:var(--mute);font-weight:600;}
-  .snap .r .v{color:var(--ink);font-weight:700;text-align:right;}
+  .snap .r .v{font-weight:700;text-align:right;}
   .tl2 .row{display:flex;gap:13px;padding:7px 0;}
   .tl2 .t{font-family:var(--mono);font-size:10.5px;color:var(--flame);font-weight:700;width:52px;flex:none;padding-top:1px;}
   .tl2 .x{font-size:12.5px;color:var(--ink-soft);}
-  .tl2 .x b{color:var(--ink);}
   .trip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;}
   .pnl{border:1px solid var(--line);border-radius:12px;padding:14px;}
   .pnl .h{display:flex;align-items:center;gap:7px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;margin-bottom:10px;}
@@ -221,14 +225,13 @@
   .kpi{border:1px solid var(--line);border-radius:11px;padding:12px 13px;}
   .kpi .big{font-size:17px;font-weight:800;color:var(--flame);}
   .kpi .lab{font-size:11px;color:var(--ink-soft);margin-top:3px;}
-  .mods{display:flex;flex-wrap:wrap;gap:7px;}
+  .mods,.navs{display:flex;flex-wrap:wrap;gap:7px;}
   .mod{font-size:11px;font-weight:600;background:var(--wash);border:1px solid var(--line);border-radius:8px;padding:7px 11px;color:var(--ink-soft);}
   .mod.p{background:var(--flame-wash);border-color:var(--flame-line);color:var(--ink);font-weight:700;}
-  .mod .tag{color:var(--flame);font-weight:800;font-size:9px;margin-left:6px;letter-spacing:.06em;text-transform:uppercase;}
+  .mod .mtag{color:var(--flame);font-weight:800;font-size:9px;margin-left:6px;letter-spacing:.06em;text-transform:uppercase;}
   .navsub{font-size:11.5px;color:var(--mute);margin:-7px 0 11px;}
-  .navs{display:flex;flex-wrap:wrap;gap:7px;}
-  .navchip{font-size:11px;font-weight:700;background:var(--ink);color:#fff;border-radius:8px;padding:7px 11px;}
-  .flowrow{display:grid;grid-template-columns:1fr auto 1.1fr auto 1fr;align-items:stretch;gap:0;}
+  .navchip{font-size:11px;font-weight:700;background:var(--ink);color:var(--paper);border-radius:8px;padding:7px 11px;}
+  .flowrow{display:grid;grid-template-columns:1fr auto 1.1fr auto 1fr;align-items:stretch;}
   .fnode{border:1px solid var(--line);border-radius:12px;padding:12px 13px;}
   .fnode.me{border:2px solid var(--flame);background:var(--flame-wash);}
   .fnode .l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:800;margin-bottom:4px;}
@@ -238,55 +241,45 @@
   .farr{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 9px;color:var(--flame);}
   .farr .tt{font-size:8px;color:var(--mute);font-weight:700;text-transform:uppercase;margin-bottom:3px;white-space:nowrap;}
   .farr svg{width:22px;height:10px;}
-  .pdlrow{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;}
+  .pdlrow{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;}
   .pdlrow .note{font-size:10px;color:var(--mute);}
 
-  footer.foot{background:var(--ink);color:#9B98A6;padding:30px 0;font-size:11px;}
-  footer.foot .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;}
-  footer.foot b{color:#fff;}
+  /* ---------- positions lens ---------- */
+  .depts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
+  .dept{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;}
+  .dept h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--accent);margin-bottom:11px;}
+  .dept ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+  .dept li{font-size:12.5px;font-weight:600;color:var(--ink-soft);padding-left:15px;position:relative;}
+  .dept li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:2px;background:var(--accent);opacity:.5;}
 
-  /* ---- responsive ----
-     The journey collapses stage-by-stage: each stage keeps its own label directly
-     above its own persona cards, at every width. */
-  @media (max-width:1080px){
-    .journey{flex-direction:column;gap:22px;}
-    .jstage{flex:none;gap:10px;}
-    .jsep{display:none;}
-    .stagechip{text-align:left;align-items:flex-start;min-height:0;padding:11px 15px;}
-    .stagechip::after{left:26px;}
-    .jrow{flex-wrap:wrap;}
-    .jp{flex:1 1 210px;}
-    .jarr{flex:0 0 18px;}
-    .hero h1{font-size:42px;}
-  }
-  @media (max-width:820px){
-    section.band{padding:56px 0;}
-    h2.title{font-size:26px;}
-    .trio,.threads,.icp,.dlgrid,.trip,.kpis,.snap{grid-template-columns:1fr;}
-    .timeline{grid-template-columns:1fr 1fr 1fr;}
+  /* ---------- unnested tray ---------- */
+  .tray{margin-top:26px;background:var(--paper);border:1px dashed var(--line);border-radius:var(--radius);padding:20px 22px;}
+  .tray h3{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--mute);margin-bottom:4px;}
+  .tray .td{font-size:12px;color:var(--ink-soft);margin-bottom:14px;}
+  .traygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;}
+
+  footer.foot{background:var(--ink);color:#9B98A6;padding:28px 0;font-size:11px;}
+  footer.foot .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;}
+  footer.foot b{color:var(--paper);}
+  footer.foot a{color:var(--flame);font-weight:700;}
+
+  @media (max-width:1000px){
+    .stages{grid-template-columns:1fr 1fr;}
+    .trip{grid-template-columns:1fr;}
     .flowrow{grid-template-columns:1fr;gap:8px;}
-    .farr{flex-direction:row;padding:3px 0;gap:6px;}
-    .hero{padding:60px 0 76px;}
-    .hero h1{font-size:34px;}
-    .herostats{gap:24px;}
-    .topnav{display:none;}
-    .buyerband{flex-wrap:wrap;gap:14px;}
-    .pbody,.panel .phead{padding-left:22px;padding-right:22px;}
-    .panel .pname{font-size:26px;}
-    .panel .pchip{position:static;display:inline-block;margin-top:12px;}
+    .farr{flex-direction:row;gap:6px;padding:3px 0;}
   }
-  @media (max-width:560px){
-    .jrow{flex-direction:column;}
-    .jp{flex:1 1 auto;}
-    .jarr{display:none;}
-    .timeline{grid-template-columns:1fr 1fr;}
-    .hero h1{font-size:29px;}
+  @media (max-width:680px){
+    .stages{grid-template-columns:1fr;}
+    .accinner{grid-template-columns:1fr;gap:14px;}
+    .snap,.kpis{grid-template-columns:1fr;}
+    h1.ltitle{font-size:23px;}
+    .fhead,.fbody{padding-left:18px;padding-right:18px;}
+    .fhead h2{font-size:21px;}
   }
   @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto;}
-    .reveal{opacity:1;transform:none;transition:none;}
-    .hero::after,.scrollcue{animation:none;}
-    *{transition-duration:.01ms!important;}
+    *{transition-duration:.01ms !important;}
+    .accbody{transition:none !important;}
   }
 </style>
 </head>
@@ -294,405 +287,486 @@
 
 <div class="topbar">
   <div class="wrap">
-    <button class="brand" type="button" onclick="jump('top')" aria-label="Back to top">
-      <span class="logo" aria-hidden="true">P</span> ProShop Personas <small>Teaching Tool</small>
+    <button class="brand act" type="button" onclick="goHome()" aria-label="ProShop Persona Hub home">
+      <span class="logo" aria-hidden="true">P</span> ProShop Persona Hub <small>Persona framework</small>
     </button>
-    <nav class="topnav" aria-label="Page sections">
-      <button type="button" data-sec="primer" onclick="jump('primer')">ProShop 101</button>
-      <button type="button" data-sec="journey" onclick="jump('journey')">The Roles</button>
-      <button type="button" data-sec="threads" onclick="jump('threads')">How They Relate</button>
-      <button type="button" data-sec="company" onclick="jump('company')">Company</button>
-      <button type="button" data-sec="downloads" onclick="jump('downloads')">Downloads</button>
-    </nav>
+    <div class="whoami">
+      <label for="teamsel">I am a&hellip;</label>
+      <select id="teamsel" onchange="setTeam(this.value,true)"></select>
+    </div>
   </div>
-  <div class="progress" id="progress" role="presentation"></div>
 </div>
 
-<header class="hero" id="top">
+<div class="lensbar">
+  <div class="wrap" role="tablist" id="lenstabs" aria-label="Persona lenses"></div>
+</div>
+
+<div class="picker" id="picker" hidden>
   <div class="wrap">
-    <div class="kick reveal">Product &amp; Design Onboarding</div>
-    <h1 class="reveal">Who ProShop <em>is for</em></h1>
-    <p class="reveal">An interactive tour of the people who use ProShop every day. Start with the 10-minute primer, then open any role on the journey to go deep. Every document here can be downloaded as a print-ready PDF.</p>
-    <div class="dlrow reveal">
-      <button class="btn flame lg" type="button" onclick="jump('journey')">Explore the roles <span class="ic" data-icon="arrow"></span></button>
-      <button class="btn ghost lg dl" type="button" onclick="jump('downloads')">Download the PDFs <span class="ic" data-icon="down"></span></button>
-    </div>
-    <div class="herostats reveal">
-      <div class="st"><div class="v">12</div><div class="l">Roles covered</div></div>
-      <div class="st"><div class="v">4</div><div class="l">Workflow stages</div></div>
-      <div class="st"><div class="v">11</div><div class="l">Print-ready PDFs</div></div>
+    <div class="q">Which team are you on?</div>
+    <div class="sub">This just sets your starting lens. Every lens stays open to everyone.</div>
+    <div class="opts" id="pickeropts"></div>
+    <button class="skip" type="button" onclick="dismissPicker()">Skip</button>
+  </div>
+</div>
+
+<div class="lensintro" id="lensintro"></div>
+
+<main>
+  <div class="wrap">
+    <div class="stack">
+      <div class="view" id="boardview"></div>
+      <div class="view out" id="focusview" hidden></div>
     </div>
   </div>
-  <button class="scrollcue" type="button" onclick="jump('primer')" aria-label="Scroll to ProShop 101"><span class="ic" data-icon="down"></span></button>
-</header>
-
-<!-- PRIMER -->
-<section class="band alt" id="primer">
-  <div class="wrap">
-    <div class="shead reveal">
-      <div class="eyebrow">ProShop 101</div>
-      <h2 class="title">What ProShop is, in one minute</h2>
-      <p class="subtitle">ProShop is an all-in-one, paperless operating system for precision machine shops. It replaces spreadsheets, whiteboards, paper travelers, and tribal knowledge with one connected system &mdash; where the quote becomes the work order becomes the inspection record becomes the invoice, with no duplicate entry. It's really three products in one:</p>
-    </div>
-    <div class="trio" data-stagger>
-      <div class="defcard"><div class="abbr">ERP</div><div class="full">Enterprise Resource Planning</div><p>The business backbone &mdash; quoting, orders, purchasing, inventory, scheduling, costing, invoicing. The record of what the shop is doing and what it costs.</p></div>
-      <div class="defcard"><div class="abbr">MES</div><div class="full">Manufacturing Execution System</div><p>The shop-floor layer &mdash; live work-order status, time tracking, scheduling, work instructions. The record of how the work is running right now.</p></div>
-      <div class="defcard"><div class="abbr">QMS</div><div class="full">Quality Management System</div><p>The compliance layer &mdash; inspection, calibration, cert packets, non-conformance, audits. The record of proving the parts meet spec.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- JOURNEY -->
-<section class="band" id="journey">
-  <div class="wrap">
-    <div class="shead reveal">
-      <div class="eyebrow">The Roles</div>
-      <h2 class="title">The journey of a job through ProShop</h2>
-      <p class="subtitle">Six roles hand the job forward through four stages. <b>Click any card to open the full persona.</b> Above them sits the Shop Owner (the buyer), and cutting across them all is QA.</p>
-    </div>
-
-    <div class="reveal">
-      <button class="buyerband act" type="button" onclick="openP('00_shopowner')" aria-label="Open the Shop Owner persona">
-        <span class="bdg" aria-hidden="true">$</span>
-        <span class="txt">
-          <span class="cc">Buyer / Decision-Maker &mdash; sits above the workflow</span>
-          <span class="nm">The Shop Owner</span>
-          <span class="ds">The technical founder who buys ProShop and rolls it out to every role below. Win them with ROI and trust.</span>
-        </span>
-        <span class="go">Open persona <span class="ic" data-icon="arrow"></span></span>
-      </button>
-    </div>
-
-    <div class="journey reveal" id="journeyCards"></div>
-
-    <div class="reveal">
-      <button class="qanote act" type="button" onclick="openP('07_qa')" aria-label="Open the Functional QA persona">
-        <span class="q" aria-hidden="true">Q</span>
-        <p><b>Functional QA cross-cuts every stage.</b> It sets requirements upstream (Contact page), gates production mid-stream (print approval), and closes the loop downstream (cert packet) &mdash; the only role that touches all four stages.</p>
-        <span class="go">Open <span class="ic" data-icon="arrow"></span></span>
-      </button>
-    </div>
-  </div>
-</section>
-
-<!-- THREADS -->
-<section class="band alt" id="threads">
-  <div class="wrap">
-    <div class="shead reveal">
-      <div class="eyebrow">How They Relate</div>
-      <h2 class="title">Four things they all share</h2>
-      <p class="subtitle">ProShop's whole value is that these roles share one database. These records only make sense once you see several personas depending on them &mdash; one person sets or contributes, several depend on the result.</p>
-    </div>
-    <div class="threads" data-stagger>
-      <div class="tcard"><div class="th">Customer Contact page</div><div class="sh">Set once by QA &amp; Order Entry, read everywhere</div><p>Flags set once (FAI, CFC, form format, terms) silently flow into the cert packet, the AS9102 form, and the invoice. A missed flag surfaces as a rejected shipment downstream.</p></div>
-      <div class="tcard"><div class="th">Cert packet</div><div class="sh">Everyone contributes, one packet ships</div><p>Vendor certs (Receiver), material specs (Planner), inspection results (Operator + QA), requirement flags (Order Entry) &mdash; all converge into one packet. Any missing piece and the customer's dock rejects the box.</p></div>
-      <div class="tcard"><div class="th">On-time delivery</div><div class="sh">Cascaded upstream, measured downstream</div><p>Not one KPI but a cascade: the Buyer holds vendors to 97% so the Planner can hit the shop's 95% so the customer counts the delivery on time.</p></div>
-      <div class="tcard"><div class="th">Dashboards</div><div class="sh">Same database, nine filtered views</div><p>Customer service, Project assignment, Scheduling, Purchasing, Receiving, Work cell, Inspection, Inventory control, Shipping &mdash; each is a filtered view of the same work orders. Change one, everyone downstream sees it.</p></div>
-    </div>
-    <div class="reveal" style="margin-top:22px"><button class="btn flame dl" type="button" onclick="dl('Cross-Persona Summary')">Download the full relationship map (PDF) <span class="ic" data-icon="down"></span></button></div>
-  </div>
-</section>
-
-<!-- COMPANY -->
-<section class="band" id="company">
-  <div class="wrap">
-    <div class="shead reveal">
-      <div class="eyebrow">Company Context</div>
-      <h2 class="title">By machinists, for machinists</h2>
-      <p class="subtitle">ProShop wasn't built by a software company that discovered manufacturing &mdash; it was built by machinists who got tired of running a shop on spreadsheets. That origin is why the product fits the way it does.</p>
-    </div>
-    <div class="timeline" data-stagger>
-      <div class="tl"><div class="y">1997</div><div class="d">Pro CNC machine shop founded</div></div>
-      <div class="tl"><div class="y">2000</div><div class="d">Outgrew Excel; began building ProShop</div></div>
-      <div class="tl"><div class="y">2008</div><div class="d">First external ProShop ERP client</div></div>
-      <div class="tl"><div class="y">2014</div><div class="d">Sold the Pro CNC machine shop</div></div>
-      <div class="tl"><div class="y">2016</div><div class="d">Launched as software co. (then Adion)</div></div>
-      <div class="tl"><div class="y">2026</div><div class="d">600+ clients, 100+ employees</div></div>
-    </div>
-
-    <div class="shead reveal" style="margin-top:52px">
-      <div class="eyebrow">Ideal Customer</div>
-      <h2 class="title" style="font-size:26px">Who buys ProShop</h2>
-      <p class="subtitle">Deliberately targeted at high-stakes machine shops &mdash; not &ldquo;anyone with a machine,&rdquo; but shops where a mistake could be catastrophic, and growing mid-market shops where tribal knowledge is starting to break the business.</p>
-    </div>
-    <div class="icp" data-stagger>
-      <div class="icpcard"><div class="head" style="background:var(--flame)">BULLSEYE</div><div class="body"><b>Industry:</b> Aerospace, Defense, Medical<br><b>Size:</b> 20&ndash;75 employees<br><b>Compliance:</b> AS9100, ITAR, CMMC, ISO 13485 (mandatory)<br><b>Pain:</b> <em>&ldquo;We lose contracts if we fail audits.&rdquo;</em><br><b>Buys because:</b> Risk mitigation &amp; survival</div></div>
-      <div class="icpcard"><div class="head" style="background:#C15A20">STRONG FIT</div><div class="body"><b>Industry:</b> Industrial, Auto, Robotics, Energy, Oil &amp; Gas<br><b>Size:</b> 10&ndash;19 or 76&ndash;150 employees<br><b>Compliance:</b> ISO 9001, or aspiring to bullseye certs<br><b>Pain:</b> <em>&ldquo;Manual errors are killing our margin.&rdquo;</em><br><b>Buys because:</b> Scaling &amp; professionalization</div></div>
-    </div>
-    <div class="reveal" style="margin-top:22px"><button class="btn flame dl" type="button" onclick="dl('The Shop Owner')">Download the Shop Owner persona (PDF) <span class="ic" data-icon="down"></span></button></div>
-  </div>
-</section>
-
-<!-- DOWNLOADS -->
-<section class="band alt" id="downloads">
-  <div class="wrap">
-    <div class="shead reveal">
-      <div class="eyebrow">Downloads</div>
-      <h2 class="title">Every document, print-ready</h2>
-      <p class="subtitle">Eleven PDFs &mdash; the primer, every persona sheet, and the cross-persona relationship map.</p>
-    </div>
-    <div class="dlgrid" id="dlGrid" data-stagger></div>
-  </div>
-</section>
+</main>
 
 <footer class="foot">
   <div class="wrap">
-    <span>ProShop Personas &middot; Interactive teaching tool</span>
-    <span>Authored and updated <b>8/27/2026</b> by <b>Samantha Jorgenson</b>, Product Operations Manager</span>
+    <span>ProShop Persona Hub &middot; <a href="teaching-tool.html">ProShop&nbsp;101 primer &amp; downloads &rarr;</a></span>
+    <span>Authored and updated <b>9/14/2026</b> by <b>Samantha Jorgenson</b>, Product Operations Manager</span>
   </div>
 </footer>
 
-<!-- PANEL -->
-<div class="scrim" id="scrim" onclick="closeP()"></div>
-<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelName" tabindex="-1">
-  <div id="panelContent"></div>
-</aside>
-<button class="closeb" id="closeb" type="button" onclick="closeP()" aria-label="Close persona">&times;</button>
-
+<script src="personas.js"></script>
 <script>
-const PERSONAS = [{"series_label": "Buyer / Decision-Maker Persona", "index": "00", "name": "The Shop Owner", "stage": "Decision-Maker", "tagline": "The person who buys ProShop &mdash; a technical founder betting the business (and often their retirement) on getting the shop under control.", "quote": "I can run the machines in my sleep. It's running the <em>business</em> that keeps me up at night.", "who1": "The Shop Owner is usually a technical founder &mdash; a machinist or engineer who was great on the floor and started their own shop. They know the craft cold but were never trained to run a business, and the shop often <em>is</em> their retirement plan. They're the economic buyer for ProShop: skeptical of software promises, protective of hard-won margins, and responsible for every hire, contract, and audit.", "who2": "Many run multi-generation, family-owned shops. They're pragmatic, salt-of-the-earth, and carry a high &lsquo;BS meter&rsquo; &mdash; they've been pitched a lot of tools that didn't deliver. Winning them means proving real ROI, fast, in language that respects their expertise.", "day": [["Floor", "Starts on the floor &mdash; still the best troubleshooter in the building, pulled into every hard setup and quality escape."], ["Fires", "Fields the day's fires: a late job, a sick operator, a customer escalation, a machine down."], ["Quote", "Reviews or writes quotes personally &mdash; pricing is too important to fully delegate."], ["Cash", "Worries about cash flow, payroll, and whether the big customer will pay on time."], ["Grow", "Tries to carve out time for the actual business &mdash; hiring, capacity, the next big contract."], ["Late", "Does the books or the scheduling after hours, because the day never left room for it."]], "snapshot": [["Role type", "Economic buyer"], ["Background", "Technical founder"], ["Company", "Often multi-gen, family"], ["Typical size", "20&ndash;75 employees"], ["The shop is", "Their retirement plan"]], "environment": "Splits their day between the shop floor and a cramped office. Comfortable with machines and CAD, wary of business software that overpromises. Time-starved and interrupt-driven &mdash; evaluates tools by whether they visibly save time or money, not by feature lists. Trust is earned slowly and lost fast.", "meters": [["Manufacturing expertise", "Very high", 97], ["Business / software comfort", "Low&ndash;Medium", 42], ["Skepticism of vendor claims", "Very high", 90]], "inwords": "&ldquo;We existed on tribal knowledge for almost 30 years. We just <em>existed</em> &mdash; but we wanted to thrive. I thought it'd be hard to learn, but this old dog is learning new tricks.&rdquo;", "goals": ["Get the whole business under control &mdash; out of spreadsheets and out of their head.", "Protect margin and cash flow; stop losing money to chaos and rework.", "Capture tribal knowledge before key veterans retire.", "Build something sellable &mdash; a shop that runs without them for the eventual exit."], "frustrations": ["Disconnected systems and paper mean no one has the real picture, including them.", "They're the bottleneck &mdash; too many decisions still route through the owner.", "Every ERP they've seen felt built for big factories, not a 40-person shop.", "Hard to trust a number when the data lives in five places and a whiteboard."], "needs": ["Fast, visible ROI &mdash; proof it saves real hours or dollars in weeks, not years.", "A system a high-schooler or a 30-year machinist can both actually use.", "One source of truth so they can step back without the shop falling over.", "Onboarding and support from people who've actually run a shop, not just sold software."], "kpis": [["Margin", "Are jobs actually profitable &mdash; and which ones aren't?"], ["On-time %", "Delivery performance that keeps demanding customers."], ["Cash flow", "Money in vs. out &mdash; the number that keeps the doors open."], ["Owner load", "How much still depends on them personally to run."]], "modules": [["Company Hub / Dashboards", "home", true], ["Job Costing & Financial Data", "home", true], ["Sales & Work Orders", "reads", false], ["Quality Systems & Inspection", "reads", false], ["Shop Floor & Scheduling", "reads", false]], "upstream": ["Evaluates", "The market", "Weighs ProShop against spreadsheets &amp; rival ERPs"], "in_arrow": "Decides", "flow_self": "Buys, champions &amp; funds ProShop for the whole shop", "out_arrow": "Rolls&nbsp;out", "downstream": ["Enables", "All nine user roles", "Every persona in this set works in what they bought"], "flow_note": "The Shop Owner is the buyer, not a workflow role &mdash; so they sit above the job journey rather than in it. Their decision to adopt ProShop is what puts every other persona into the system. Win the owner with ROI and trust; keep them with a shop that finally runs on data instead of memory.", "footnote": "Buyer / decision-maker persona &mdash; distinct from the nine workflow user personas. Source: ProShop company deck (ICP &amp; shop-owner profile) + customer testimonials. Demographic detail softened toward business-relevant traits for onboarding use.", "nav_areas": ["All areas &mdash; Admin access"], "nav_areas_note": "Full system access as an administrator.", "_key": "00_shopowner"}, {"series_label": "ProShop User Persona", "index": "01", "name": "The Estimator", "stage": "Pre-Production", "tagline": "Turns a customer's request into a priced, winnable quote &mdash; fast enough to beat competitors, accurate enough to protect margin.", "quote": "We sell a service, not just a part &mdash; my job is to know what it will really cost to make it before anyone touches a machine.", "who1": "The Estimator translates drawings, models, and vague verbal requests into a manufacturing plan &mdash; material, operations, machine time, outside processing, and cost. They live at the very front of the shop's workflow, where nothing is billable yet and speed competes directly with accuracy: quote too slowly and a competitor wins the job; quote too cheaply and the shop loses money once it's won.", "who2": "In small shops this is the owner doing it between everything else. In larger shops it's a dedicated seat &mdash; sometimes an entry-level engineer &mdash; who leans heavily on templates and past jobs to move fast.", "day": [["RFQ in", "An RFQ lands by email, customer portal, or automated quoting tool. <b>Logs it in a tracker</b> and makes a bid / no-bid call based on fit and shop capacity."], ["Scope", "Reviews the print and model &mdash; <b>quantity, tolerances, finish, flagged notes</b> like masking or cosmetic class."], ["Build", "Copies a similar past estimate for speed, or builds from scratch &mdash; picks the value stream and <b>lays out the operations</b>."], ["Cost", "Sources material and outside-processing prices, sets <b>setup and cycle-time targets</b>, applies labor, overhead, and markup."], ["Send", "Gut-checks price against the market, routes for a <b>second-person review</b>, then generates the quote PDF and emails it."]], "snapshot": [["Workflow stage", "Pre-production"], ["Also known as", "Sales / Estimator"], ["Reports toward", "Sales / Owner"], ["Speed target", "~2&ndash;3 min / quote*"], ["Work is billable?", "No &mdash; pre-sale"]], "environment": "Desk-based, dual-monitor, mouse-and-keyboard. Fluent in CAD viewers, spreadsheets, and quoting tools. Comfortable with software &mdash; this is a knowledge-worker seat, not a shop-floor one.", "meters": [["Software proficiency", "High", 85], ["Manufacturing depth", "High", 88], ["Tolerance for slow UI", "Low", 22]], "inwords": "&ldquo;If I can copy a template and be done in three minutes instead of twenty, that's the difference between quoting ten jobs today or three.&rdquo;", "goals": ["Quote fast without sacrificing accuracy &mdash; speed wins the job.", "Build the estimate once, well, so planning inherits it with no rework.", "Price to protect margin while staying competitive in the market.", "Reduce reliance on the tribal knowledge of retiring machinists."], "frustrations": ["Incomplete prints force guesswork &mdash; a missing thread call-out can swing cost.", "RFQ intake and quote logging happen <em>outside</em> the system, so there's no audit trail.", "Waiting on vendor pricing for material and outside processing stalls turnaround.", "Quoting isn't billable, so effort must be rationed by how likely the job is to land."], "needs": ["Fast template reuse &mdash; clone a past estimate and adjust, don't rebuild.", "A quoting workspace that keeps the bid/no-bid log <em>inside</em> the system.", "Cost roll-ups that update live as material, OSP, and markup change.", "A clean handoff so a won quote becomes a work order with zero re-entry."], "kpis": [["Win rate", "Per client. Too low means wasted effort; too high can mean under-pricing."], ["Turnaround", "Speed from RFQ received to quote sent &mdash; often the deciding factor."], ["< 30%", "Material + services as a share of part price, kept well controlled."], ["Accuracy", "Estimated cost & time vs. what the job actually takes once it runs."]], "modules": [["Estimating & Quoting", "home", true], ["Sales & Work Orders", "home", true], ["Shop Floor & Scheduling", "reads", false], ["Job Costing & Financial Data", "reads", false], ["Inventory & Material Planning", "reads", false]], "upstream": ["Upstream", "Customer", "Submits an RFQ with prints, models &amp; specs"], "in_arrow": "RFQ", "flow_self": "Scopes, costs &amp; prices the job; sends the quote", "out_arrow": "Won&nbsp;quote", "downstream": ["Downstream", "Order Entry", "Turns the won estimate into a work order"], "flow_note": "The estimate carries directly into the work order &mdash; no re-entry. Every assumption the Estimator makes here becomes a target the Operator is later measured against, and feeds back into future quotes.", "footnote": "*Speed target reflects template-based quoting; from-scratch estimates take substantially longer. Source: ProShop persona sessions + product docs.", "nav_areas": ["Estimates", "Quotes", "RFQs", "Parts", "BOM Master", "COTS", "Vendor POs"], "nav_areas_note": "", "_key": "01_estimator"}, {"series_label": "ProShop User Persona", "index": "02", "name": "Order Entry", "stage": "Pre-Production", "tagline": "Turns an incoming customer PO into a live job inside ProShop &mdash; the first paid step, and the record every other role inherits.", "quote": "Getting the order into ProShop is like getting the keys into the ignition &mdash; it's where the whole shop starts moving.", "who1": "Order Entry (often the same person as Customer Service) transcribes a customer's purchase order into ProShop, verbatim and completely. They surface the terms and quality requirements hidden inside the PO and its linked documents, acknowledge the client, and create the part header and work order so PMs, planners, and buyers can pick it up. This is the first point in the workflow where the shop is actually being paid to work.", "who2": "In small shops this is the owner or ops manager. In larger shops it's a dedicated seat watching email and customer portals all day, entering same-day and confirming within 24&ndash;48 hours.", "day": [["PO in", "Watches email and customer portals (Boeing, Lockheed, Collins) for new orders. Downloads the PO and reads it <b>end to end</b>."], ["Ack", "Sends a &lsquo;received, under review&rsquo; acknowledgement so the client knows the order landed. Logs it same-day."], ["Header", "Transcribes admin block <b>verbatim</b>: bill-to, ship-to, payment, tax, FOB, delivery priority, project code."], ["Lines", "Enters each line &mdash; part #, revision, quantity, price, promise date, order type."], ["Build", "Creates the part header (auto-builds folder, inventory table, rev control) and the work order for planning."], ["Confirm", "After technical review OKs dates &amp; pricing, sends the formal order confirmation back to the client."]], "snapshot": [["Workflow stage", "Pre-production"], ["Also known as", "Customer Service"], ["Reports toward", "Sales / Ops"], ["Entry standard", "Same day"], ["Confirm standard", "24&ndash;48 hours"]], "environment": "Desk-based, email- and portal-heavy, mouse-and-keyboard. Comfortable navigating many customer portals and reading dense contract documents. Values speed and accuracy over exploration &mdash; wants the fewest clicks between PO and work order.", "meters": [["Software proficiency", "High", 82], ["Contract / document literacy", "High", 86], ["Tolerance for repetitive entry", "Low", 25]], "inwords": "&ldquo;Every customer's PO looks different, and half the important stuff isn't even on the PO &mdash; it's buried in the terms they link to.&rdquo;", "goals": ["Get orders in fast and clean so no downstream seat is blocked.", "Surface risky terms early &mdash; DPAS ratings, ITAR, cosmetic class, masking notes.", "Give the client a professional, predictable acknowledgement and confirmation loop.", "Cut the manual click-count between PO, part, and work order."], "frustrations": ["Every customer's PO looks different &mdash; there's no standard template to lean on.", "Key terms live in linked web pages, not on the PO itself.", "Portals must be checked daily; dates can change silently inside them.", "There's no built-in acknowledgement form &mdash; it's done manually by email."], "needs": ["A guided PO-entry flow that flags missing bill-to / ship-to / terms before submit.", "A single view that reconciles PO line items against the original estimate.", "Built-in acknowledgement and confirmation templates, not manual email.", "Portal-change alerts so a silently moved date doesn't slip through."], "kpis": [["Same-day", "Rate of POs entered the day they arrive (order-date vs. entry-date)."], ["24&ndash;48h", "Order-confirmation turnaround back to the customer."], ["Accuracy", "Zero fat-fingered quantity, price, revision, or promise date."], ["Coverage", "No missed orders sitting unseen in a customer portal."]], "modules": [["Sales & Work Orders", "home", true], ["Data Management", "home", true], ["Estimating & Quoting", "reads", false], ["Quality Systems & Inspection", "reads", false], ["Inventory & Material Planning", "reads", false]], "upstream": ["Upstream", "The Estimator", "Hands over the won quote / estimate"], "in_arrow": "Won&nbsp;quote", "flow_self": "Transcribes the PO; creates part header &amp; work order", "out_arrow": "Work&nbsp;order", "downstream": ["Downstream", "Planner / PM", "Picks up the WO and builds the config plan"], "flow_note": "Everything Order Entry enters becomes the audit trail every other seat relies on &mdash; planning inherits it, purchasing inherits it, quality inherits it, accounting inherits it. A missed DPAS or ITAR flag here becomes real legal exposure downstream.", "footnote": "Source: ProShop persona sessions + product docs. Customer names shown are illustrative of the aerospace / defense client base.", "nav_areas": ["Customer POs", "Quotes", "Contacts", "Packing Slips", "Invoices"], "nav_areas_note": "", "_key": "02_orderentry"}, {"series_label": "ProShop User Persona", "index": "03", "name": "Planner / PM", "stage": "Pre-Production", "tagline": "Owns the configuration plan &mdash; turning a customer's requirements into a manufacturable, executable job before parts ever hit a machine.", "quote": "My job as a planner is to get the parts through my own QA first &mdash; the client's inspection is round two.", "who1": "The Planner / Project Manager turns a work order into a complete configuration plan: operations, machines, sequence, work-holding, setup and run targets, material, and outside processing. They serve two customers at once &mdash; their own quality system first, then the client's incoming QA &mdash; and coordinate across scheduling, purchasing, OSP, quality, and programming so every job is finalized, resourced, and ready to run on time.", "who2": "In small shops this is the owner running everything A-to-Z. In larger shops it's a dedicated PM or planner with, as they put it, &lsquo;all the responsibility and none of the authority&rsquo; &mdash; collaboration is the entire job.", "day": [["Notify", "Scrubs the System Agent inbox for new POs and PM alerts &mdash; uses it as a live task list."], ["Prioritize", "Reads the Project Manager dashboard (the &lsquo;thousand-foot view&rsquo;) and cross-checks Customer Service for what ships this week."], ["Digest", "Reads the PO, T&amp;Cs, quality specs, and print revision; works the <b>pre-planning checklist</b> top to bottom."], ["Configure", "Builds the config plan &mdash; operations, machines, targets, work-holding, material spec, OSP flow-down."], ["Schedule", "Sets must-leave-by and must-be-back-on dates; flows demand to Purchasing."], ["Finalize", "Finalizes the WO &mdash; kicks it to the programming queue. <b>If it ain't green, it ain't on the machine.</b>"]], "snapshot": [["Workflow stage", "Pre-production"], ["Serves", "Internal QMS + client QA"], ["Finalize target", "24&ndash;48 hours"], ["Ready-to-run", "By 72 hours"], ["Coordinates with", "5+ departments"]], "environment": "Desk-based but constantly context-switching across dashboards. Power user who lives in red/yellow/green status cues and drills into work orders all day. Wants dense information visible at a glance, and gets frustrated by 'mental gymnastics' to piece a picture together.", "meters": [["Software proficiency", "High", 90], ["Manufacturing depth", "High", 92], ["Tolerance for slow drill-downs", "Low", 20]], "inwords": "&ldquo;The cost of getting this wrong shows up at setup &mdash; the most expensive moment in machining. A missed tool, a wrong material cutoff, and the spindle stops.&rdquo;", "goals": ["Reduce the risk of false starts at setup &mdash; the shop's most expensive moment.", "Get every job through internal QA before customer QA ever sees it.", "Hit 95%+ on-time delivery consistently, by client and by PM.", "Level-load work across the PM team so no one is drowning."], "frustrations": ["Dashboards take &lsquo;mental gymnastics&rsquo; &mdash; there's no dependency / pipeline view.", "The Late dashboard flags what's late but not <em>why</em> &mdash; every WO needs a drill-in.", "The pre-planning checklist wipes clean on finalize &mdash; timestamps are lost.", "Budget arrives already set by the estimate &mdash; variances are hard to unwind mid-job."], "needs": ["A dependency / Gantt view so blockers are visible without drilling into each WO.", "&lsquo;Why is this late&rsquo; surfaced on the Late dashboard, not buried in the record.", "PO due dates on hover, so purchasing status is readable at a glance.", "Preserved checklist history &mdash; keep the timestamps after finalize."], "kpis": [["95% OTD", "On-time delivery to the client; vendors held to a higher 97% bar."], ["Time-to-floor", "Finalize in 24&ndash;48h, ready-to-run by 72h."], ["NCR count", "Did we mitigate risk correctly before the job ran?"], ["Variance", "Estimated vs. actual cost and time, by work order."]], "modules": [["Sales & Work Orders", "home", true], ["Visual Work Instructions", "home", true], ["Shop Floor & Scheduling", "home", true], ["Inventory & Material Planning", "reads", false], ["Job Costing & Financial Data", "reads", false]], "upstream": ["Upstream", "Order Entry", "Hands over the created work order"], "in_arrow": "Work&nbsp;order", "flow_self": "Builds &amp; finalizes the configuration plan", "out_arrow": "Ready&nbsp;WO", "downstream": ["Downstream", "Buyer &amp; Programming", "Receive demand + the finalized job"], "flow_note": "ProShop is a configuration-management platform, and the Planner builds the configuration. Finalizing a WO both queues it for programming and creates the purchasing demand the Buyer sees &mdash; so an empty status-date field means the Buyer never sees the need.", "footnote": "Source: ProShop persona sessions + product docs. On-time-delivery targets are representative benchmarks cited in-session.", "nav_areas": ["Schedule", "Work Orders", "Work Cells", "Parts", "BOM Master", "Part Stock"], "nav_areas_note": "", "_key": "03_planner"}, {"series_label": "ProShop User Persona", "index": "04", "name": "Buyer &amp; Receiver", "stage": "Procurement", "tagline": "The paired supply-chain roles that keep the shop fed &mdash; buying the right material and services at the right time, and verifying every box that arrives.", "quote": "Nothing gets made until the material shows up, the paperwork clears, and the dock says it's good to go.", "who1": "The Buyer works ProShop's demand-based Purchasing dashboard, placing vendor POs for material, tooling, commercial hardware, and outside-processing services at the right time, cost, and lead time. The Receiver works the Receiving dashboard, verifying every box against its PO and packing slip, inspecting quality and documents, and routing material to the work cell or into inventory.", "who2": "In small shops one person does both; in larger shops they're separate desks that lend each other staff on busy weeks and jointly own supplier performance. Notably, in ProShop purchasing and receiving live on the <em>same record</em> &mdash; unusual versus other ERPs.", "day": [["Demand", "Buyer opens the Purchasing dashboard &mdash; four tabs of queued demand: part stock, COTS, tooling, OSP."], ["Quote", "For new items, negotiates ~3 quotes for competitive price and lead time before placing."], ["Order", "Batches lines into carts by vendor; places POs by PDF+email or vendor portal; sets status to Outstanding."], ["Receive", "Receiver starts on the Receiving dashboard &mdash; today's, late, and future POs; verifies against packing slip."], ["Inspect", "Quality-checks each delivery, captures certs and lot numbers; quarantines anything with missing docs."], ["Release", "Records receipt (partial OK); routes part stock to the work cell or COTS to the inventory table."]], "snapshot": [["Workflow stage", "Procurement"], ["Buyer PO types", "4 (stock/COTS/tool/OSP)"], ["Quotes per new item", "~3"], ["Shared record?", "Purchasing = Receiving"], ["Feeds", "Supplier scorecards"]], "environment": "Buyer is desk-based in dashboards and vendor portals; Receiver is on their feet at the dock with a scanner, packing slips, and inspection tools. Between them they span pure knowledge work and physical, glove-on verification &mdash; two quite different UI contexts on one shared record.", "meters": [["Software proficiency", "Medium&ndash;High", 72], ["Manufacturing depth", "Medium", 60], ["Time pressure at the dock", "High", 82]], "inwords": "&ldquo;ProShop is demand-based &mdash; I don't decide what to buy, the shop's work-order load does. My job is to make sure nothing needed gets missed.&rdquo;", "goals": ["Get the right material and services in at the right time, cost, and paperwork.", "Consolidate demand into batched POs to cut vendor noise and shipping fees.", "Get ahead of demand using forecasts &mdash; don't wait for the WO to trigger.", "Hold the line on quality inspection under production pressure."], "frustrations": ["No RFQ module for vendor POs yet &mdash; buyers still work in email and Excel.", "Stale inventory counts erode trust in the on-hand numbers.", "Planners sometimes queue POs with impossible past-due dates.", "Receivers get pressured to skip inspection when production is desperate."], "needs": ["A vendor RFQ workspace inside ProShop, not email + spreadsheets.", "Trustworthy on-hand counts &mdash; a &lsquo;quantity verified&rsquo; freshness signal.", "PO due dates surfaced on the work-order view, not hidden until drill-in.", "A fast, glove-friendly receiving flow that still enforces the cert capture."], "kpis": [["Supplier OTD", "Vendor on-time delivery &mdash; upstream of the shop's 95% to the client."], ["Scorecards", "Quality, packaging, lead time, price, and service, per supplier."], ["3 quotes", "Price competitiveness &mdash; three quotes for every new item."], ["RMA count", "Discrepancies caught at the dock, not on the machine."]], "modules": [["Inventory & Material Planning", "home", true], ["Tool & Fixture Management", "home", true], ["Sales & Work Orders", "reads", false], ["Quality Systems & Inspection", "reads", false], ["Job Costing & Financial Data", "reads", false]], "upstream": ["Upstream", "Planner / PM", "Queues purchasing demand from finalized WOs"], "in_arrow": "Demand", "flow_self": "Buys, receives, inspects &amp; releases material", "out_arrow": "Material", "downstream": ["Downstream", "Tool Crib &amp; Operator", "Get released material at the machine"], "flow_note": "Six demand streams pool into one Purchasing dashboard so nothing needed gets missed. If a planner's status-date field is empty the Buyer never sees the demand &mdash; and the Receiver is the last line of defense before material reaches the floor with bad paperwork.", "footnote": "Source: ProShop persona sessions + product docs. The no-RFQ-module gap was flagged in-session as on the roadmap.", "nav_areas": ["Vendor POs", "Bills", "COTS", "Part Stock", "COTS Inventory", "Part Inventory"], "nav_areas_note": "", "_key": "04_buyer_receiver"}, {"series_label": "ProShop User Persona", "index": "05", "name": "Operator &amp; Tool Crib", "stage": "Production", "tagline": "The people at the machine making parts, and the people who keep them fed &mdash; where every upstream decision becomes a green light or a red flag.", "quote": "Green means go. Anything else means stop and fix something before the first chip flies.", "who1": "The Operator (machinist) checks the schedule, verifies readiness, runs setup, gets the first article inspected and certified, then runs production while doing in-process checks and keeping the time clock honest. The Tool Crib &mdash; a dedicated role in larger shops, absorbed by the operator in smaller ones &mdash; assembles cutting tools, material, and fixtures onto a cart and delivers it machine-side so the operator can start clean.", "who2": "Everything upstream &mdash; estimating, planning, programming, purchasing &mdash; either shows up as green on the work order, or as a red flag the operator has to escalate before running a single part.", "day": [["Kit", "Tool Crib pulls cutting tools per WO sequence, kits a cart (tools + material + fixtures), and delivers it to the bay."], ["Check", "Operator walks up, checks the machine schedule top-down for the next WO, looking for green cues."], ["Verify", "Confirms readiness: material at the machine, tools kitted, <b>pre-plan checklist all green</b> in the operator section."], ["Setup", "Starts the setup clock (60-min target), runs the first part, does the <b>First Article Inspection</b>, certifies to run."], ["Run", "Switches to running mode &mdash; cycle-time clock on, <b>in-process checks</b> per piece, deburr, coolant, chips."], ["Close", "Enters quantity completed &amp; queued to next op, prints traceability labels, checks off teardown."]], "snapshot": [["Workflow stage", "Production"], ["Setup target", "~60 minutes"], ["Time tracking", "Manual play / pause"], ["Gate to run", "First Article + green"], ["Tooling cost", "$100+ per endmill"]], "environment": "This is the shop-floor persona. Operator is standing at a machine, often in gloves, hands dirty, glancing at a shared terminal between cutting cycles &mdash; not seated at a clean desk. Glance-ability, large touch targets, and minimal typing matter enormously. Software comfort varies widely by individual and shift.", "meters": [["Software proficiency", "Mixed", 50], ["Manufacturing depth", "Very high", 96], ["Time free to interact with UI", "Low", 24]], "inwords": "&ldquo;For us machinists, we see green &mdash; that's the whole language. If the work order's green, I can run it. If it's not, I'm not touching the machine.&rdquo;", "goals": ["Hit setup and cycle-time targets, feeding accurate actuals back into costing.", "Never crash the machine &mdash; right speeds &amp; feeds, work-holding, and program.", "Protect tool life &mdash; faster isn't cheaper when endmills cost $100+ each.", "Get the first article approved fast so the machine runs instead of sitting idle."], "frustrations": ["Time tracking is manual &mdash; easy to forget play/pause at lunch or a break.", "The machine sits idle waiting for QA buyoff of the first article.", "Tool wear history isn't shown per-tool &mdash; it's judged by feel and jagged edges.", "The color system takes training &mdash; you must know which role owns each section."], "needs": ["A glance-able, glove-friendly WO view &mdash; big status, minimal typing.", "Frictionless (or automatic) time tracking so actuals stay honest.", "A self-inspect path so the machine doesn't idle waiting for QA.", "Per-tool wear signals so tool changes aren't a guess."], "kpis": [["Setup time", "Actual vs. target &mdash; auto-updates the target for the next run."], ["Runtime", "Cycle time per part (min / pc)."], ["Tool life", "Parts-per-endmill vs. target &mdash; speed traded against wear."], ["Scrap", "Scrap and rework rate; zero safety incidents."]], "modules": [["Shop Floor & Scheduling", "home", true], ["Visual Work Instructions", "home", true], ["Tool & Fixture Management", "home", true], ["Quality Systems & Inspection", "reads", false], ["Job Costing & Financial Data", "feeds", false]], "upstream": ["Upstream", "Buyer &amp; Planner", "Deliver material + the finalized, green WO"], "in_arrow": "Ready&nbsp;WO", "flow_self": "Sets up, cuts, inspects &amp; queues to next op", "out_arrow": "Finished", "downstream": ["Downstream", "QA / Inspection", "Final-inspects the finished parts"], "flow_note": "This is where all the upstream discipline becomes real cost: crash a machine, scrap a first article, or set up on the wrong revision and the shop pays for hours it can't bill. The manual play/pause clock is also the feedback loop into costing &mdash; a forgotten pause quietly corrupts the next estimator's targets.", "footnote": "Source: ProShop persona sessions + product docs. Setup target and tooling cost are representative figures cited in-session.", "nav_areas": ["Work Orders", "RTAs", "Tools", "Fixtures", "Parts"], "nav_areas_note": "", "_key": "05_operator_toolcrib"}, {"series_label": "ProShop User Persona", "index": "06", "name": "Inventory &amp; Shipping", "stage": "Post-Production", "tagline": "The last stops before the customer &mdash; keeping counts trustworthy in the warehouse, and getting every box out the door complete and on time.", "quote": "The stockroom keeps the trust; the shipping dock keeps the promise.", "who1": "The Inventory Manager takes released material and build-to-inventory parts, warehouses them with accurate ProShop locations, and keeps counts trustworthy through cycle counts and &lsquo;quantity verified&rsquo; timestamps. The Shipper is the final stop &mdash; assembling packing slips, certs of conformance, AS9102s, and material certs into the shipped box, and getting it out via the right carrier.", "who2": "Together they own traceability and on-time delivery. Alone, each inherits whatever the upstream teams did or didn't finish &mdash; which is why Shipping is often the &lsquo;Hail Mary&rsquo; department that rarely gets the lead time everyone else had.", "day": [["Put away", "Inventory picks up released COTS and BTI parts; assigns warehouse / rack / shelf / bin and updates ProShop."], ["Verify", "Labels physical material for traceability and ticks <b>quantity verified</b>; runs rotating cycle counts."], ["Queue", "Shipper opens the Shipping dashboard &mdash; both final-inspected and outgoing-inspected (OSP) queues."], ["Pack", "Cycle-counts the physical parts; handles partial shipments, back-orders, or routes extras to inventory."], ["Certify", "Assembles the cert packet (CFC + AS9102 + material certs) via the ProShop PDF generator."], ["Ship", "Picks the carrier, prints the packing slip, uploads the full packet to the customer's portal."]], "snapshot": [["Workflow stage", "Post-production"], ["Inventory streams", "COTS + BTI parts"], ["Trust signal", "&lsquo;Quantity verified&rsquo;"], ["Cert formats", "AS9102 / LM / default"], ["Delivery counts when", "Paperwork clears"]], "environment": "Both roles are on their feet &mdash; Inventory at warehouse racks with a scanner, Shipper at a packing station juggling parts, labels, and printed cert packets. Physical, mobile work with a terminal nearby. UI needs to survive interruption: pick it up, put it down, don't lose your place.", "meters": [["Software proficiency", "Medium", 58], ["Manufacturing depth", "Medium", 55], ["Physical / interrupt-driven work", "High", 85]], "inwords": "&ldquo;Aerospace and medical clients count delivery from the day the paperwork clears &mdash; not the day the box lands on their dock.&rdquo;", "goals": ["Keep inventory numbers accurate enough that purchasing can trust them.", "Optimize warehouse layout for both safety and lookup speed.", "Preserve the traceability chain from vendor cert to shelf to shipped box.", "Every box out the door: right parts, right paperwork, right carrier, on time."], "frustrations": ["No default &lsquo;released, waiting for inventory&rsquo; dashboard &mdash; the team builds a custom query.", "The location field has no history &mdash; moving a rack loses the prior location.", "The cert packet still needs print-to-PDF, save, then attach-to-email.", "Shipping absorbs upstream lead-time slippage &mdash; always the &lsquo;Hail Mary&rsquo; dept."], "needs": ["A first-class &lsquo;waiting for inventory&rsquo; view, not a hand-built query.", "Location history and an overflow / second-location field, not free-text notes.", "One-click cert-packet email straight from the WO, no manual PDF shuffle.", "Standard op numbering surfaced so shippers aren't slowed by inconsistent WOs."], "kpis": [["Inventory turn", "How long parts sit before they're pulled."], ["Accuracy", "Cycle-count discrepancy rate &mdash; is on-hand trustworthy?"], ["OTD", "On-time delivery per customer, verified at ship."], ["Clean ship", "Damaged-shipment and wrong-quantity rate."]], "modules": [["Inventory & Material Planning", "home", true], ["Quality Systems & Inspection", "home", true], ["Sales & Work Orders", "reads", false], ["Data Management", "reads", false], ["Job Costing & Financial Data", "feeds", false]], "upstream": ["Upstream", "QA / Inspection", "Releases final-inspected parts + cert data"], "in_arrow": "Passed", "flow_self": "Warehouses, packs, certifies &amp; ships", "out_arrow": "Shipment", "downstream": ["Downstream", "Customer + Accounting", "Receive the goods; invoice is generated"], "flow_note": "Everything upstream converges here: the certs the Receiver uploaded, the WO history Planning built, the CFC flag Order Entry set. If any piece is missing, the customer's dock closes the box and counts &lsquo;delivery&rsquo; as the day the paperwork finally arrives.", "footnote": "Source: ProShop persona sessions + product docs. Cert-packet email was flagged in-session as on the roadmap.", "nav_areas": ["Part Inventory", "Part Stock", "COTS Inventory", "Packing Slips", "Customer POs"], "nav_areas_note": "", "_key": "06_inventory_shipping"}, {"series_label": "ProShop User Persona", "index": "07", "name": "Functional QA", "stage": "Cross-Cutting", "tagline": "Owns product quality and system quality at once &mdash; proving every part meets its print, and keeping the whole shop certified.", "quote": "If it isn't measured, documented, and cert-packed, it doesn't leave the building.", "who1": "Functionally, QA proves every part meets its print &mdash; approving inspection plans, calibrating equipment, running incoming / in-process / final inspections, generating first-article reports, and assembling the cert packet that ships in the box. Systemically, they own the QMS: the Standard (AS9100 / ISO), Quality Manual, Procedures, Task/Training records, Audit Reports, and controlled Documents that keep the shop certified.", "who2": "In small shops it's one seat wearing both hats. In larger shops it splits into a shop-floor Inspector and a QMS / Compliance Manager working off the same modules. Unlike the other roles, QA cross-cuts every stage rather than sitting in one.", "day": [["Require", "Reviews new POs; flags FAI, CFC, and form format on the <b>Customer Contact page</b> &mdash; requirements flow from here."], ["Plan", "Reviews the planner's dim-tagged inspection plan; confirms each dim has the right equipment assigned."], ["Approve", "Approves the print &mdash; that's what turns the WO banner green so operators can start."], ["Calibrate", "Keeps the Equipment module current &mdash; gauges cycle between in-cal, active, and retired."], ["Inspect", "Works the Inspection dashboard top-down; runs final &amp; FAI, records results, generates the cert packet."], ["Close", "Creates NCRs for out-of-tol dims; dispositions use-as-is / repair / scrap; handles RMAs on returns."]], "snapshot": [["Workflow role", "Cross-cutting"], ["Two jobs", "Parts + the QMS"], ["Gate they own", "Print approval"], ["Standards", "AS9100 / ISO 13485"], ["Reviewed", "Monthly mgmt review"]], "environment": "Split personality by design: an Inspector at a bench with gauges, CMMs, and physical parts, and a Compliance Manager at a desk in documents and audit records. Precision-obsessed, detail-driven, and accountable to external auditors &mdash; correctness always beats speed here.", "meters": [["Software proficiency", "High", 80], ["Compliance / standards depth", "Very high", 95], ["Tolerance for ambiguity", "Very low", 12]], "inwords": "&ldquo;Every requirement in the Standard has to tie to a procedure, to the training that certifies who can do it. The whole chain is the difference between keeping certification and losing the customer.&rdquo;", "goals": ["Zero bad parts shipped, zero missing certs in the packet.", "Every dim traceable to the gauge that measured it and who signed off.", "Pass every external audit clean &mdash; keep AS9100 / ISO current.", "Turn NCRs into procedure updates so the same issue doesn't recur."], "frustrations": ["AS9102 form contents are constantly debated by clients &mdash; what populates where.", "No multi-part FAI: one WO = one FAI, even when a client wants a batch.", "Serial numbers for identified parts don't auto-populate to the AS9102 form.", "The cert-packet PDF combine can fail if the file drive isn't set up."], "needs": ["Configurable AS9102 / CFC field mapping to end the client-by-client debates.", "Multi-part FAI support &mdash; one report across a batch of work orders.", "Auto-populated serial numbers and identified-part fields on the forms.", "A cert-packet generator that never silently fails to assemble."], "kpis": [["OTD", "Date-shipped vs. due-date, measured when the packing slip is created."], ["NCR count", "Out-of-tolerance dims caught &mdash; and how many escaped."], ["RMA rate", "Customer returns and how fast they're dispositioned."], ["Audit findings", "Internal and external &mdash; and corrective-action closure time."]], "modules": [["Quality Systems & Inspection", "home", true], ["Calibration & Preventative", "home", true], ["Sales & Work Orders", "reads", false], ["Visual Work Instructions", "reads", false], ["Data Management", "reads", false]], "upstream": ["Touches all", "Every stage", "Sets requirements, gates the print, checks parts"], "in_arrow": "Specs", "flow_self": "Proves the parts and proves the system", "out_arrow": "Cert&nbsp;packet", "downstream": ["Feeds", "Shipping", "Receives the passed parts + cert packet"], "flow_note": "Functional QA proves the part; the QMS proves the shop. QA is drawn here as cross-cutting because it sets requirements upstream (Contact page), gates production mid-stream (print approval), and closes the loop downstream (cert packet) &mdash; the only persona that touches every stage.", "footnote": "Source: ProShop persona sessions + product docs. Multi-part FAI and form-mapping gaps were raised by clients in-session.", "nav_areas": ["NCRs", "CARs", "RMAs", "Approvals", "Audit Reports", "Training", "Standards", "Documents", "Inspection &amp; Equipment"], "nav_areas_note": "", "_key": "07_qa"}, {"series_label": "ProShop User Persona", "index": "08", "name": "Accounting", "stage": "Post-Production", "tagline": "Closes the financial loop &mdash; turning a shipped job into an invoice, and matching every supplier bill so the shop actually gets paid for the work.", "quote": "The part shipping is only half the job &mdash; it isn't finished until it's invoiced, paid, and reconciled.", "who1": "Accounting sits at the tail of the workflow, converting completed work into money in and money out. They generate customer invoices from packing slips, push them into the accounting package, mark customer PO lines complete, and generate vendor bills in ProShop to match against supplier invoices. They're the bridge between the shop-floor system of record and the financial system of record.", "who2": "In small shops this is the owner or a bookkeeper doing it part-time; in larger shops it's a dedicated finance seat, often working across ProShop and a separate accounting platform like QuickBooks via integration.", "day": [["Invoice", "Generates the customer invoice <b>from the packing slip</b> &mdash; the shipment is the trigger."], ["Sync", "Adds the invoice to the accounting package, via integration or manually."], ["Close", "Checks &lsquo;WO complete&rsquo; on the customer PO line to mark it invoiced and done."], ["Bills", "Generates vendor bills in ProShop to match against incoming supplier invoices."], ["Match", "Reconciles invoices to customer payments and bills to supplier invoices in the accounting software."], ["Report", "Feeds job-cost actuals back so the shop knows which jobs actually made money."]], "snapshot": [["Workflow stage", "Post-production"], ["Invoice trigger", "Packing slip"], ["Works across", "ProShop + accounting SW"], ["Closes", "Customer PO lines"], ["Two-way", "Invoices + vendor bills"]], "environment": "Desk-based, spreadsheet- and finance-software-fluent, mouse-and-keyboard. Lives half in ProShop and half in a dedicated accounting platform, so the quality of the integration between them is a daily reality. Values reconciliation accuracy and a clean audit trail over speed.", "meters": [["Software proficiency", "High", 84], ["Manufacturing depth", "Low&ndash;Medium", 40], ["Tolerance for reconciliation errors", "Very low", 15]], "inwords": "&ldquo;If the invoice doesn't tie cleanly back to the PO line and the packing slip, I'm chasing paper across two systems to figure out what we actually owe or are owed.&rdquo;", "goals": ["Invoice accurately and promptly so cash comes in on time.", "Match every supplier bill to its PO and receipt with no leakage.", "Keep ProShop and the accounting package in clean, reliable sync.", "Give leadership true job-cost actuals &mdash; which work made money."], "frustrations": ["Invoicing spans two systems, so integration gaps mean manual double-entry.", "A WO left un-closed on a PO line quietly stalls the invoice.", "Vendor bills and supplier invoices can drift out of match without a clear flag.", "Job-cost actuals depend on operators tracking time honestly upstream."], "needs": ["A rock-solid accounting integration &mdash; invoices and bills that sync without rekeying.", "A clear queue of shipped-but-not-invoiced jobs so nothing is missed.", "Bill-to-PO-to-receipt three-way matching surfaced inside ProShop.", "Trustworthy job-cost roll-ups that reflect real time and material."], "kpis": [["DSO", "Days sales outstanding \u2014 how fast invoices convert to cash."], ["Match rate", "Supplier bills cleanly matched to POs and receipts."], ["Invoice lag", "Time from shipment to invoice sent."], ["Job margin", "Actual profit per job vs. the original estimate."]], "modules": [["Job Costing & Financial Data", "home", true], ["Sales & Work Orders", "home", true], ["Inventory & Material Planning", "reads", false], ["Integrations", "reads", false], ["Data Management", "reads", false]], "upstream": ["Upstream", "Shipping", "Creates the packing slip that triggers the invoice"], "in_arrow": "Shipment", "flow_self": "Invoices, bills, matches &amp; closes the job", "out_arrow": "Closed", "downstream": ["Downstream", "The Estimator", "Uses real job margins to sharpen future quotes"], "flow_note": "Accounting closes the loop the Estimator opened: real job-cost actuals flow back so the next quote is sharper. This persona is reconstructed from ProShop's HR onboarding deck and product docs rather than a dedicated persona session, so treat its detail as directional pending validation.", "footnote": "Source: ProShop HR onboarding deck + product docs. No dedicated persona session existed for this role &mdash; validate before treating as authoritative.", "_key": "08_accounting"}];
-const PDFS = {"Start Here (ProShop 101)": "Persona_00_Start_Here.pdf", "The Shop Owner": "Persona_ShopOwner.pdf", "The Estimator": "Persona_01_Estimator.pdf", "Order Entry": "Persona_02_Order_Entry.pdf", "Planner / PM": "Persona_03_Planner_PM.pdf", "Buyer & Receiver": "Persona_04_Buyer_Receiver.pdf", "Operator & Tool Crib": "Persona_05_Operator_Tool_Crib.pdf", "Inventory & Shipping": "Persona_06_Inventory_Shipping.pdf", "Functional QA": "Persona_07_Functional_QA.pdf", "Accounting": "Persona_08_Accounting.pdf", "Cross-Persona Summary": "Persona_09_Cross_Persona_Summary.pdf"};
-
-// map persona _key -> download label
-const KEY2PDF = {
-  '00_shopowner':'The Shop Owner','01_estimator':'The Estimator','02_orderentry':'Order Entry',
-  '03_planner':'Planner / PM','04_buyer_receiver':'Buyer & Receiver','05_operator_toolcrib':'Operator & Tool Crib',
-  '06_inventory_shipping':'Inventory & Shipping','07_qa':'Functional QA','08_accounting':'Accounting'
-};
-const PDF_META = {
-  'Start Here (ProShop 101)':'3 pages · primer','The Shop Owner':'2 pages · buyer persona',
-  'The Estimator':'2 pages','Order Entry':'2 pages','Planner / PM':'2 pages',
-  'Buyer & Receiver':'2 pages','Operator & Tool Crib':'2 pages','Inventory & Shipping':'2 pages',
-  'Functional QA':'2 pages','Accounting':'2 pages','Cross-Persona Summary':'2 pages · landscape'
-};
-const DL_ORDER = ['Start Here (ProShop 101)','The Shop Owner','The Estimator','Order Entry','Planner / PM','Buyer & Receiver','Operator & Tool Crib','Inventory & Shipping','Functional QA','Accounting','Cross-Persona Summary'];
-
-/* ---------------- helpers ---------------- */
-const $  = (s,r=document)=>r.querySelector(s);
-const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+/* ============================================================================
+   ProShop Persona Hub — application
+   Content lives in personas.js. This file renders it.
+   ============================================================================ */
+const $ = (s,r=document)=>r.querySelector(s);
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const ICONS = {
-  arrow:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>',
-  down :'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 12l6 6 6-6"/></svg>'
-};
-function paintIcons(root=document){
-  $$('.ic[data-icon]',root).forEach(el=>{ el.innerHTML = ICONS[el.dataset.icon]||''; });
-}
-function flowArrow(){return '<svg viewBox="0 0 24 11" aria-hidden="true"><line x1="0" y1="5.5" x2="17" y2="5.5" stroke="#FF4F00" stroke-width="2"/><polygon points="17,1.5 24,5.5 17,9.5" fill="#FF4F00"/></svg>';}
-function plain(s){return String(s).replace(/&amp;/g,'and').replace(/&[a-z]+;/g,' ').replace(/<[^>]*>/g,'').trim();}
+const state = { lens:'user', focus:null, team:null, l3:false };
 
-function jump(id){
-  const el=document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'start'});
+const ARROW = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>';
+const DOWN  = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 12l6 6 6-6"/></svg>';
+const FLOWARROW = '<svg viewBox="0 0 22 10" aria-hidden="true"><line x1="0" y1="5" x2="15" y2="5" stroke="currentColor" stroke-width="2"/><polygon points="15,1 22,5 15,9" fill="currentColor"/></svg>';
+
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const attr = s => String(s).replace(/'/g,"\\'");
+/* Persona copy carries intentional HTML entities/tags from the kit — pass through. */
+const rich = s => (s==null?'':String(s));
+
+const lens   = id => HUB.lenses.find(l=>l.id===id);
+const groups = id => HUB.groups.filter(g=>g.lens===id);
+const group  = id => HUB.groups.find(g=>g.id===id);
+const persona= key => PERSONAS.find(p=>p._key===key);
+
+/* ---------------- session memory (simple, per-tab) ---------------- */
+function remember(k,v){ try{ sessionStorage.setItem(k,v); }catch(e){} }
+function recall(k){ try{ return sessionStorage.getItem(k); }catch(e){ return null; } }
+
+/* ---------------- chrome ---------------- */
+function renderTabs(){
+  $('#lenstabs').innerHTML = HUB.lenses.map(l=>
+    `<button class="tab" type="button" role="tab" data-lens="${l.id}"
+       aria-selected="${l.id===state.lens}" onclick="setLens('${l.id}')">
+       <span class="tl">${esc(l.label)}</span><span class="tw">${esc(l.who)}</span>
+     </button>`).join('');
+}
+
+function renderTeamSelect(){
+  const sel = $('#teamsel');
+  sel.innerHTML = '<option value="">Choose…</option>' +
+    HUB.teams.map(t=>`<option value="${t.id}"${state.team===t.id?' selected':''}>${esc(t.label)}</option>`).join('');
+}
+
+function renderPicker(){
+  $('#pickeropts').innerHTML = HUB.teams.map(t=>
+    `<button class="opt" type="button" onclick="setTeam('${t.id}',true)">${esc(t.label)}</button>`).join('');
+  if(!recall('team')) $('#picker').hidden = false;
+}
+function dismissPicker(){ $('#picker').hidden = true; remember('team','skipped'); }
+
+function setTeam(id, jump){
+  state.team = id || null;
+  remember('team', id || 'skipped');
+  $('#picker').hidden = true;
+  renderTeamSelect();
+  const t = HUB.teams.find(x=>x.id===id);
+  if(t && jump) setLens(t.lens);
+}
+
+function renderIntro(){
+  const l = lens(state.lens);
+  const built = l.state === 'built';
+  $('#lensintro').innerHTML = `
+    <div class="wrap" data-lens="${l.id}">
+      <div class="eyebrow">${esc(l.who)}</div>
+      <h1 class="ltitle">${esc(l.label)} lens</h1>
+      <p class="ldesc">${esc(l.desc)}</p>
+      <div class="lmeta">
+        <span class="pill ${built?'built':'scaffold'}">${built?'Built':'Scaffold — content pending'}</span>
+        <span class="pill owner">Owner: ${esc(l.owner)}</span>
+        <button class="filterbtn" type="button" disabled title="Property filtering is specified but not wired yet — it will read from the Property Register.">Filters — not wired yet</button>
+      </div>
+    </div>`;
+}
+
+/* ---------------- lens + focus routing ---------------- */
+function setLens(id){
+  state.lens = id;
+  state.focus = null;
+  state.l3 = false;
+  /* Clear the focus panel outright. Leaving it mounted showed the previous lens's
+     group for a beat after switching — and after a cross-lens jump that found no
+     target, it never went away at all. */
+  const f = $('#focusview');
+  f.hidden = true; f.classList.add('out'); f.innerHTML = '';
+  renderTabs(); renderIntro(); renderBoard();
+  showBoard();
+  window.scrollTo({top:0,behavior:REDUCED?'auto':'smooth'});
+}
+function goHome(){ setLens(state.lens); }
+
+function showBoard(){
+  const b = $('#boardview'), f = $('#focusview');
+  f.classList.add('out'); b.hidden = false;
+  requestAnimationFrame(()=>b.classList.remove('out'));
+  setTimeout(()=>{ if(!state.focus) f.hidden = true; }, REDUCED?0:320);
+}
+function showFocus(){
+  const b = $('#boardview'), f = $('#focusview');
+  f.hidden = false; b.classList.add('out');
+  requestAnimationFrame(()=>f.classList.remove('out'));
+  setTimeout(()=>{ if(state.focus) b.hidden = true; }, REDUCED?0:320);
+}
+
+function openGroup(gid){
+  state.focus = gid; state.l3 = false;
+  renderFocus(); showFocus();
+  /* Both the top bar and the lens tabs are sticky, so scroll short of the target
+     by their combined height or the heading lands underneath them. */
+  const sticky = $('.topbar').offsetHeight + $('.lensbar').offsetHeight;
+  const y = Math.max(0, $('main').offsetTop - sticky - 12);
+  window.scrollTo({top:y,behavior:REDUCED?'auto':'smooth'});
+}
+function backToBoard(){
+  state.focus = null; state.l3 = false;
+  $('#boardview').hidden = false;
+  showBoard();
+}
+
+/* cross-lens jump: switch lens, then focus the group that holds that variant */
+function crossLens(targetLens, variantName){
+  setLens(targetLens);
+  const g = groups(targetLens).find(x=>x.variants.some(v=>v.name===variantName));
+  if(g) setTimeout(()=>{ openGroup(g.id); setTimeout(()=>openAccordionByName(variantName),340); }, 40);
+}
+function openAccordionByName(name){
+  const heads = [...document.querySelectorAll('#focusview .acchead')];
+  const i = heads.findIndex(h=>h.dataset.vname===name);
+  if(i>=0) toggleAcc(i,true);
+}
+
+/* ---------------- board ---------------- */
+function groupCard(g){
+  const v = g.variants.length;
+  const pending = g.variants.filter(x=>x.status==='content_pending').length;
+  let badge;
+  if(v===0) badge = `<span class="cnt warn">Role pending</span>`;
+  else if(pending===v) badge = `<span class="cnt warn">${v} role${v>1?'s':''} · content pending</span>`;
+  else badge = `<span class="cnt">${v} canonical role${v>1?'s':''}</span>`;
+  return `<button class="gcard act" type="button" onclick="openGroup('${g.id}')" aria-label="Open ${esc(g.name.replace(/&amp;/g,'and'))}">
+      <span class="gn">${rich(g.name)}</span>
+      <span class="gs">${rich(g.short)}</span>
+      <span class="grow">${badge}<span class="cta">Open ${ARROW}</span></span>
+    </button>`;
+}
+
+function renderBoard(){
+  const l = state.lens;
+  const host = $('#boardview');
+  host.setAttribute('data-lens', l);
+
+  if(l === 'position'){ host.innerHTML = renderPositions(); return; }
+  if(l === 'role'){ host.innerHTML = renderRoleScaffold(); return; }
+
+  const gs = groups(l);
+  if(l === 'buyer'){
+    host.innerHTML = `
+      <div class="notice" style="margin-bottom:18px">
+        <span class="ni">Scaffold</span>
+        <span>The full canonical buyer set is owned by <b>PMM</b> and is still pending. What is shown below is the
+        buyer-side content that already exists in the persona kit — it is not the finished Buyer lens.</span>
+      </div>
+      <div class="crossgrid">${gs.map(groupCard).join('')}</div>`;
+    return;
+  }
+
+  /* user lens: stage board + cross-cutting band */
+  const staged = HUB.stages.map(s=>{
+    const items = gs.filter(g=>g.stage===s.id);
+    return `<div class="stagecol">
+        <div class="stagehead"><div class="s">${esc(s.label)}</div><div class="n">${esc(s.alt)}</div></div>
+        ${items.map(groupCard).join('')}
+      </div>`;
+  }).join('');
+  const cross = gs.filter(g=>g.stage==='cross');
+
+  host.innerHTML = `
+    <div class="stages">${staged}</div>
+    <div class="crossband" data-lens="${l}">
+      <div class="ch">Cross-cutting</div>
+      <div class="cd">These groups are not owned by one stage — they touch the job at every stage.</div>
+      <div class="crossgrid">${cross.map(groupCard).join('')}</div>
+    </div>
+    ${renderTray()}`;
+}
+
+function renderTray(){
+  if(!HUB.unnested.length) return '';
+  return `<div class="tray">
+      <h3>Canonical roles not yet nested</h3>
+      <div class="td">These roles exist in the canonical CX list with full content, but the hand-off did not say which
+        functional group they belong to. They are parked here rather than guessed at.</div>
+      <div class="traygrid">${HUB.unnested.map(v=>`
+        <div class="accitem" data-open="true">
+          <div class="acchead" style="cursor:default">
+            <span class="atxt"><span class="an">${rich(v.name)}</span><span class="as">${rich(v.subtitle)}</span></span>
+            <span class="tag unnested">Unnested</span>
+          </div>
+          <div class="accbody" style="max-height:none">
+            <div class="accinner">${variantCols(v)}</div>
+          </div>
+        </div>`).join('')}</div>
+    </div>`;
+}
+
+function renderPositions(){
+  return `
+    <div class="notice plain" style="margin-bottom:18px">
+      <span class="ni">Note</span>
+      <span>Positions are the shared backbone every lens resolves to. <b>Entitlements and access levels are out of
+      scope here</b> — positions map to access owned by IT/Admin, which this hub deliberately does not display.</span>
+    </div>
+    <div class="depts">${HUB.positions.map(d=>`
+      <div class="dept"><h3>${esc(d.dept)}</h3>
+        <ul>${d.roles.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
+      </div>`).join('')}</div>`;
+}
+
+function renderRoleScaffold(){
+  return `
+    <div class="notice" style="margin-bottom:18px">
+      <span class="ni">Scaffold</span>
+      <span>The Role lens is framed but its content is owned by <b>CX / Implementation</b> and is still pending.
+      Nothing is shown here rather than inventing a taxonomy.</span>
+    </div>
+    <div class="notice plain">
+      <span class="ni">What goes here</span>
+      <span>The full job taxonomy used to scope implementation and training — broader than the User lens, and resolving
+      down to the same <button class="xlens" type="button" style="background:var(--lens-position)" onclick="setLens('position')">Position backbone ${ARROW}</button></span>
+    </div>`;
+}
+
+/* ---------------- focus view ---------------- */
+function variantCols(v){
+  if(v.status === 'content_pending'){
+    return `<div class="accmeta" style="border:0;margin:0;padding:0">
+        <div class="notice" style="width:100%">
+          <span class="ni">Content pending</span>
+          <span>This canonical role exists in the CX list, but its pain points and desired outcomes are still blank at
+          the source. It is shown as pending rather than written for them.</span>
+        </div>
+      </div>
+      <div class="accmeta"><span class="src">Source: ${esc(v.source)}</span><span class="tag ${v.nesting}">${esc(v.nesting)}</span></div>`;
+  }
+  const pos = v.positions.length
+    ? `<span class="chip pos">${v.positions.map(esc).join('</span><span class="chip pos">')}</span>` : '';
+  const x = v.cross_lens
+    ? `<button class="xlens" type="button" onclick="crossLens('${v.cross_lens}','${attr(v.name)}')">Also a ${esc(v.cross_lens)} persona ${ARROW}</button>` : '';
+  return `
+    <div class="col pain"><h4><span class="dot"></span>Pain points</h4>
+      <ul>${v.pain.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></div>
+    <div class="col out"><h4><span class="dot"></span>Desired outcomes</h4>
+      <ul>${v.outcomes.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></div>
+    <div class="accmeta">
+      ${pos}
+      <span class="tag ${v.nesting}">${v.nesting==='proposed'?'Nesting proposed':v.nesting}</span>
+      ${x}
+      <span class="src">Source: ${esc(v.source)}</span>
+    </div>`;
+}
+
+function renderFocus(){
+  const g = group(state.focus);
+  if(!g) return;
+  const l = state.lens;
+  const st = HUB.stages.find(s=>s.id===g.stage);
+  const stageLabel = g.stage==='cross' ? 'Cross-cutting' : (st ? `${st.label} · ${st.alt}` : 'Buyer lens');
+  const gs = groups(l);
+
+  const rail = gs.map(x=>
+    `<button class="railchip" type="button" aria-current="${x.id===g.id}" onclick="openGroup('${x.id}')">${rich(x.name)}</button>`).join('');
+
+  const modChips = g.home_modules.map(m=>`<span class="chip home">${esc(m)}</span>`).join('');
+  const posChips = g.positions.length
+    ? g.positions.map(p=>`<span class="chip pos">${esc(p)}</span>`).join('')
+    : `<span class="chip">Position mapping pending</span>`;
+
+  const notes = g.notes.map(n=>`<div class="notice" style="margin-bottom:12px"><span class="ni">Note</span><span>${esc(n)}</span></div>`).join('');
+
+  const acc = g.variants.length
+    ? `<div class="acc">${g.variants.map((v,i)=>`
+        <div class="accitem" data-open="${i===0}">
+          <button class="acchead" type="button" data-vname="${attr(v.name)}" aria-expanded="${i===0}" onclick="toggleAcc(${i})">
+            <span class="chev" aria-hidden="true"></span>
+            <span class="atxt"><span class="an">${rich(v.name)}</span><span class="as">${rich(v.subtitle)}</span></span>
+            ${v.status==='content_pending'?'<span class="tag proposed">Content pending</span>':''}
+          </button>
+          <div class="accbody"><div class="accinner">${variantCols(v)}</div></div>
+        </div>`).join('')}</div>`
+    : `<div class="notice"><span class="ni">Pending</span><span>No canonical role has been nested into this group yet.
+        The hand-off flags this as <b>pending with CX</b> — so nothing is shown rather than invented.</span></div>`;
+
+  $('#focusview').setAttribute('data-lens', l);
+  $('#focusview').innerHTML = `
+    <div class="railbar">
+      <button class="backall" type="button" onclick="backToBoard()">&#9666; All groups</button>
+      <div class="rail">${rail}</div>
+    </div>
+    <div class="fpanel">
+      <div class="fhead">
+        <div class="fstage">${esc(stageLabel)}</div>
+        <h2>${rich(g.name)}</h2>
+        <p class="fsum">${rich(g.summary)}</p>
+        <div class="chips">${modChips}${posChips}</div>
+      </div>
+      <div class="fbody">
+        ${notes}
+        <div class="fsec">Canonical roles nested here</div>
+        ${acc}
+        ${g.persona_key ? `
+        <div class="l3toggle">
+          <button class="btn flame" type="button" id="l3btn" onclick="toggleL3()">View full persona ${DOWN}</button>
+          <span class="l3note">The full PM-grade persona from the persona kit — day in the life, KPIs, flow and modules.</span>
+        </div>` : `
+        <div class="l3toggle">
+          <button class="btn line" type="button" onclick="crossLens('user','${attr(g.variants[0]?.name||'')}')">Open the full persona in the User lens ${ARROW}</button>
+          <span class="l3note">Only one set of persona depth exists for this role, and it lives under Functional QA.</span>
+        </div>`}
+        <div class="level3" id="level3" hidden></div>
+      </div>
+    </div>`;
+  requestAnimationFrame(()=>{
+    const first = $('.accitem[data-open="true"] .accbody', $('#focusview'));
+    if(first) first.style.maxHeight = first.scrollHeight + 'px';
+  });
+}
+
+function toggleAcc(i, forceOpen){
+  const items = [...document.querySelectorAll('#focusview .accitem')];
+  const it = items[i]; if(!it) return;
+  const body = it.querySelector('.accbody');
+  const head = it.querySelector('.acchead');
+  const open = forceOpen ? true : it.dataset.open !== 'true';
+  it.dataset.open = open;
+  head.setAttribute('aria-expanded', open);
+  body.style.maxHeight = open ? body.scrollHeight + 'px' : '0px';
+  if(open) setTimeout(()=>{ if(it.dataset.open==='true') body.style.maxHeight='none'; }, REDUCED?0:340);
+}
+
+/* ---------------- level 3: the absorbed rich persona ---------------- */
+function toggleL3(){
+  state.l3 = !state.l3;
+  const box = $('#level3'), btn = $('#l3btn');
+  if(state.l3){
+    box.innerHTML = renderRich(group(state.focus).persona_key);
+    box.hidden = false;
+    btn.innerHTML = 'Hide full persona ' + DOWN;
+    btn.style.transform = '';
+    requestAnimationFrame(()=>box.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'start'}));
+  } else {
+    box.hidden = true; box.innerHTML='';
+    btn.innerHTML = 'View full persona ' + DOWN;
+  }
+}
+
+function renderRich(key){
+  const p = persona(key);
+  if(!p) return '<div class="notice"><span class="ni">Missing</span><span>No rich persona is linked to this group.</span></div>';
+  const li = a => a.map(x=>`<li>${rich(x)}</li>`).join('');
+  const snap = p.snapshot.map(([k,v])=>`<div class="r"><span class="k">${rich(k)}</span><span class="v">${rich(v)}</span></div>`).join('');
+  const day  = p.day.map(([t,x])=>`<div class="row"><div class="t">${rich(t)}</div><div class="x">${rich(x)}</div></div>`).join('');
+  const meters = p.meters.map(([lab,lvl,pct])=>`<div class="m"><div class="lab"><span>${rich(lab)}</span><span>${rich(lvl)}</span></div><div class="track"><div class="fill" style="width:${pct}%"></div></div></div>`).join('');
+  const kpis = p.kpis.map(([b,l])=>`<div class="kpi"><div class="big">${rich(b)}</div><div class="lab">${rich(l)}</div></div>`).join('');
+  const mods = p.modules.map(([n,tag,prim])=>`<span class="mod ${prim?'p':''}">${rich(n)}<span class="mtag"${prim?'':' style="color:var(--mute)"'}>${rich(tag)}</span></span>`).join('');
+  const nav = p.nav_areas ? `
+      <div class="psec">Navigation areas</div>
+      <div class="navsub">Where they work in the product${p.nav_areas_note?` &mdash; <em>${rich(p.nav_areas_note)}</em>`:''}</div>
+      <div class="navs">${p.nav_areas.map(n=>`<span class="navchip">${rich(n)}</span>`).join('')}</div>` : '';
+  const [ul,uw,uwt] = p.upstream, [dl_,dw,dwt] = p.downstream;
+  const pdfLabel = KEY2PDF[key];
+
+  return `
+    <div class="pquote"><span class="m">&ldquo;</span><p>${rich(p.quote)}</p></div>
+
+    <div class="psec">Who they are</div>
+    <p class="txt">${rich(p.who1)}</p>
+    ${p.who2?`<p class="txt">${rich(p.who2)}</p>`:''}
+
+    <div class="psec">A day in the life</div>
+    <div class="tl2">${day}</div>
+
+    <div class="psec">Snapshot</div>
+    <div class="snap">${snap}</div>
+
+    <div class="psec">Environment &amp; tech comfort</div>
+    <p class="txt" style="margin-bottom:13px">${rich(p.environment)}</p>
+    <div class="meters">${meters}</div>
+
+    <div class="psec">Goals, frustrations &amp; needs</div>
+    <div class="trip">
+      <div class="pnl g"><div class="h"><span class="dot"></span>Goals</div><ul>${li(p.goals)}</ul></div>
+      <div class="pnl f"><div class="h"><span class="dot"></span>Frustrations</div><ul>${li(p.frustrations)}</ul></div>
+      <div class="pnl n"><div class="h"><span class="dot"></span>Needs</div><ul>${li(p.needs)}</ul></div>
+    </div>
+
+    <div class="psec">Measured on</div>
+    <div class="kpis">${kpis}</div>
+
+    <div class="psec">ProShop modules they live in</div>
+    <div class="mods">${mods}</div>
+    ${nav}
+
+    <div class="psec">Where they sit in the flow</div>
+    <div class="flowrow">
+      <div class="fnode"><div class="l">${rich(ul)}</div><div class="w">${rich(uw)}</div><div class="ww">${rich(uwt)}</div></div>
+      <div class="farr"><span class="tt">${rich(p.in_arrow).replace(/&nbsp;/g,' ')}</span>${FLOWARROW}</div>
+      <div class="fnode me"><div class="l">This persona</div><div class="w">${rich(p.name)}</div><div class="ww">${rich(p.flow_self)}</div></div>
+      <div class="farr"><span class="tt">${rich(p.out_arrow).replace(/&nbsp;/g,' ')}</span>${FLOWARROW}</div>
+      <div class="fnode"><div class="l">${rich(dl_)}</div><div class="w">${rich(dw)}</div><div class="ww">${rich(dwt)}</div></div>
+    </div>
+    <p class="txt" style="font-size:11px;color:var(--mute);margin-top:10px">${rich(p.flow_note)}</p>
+    <p class="txt" style="font-size:11px;color:var(--mute);margin-top:8px">${rich(p.footnote)}</p>
+
+    <div class="pdlrow">
+      <span class="note">Authored and updated 9/14/2026 by Samantha Jorgenson, Product Operations Manager</span>
+      ${pdfLabel?`<button class="btn flame" type="button" onclick="dl('${attr(pdfLabel)}')">Download this persona (PDF) ${DOWN}</button>`:''}
+    </div>`;
 }
 
 function dl(label){
   const fn = PDFS[label]; if(!fn) return;
-  // Files are hosted alongside index.html in the /pdfs folder.
-  const a=document.createElement('a');
-  a.href='pdfs/'+fn;
-  a.download=fn;
-  a.target='_blank';
-  a.rel='noopener';
+  const a = document.createElement('a');
+  a.href = 'pdfs/' + fn; a.download = fn; a.target = '_blank'; a.rel = 'noopener';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-/* ---------------- journey ----------------
-   Stages own their cards. Each .jstage renders its own label directly above its
-   own persona cards, so the two can never drift apart — on desktop the stages sit
-   side by side, and on narrower screens they stack as self-contained blocks. */
-const STAGES = [
-  {s:'Stage 1',        n:'Pre-Production',          keys:['01_estimator']},
-  {s:'Stage 1 &rarr; 2', n:'Planning &amp; Procurement', keys:['02_orderentry','03_planner']},
-  {s:'Stage 3',        n:'Production',              keys:['04_buyer_receiver','05_operator_toolcrib']},
-  {s:'Stage 4',        n:'Post-Production',         keys:['06_inventory_shipping']}
-];
-
-function buildJourney(){
-  $('#journeyCards').innerHTML = STAGES.map((st,si)=>{
-    const cards = st.keys.map((k,ci)=>{
-      const p = PERSONAS.find(x=>x._key===k);
-      const gap = ci>0 ? '<div class="jarr" aria-hidden="true">'+flowArrow()+'</div>' : '';
-      return gap +
-        '<button class="jp act" type="button" onclick="openP(\''+k+'\')" aria-label="Open the '+plain(p.name)+' persona">'+
-          '<span class="num" aria-hidden="true">'+parseInt(p.index,10)+'</span>'+
-          '<span class="who">'+p.name+'</span>'+
-          '<span class="what">'+p.flow_self.replace(/&amp;/g,'&')+'</span>'+
-          '<span class="cta">Open persona <span class="ic" data-icon="arrow"></span></span>'+
-        '</button>';
-    }).join('');
-    const sep = si>0 ? '<div class="jsep" aria-hidden="true">'+flowArrow()+'</div>' : '';
-    return sep +
-      '<div class="jstage" style="--c:'+st.keys.length+'">'+
-        '<div class="stagechip"><span class="s">'+st.s+'</span><span class="n">'+st.n+'</span></div>'+
-        '<div class="jrow">'+cards+'</div>'+
-      '</div>';
-  }).join('');
-}
-
-function buildDownloads(){
-  $('#dlGrid').innerHTML = DL_ORDER.map(label=>{
-    const meta = PDF_META[label]||'';
-    const esc  = label.replace(/'/g,"\\'");
-    return '<div class="dlcard">'+
-        '<div class="dlnm">'+label+'</div>'+
-        '<div class="dlmeta">'+meta+'</div>'+
-        '<button class="btn flame sm dl" type="button" onclick="dl(\''+esc+'\')">Download PDF <span class="ic" data-icon="down"></span></button>'+
-      '</div>';
-  }).join('');
-}
-
-/* ---------------- persona panel ---------------- */
-function li(items){return items.map(x=>'<li>'+x+'</li>').join('');}
-let lastFocus=null;
-
-function openP(key){
-  const p=PERSONAS.find(x=>x._key===key);
-  if(!p) return;
-  lastFocus = document.activeElement;
-  const snap   = p.snapshot.map(([k,v])=>`<div class="r"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('');
-  const day    = p.day.map(([t,x])=>`<div class="row"><div class="t">${t}</div><div class="x">${x}</div></div>`).join('');
-  const meters = p.meters.map(([lab,lvl,pct])=>`<div class="m"><div class="lab"><span>${lab}</span><span>${lvl}</span></div><div class="track"><div class="fill" style="width:${pct}%"></div></div></div>`).join('');
-  const kpis   = p.kpis.map(([b,l])=>`<div class="kpi"><div class="big">${b}</div><div class="lab">${l}</div></div>`).join('');
-  const mods   = p.modules.map(([n,tag,prim])=>`<span class="mod ${prim?'p':''}">${n}<span class="tag" style="${prim?'':'color:var(--mute)'}">${tag}</span></span>`).join('');
-  const navAreas = p.nav_areas ? `
-      <div class="psec">Navigation Areas</div>
-      <div class="navsub">Where they work in the product${p.nav_areas_note?` &mdash; <em>${p.nav_areas_note}</em>`:''}</div>
-      <div class="navs">${p.nav_areas.map(n=>`<span class="navchip">${n}</span>`).join('')}</div>` : '';
-  const [ul,uw,uwt]=p.upstream, [dl_,dw,dwt]=p.downstream;
-  const pdfLabel = KEY2PDF[key];
-  const arrow = flowArrow();
-
-  $('#panelContent').innerHTML = `
-    <div class="phead">
-      <div class="pk">${p.series_label||'ProShop User Persona'} &middot; ${p.index}</div>
-      <div class="pname" id="panelName">${p.name}</div>
-      <div class="ptag">${p.tagline}</div>
-      <div class="pchip">${p.stage}</div>
-    </div>
-    <div class="pbody">
-      <div class="pquote"><span class="m">&ldquo;</span><p>${p.quote}</p></div>
-
-      <div class="psec">Who they are</div>
-      <p class="txt">${p.who1}</p>
-      ${p.who2?`<p class="txt">${p.who2}</p>`:''}
-
-      <div class="psec">A day in the life</div>
-      <div class="tl2">${day}</div>
-
-      <div class="psec">Snapshot</div>
-      <div class="snap">${snap}</div>
-
-      <div class="psec">Environment &amp; tech comfort</div>
-      <p class="txt" style="margin-bottom:13px">${p.environment}</p>
-      <div class="meters">${meters}</div>
-
-      <div class="psec">Goals, frustrations &amp; needs</div>
-      <div class="trip">
-        <div class="pnl g"><div class="h"><span class="dot"></span>Goals</div><ul>${li(p.goals)}</ul></div>
-        <div class="pnl f"><div class="h"><span class="dot"></span>Frustrations</div><ul>${li(p.frustrations)}</ul></div>
-        <div class="pnl n"><div class="h"><span class="dot"></span>Needs</div><ul>${li(p.needs)}</ul></div>
-      </div>
-
-      <div class="psec">Measured on</div>
-      <div class="kpis">${kpis}</div>
-
-      <div class="psec">ProShop modules they live in</div>
-      <div class="mods">${mods}</div>
-${navAreas}
-
-      <div class="psec">Where they sit in the flow</div>
-      <div class="flowrow">
-        <div class="fnode"><div class="l">${ul}</div><div class="w">${uw}</div><div class="ww">${uwt}</div></div>
-        <div class="farr"><span class="tt">${p.in_arrow.replace(/&nbsp;/g,' ')}</span>${arrow}</div>
-        <div class="fnode me"><div class="l">This persona</div><div class="w">${p.name}</div><div class="ww">${p.flow_self}</div></div>
-        <div class="farr"><span class="tt">${p.out_arrow.replace(/&nbsp;/g,' ')}</span>${arrow}</div>
-        <div class="fnode"><div class="l">${dl_}</div><div class="w">${dw}</div><div class="ww">${dwt}</div></div>
-      </div>
-      <p class="txt" style="font-size:11px;color:var(--mute);margin-top:10px">${p.flow_note}</p>
-
-      <div class="pdlrow">
-        <span class="note">Authored and updated 8/27/2026 by Samantha Jorgenson, Product Operations Manager</span>
-        ${pdfLabel?`<button class="btn flame dl" type="button" onclick="dl('${pdfLabel.replace(/'/g,"\\'")}')">Download this persona (PDF) <span class="ic" data-icon="down"></span></button>`:''}
-      </div>
-    </div>`;
-  paintIcons($('#panelContent'));
-  $('#scrim').classList.add('on');
-  $('#panel').classList.add('on');
-  $('#closeb').classList.add('on');
-  $('#panel').scrollTop=0;
-  document.body.style.overflow='hidden';
-  $('#closeb').focus();
-}
-
-function closeP(){
-  $('#scrim').classList.remove('on');
-  $('#panel').classList.remove('on');
-  $('#closeb').classList.remove('on');
-  document.body.style.overflow='';
-  if(lastFocus && lastFocus.focus) lastFocus.focus();
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeP();});
-
-/* ---------------- scroll behaviour ---------------- */
-function initScrollFX(){
-  const prog = $('#progress');
-  const btns = {};
-  $$('.topnav button').forEach(b=>btns[b.dataset.sec]=b);
-  const sections = Object.keys(btns).map(id=>document.getElementById(id)).filter(Boolean);
-
-  /* Progress + scroll-spy are both computed straight from scroll position on a
-     shared rAF-throttled handler. Deriving the active section rather than relying
-     on IntersectionObserver callbacks keeps the nav correct even when the page
-     jumps a long way at once (anchor links), where async callbacks can land out
-     of order and leave the wrong item highlighted. */
-  let ticking=false;
-  const measure=()=>{
-    ticking=false;
-    const h=document.documentElement;
-    const max=h.scrollHeight-h.clientHeight;
-    prog.style.width = max>0 ? Math.min(100,Math.max(0,h.scrollTop/max*100)).toFixed(2)+'%' : '0%';
-
-    const probe = h.scrollTop + h.clientHeight*0.35;
-    let current=null;
-    sections.forEach(el=>{
-      if(el.getBoundingClientRect().top + h.scrollTop <= probe) current=el;
-    });
-    if(max>0 && h.scrollTop >= max-2) current = sections[sections.length-1];
-    Object.values(btns).forEach(b=>b.classList.remove('active'));
-    if(current && btns[current.id]) btns[current.id].classList.add('active');
-  };
-  const onScroll=()=>{ if(!ticking){ ticking=true; requestAnimationFrame(measure); } };
-  document.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',onScroll);
-  measure();
-
-  /* stagger children of grids, then reveal everything on entry */
-  $$('[data-stagger]').forEach(grid=>{
-    [...grid.children].forEach((c,i)=>{
-      c.classList.add('reveal');
-      c.style.setProperty('--d', Math.min(i,7)*65+'ms');
-    });
-  });
-  const items=$$('.reveal');
-  if(REDUCED || !('IntersectionObserver' in window)){
-    items.forEach(el=>el.classList.add('in'));
-    return;
-  }
-  const rev=new IntersectionObserver((entries,obs)=>{
-    entries.forEach(en=>{
-      if(en.isIntersecting){ en.target.classList.add('in'); obs.unobserve(en.target); }
-    });
-  },{rootMargin:'0px 0px -6% 0px',threshold:0.05});
-  items.forEach(el=>rev.observe(el));
-}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && state.focus) backToBoard(); });
 
 /* ---------------- boot ---------------- */
-buildJourney();
-buildDownloads();
-paintIcons();
-initScrollFX();
+(function init(){
+  const saved = recall('team');
+  if(saved && saved !== 'skipped'){
+    state.team = saved;
+    const t = HUB.teams.find(x=>x.id===saved);
+    if(t) state.lens = t.lens;
+  }
+  renderTabs(); renderTeamSelect(); renderPicker(); renderIntro(); renderBoard();
+})();
 </script>
 </body>
 </html>

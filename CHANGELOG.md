@@ -1,5 +1,37 @@
 # Changelog
 
+## 2026-09-14 — Persona Hub (v1)
+
+`index.html` is now the **Persona Hub**: four lenses onto the same people, with three depth
+levels inside the User lens. The previous single-lens teaching tool is preserved at
+`teaching-tool.html` and linked from the footer — its persona content is absorbed into the
+hub as Level 3, and its primer / company context / downloads are not part of the hub spec,
+so the page is kept rather than deleted.
+
+**Built with real content**
+- **User lens** — all three depths. Level 1 is a stage board (Win/Plan/Build/Learn) plus a
+  cross-cutting band; Level 2 is the nested canonical roles; Level 3 is the full absorbed
+  persona (day in the life, snapshot, meters, goals/frustrations/needs, KPIs, modules,
+  navigation areas, flow), with the per-persona PDF still downloadable.
+- **Position lens** — the canonical position taxonomy by department. Entitlements and access
+  levels are deliberately excluded.
+- Expand-to-focus interaction: the board recedes, the other groups collapse into a rail that
+  switches focus without returning to the board, and Level 3 expands in place (no modal).
+
+**Honest scaffolds — not fabricated**
+- Buyer and Role lenses are framed and labelled as pending their owning teams.
+- Inventory & Shipping shows "role pending"; The Busy Bookkeeper shows "content pending"
+  (blank at source); unplaced canonical roles sit in a visible "not yet nested" tray.
+
+**Structure**
+- `design-tokens.css` — every colour/size token, so the pending Figma swap is a one-file change.
+- `personas.js` — all content, loaded as a script rather than fetched JSON so the hub still
+  opens from the filesystem without a web server.
+
+Known gaps: `Persona_Nesting_Map.md`, the Property Register, the framework model and the
+interaction mock were not available, so six nestings are marked **proposed** and need
+confirming, and property filtering shows an affordance only. See PROJECT_STRUCTURE.md.
+
 ## 2026-08-31 — Web-native redesign of the interactive site
 
 Reworked `index.html` so it reads as a designed web page rather than a document on a
