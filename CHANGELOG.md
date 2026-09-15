@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-09-14 — Stage subtitles, flow arrows, and a fix for blank lens pages
+
+**Fix: Buyer and Role pages could render blank in production.** `index.html` and `personas.js`
+are separately cached files. When new markup was paired with a stale cached `personas.js`,
+`HUB.links[lensId]` threw mid-render — and because `swap()` assigned `innerHTML` *after* the
+render call, the page kept both its empty body and its `opacity:0` fade class. Result: a blank
+page. Three fixes, so the whole class of bug is closed rather than this one instance:
+
+- The script tag is versioned (`personas.js?v=2`, mirrored by `HUB.schema`), so the page and its
+  data can no longer be cached out of step. Bump both together when the data shape changes.
+- `swap()` now wraps the render: a throw paints a readable "this view failed to render" notice
+  and always clears the fade class, so a data problem can never blank a page again.
+- `sourceBox()` degrades to nothing when its data is absent instead of throwing.
+
+**User lens board now reads as the process it describes**
+- Each stage header carries a one-line subtitle saying what that stage actually is.
+- Arrows show the flow: down between roles inside a stage, and left-to-right between stages.
+  The between-stage arrow is anchored to the stage header and sits in the grid gap, so it cannot
+  drift when columns end up different heights — and it hides once columns reflow below 1000px,
+  where left-to-right would be misleading. Verified geometrically at seven widths.
+
 ## 2026-09-14 — Buyer persona cards fixed; lens content trimmed to avoid duplicating the GTM Hub
 
 **Fix:** clicking a buyer persona did nothing but bounce you to the "Who buys ProShop" tab.

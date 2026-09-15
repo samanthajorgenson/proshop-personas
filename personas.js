@@ -70,22 +70,26 @@ const HUB = {
   {
    "id": "win",
    "label": "Win",
-   "alt": "Pre-Production"
+   "alt": "Pre-Production",
+   "desc": "The job is quoted, ordered and planned &mdash; before anything is cut."
   },
   {
    "id": "plan",
    "label": "Plan",
-   "alt": "Procurement"
+   "alt": "Procurement",
+   "desc": "Material, tooling and outside processing are bought, received and released."
   },
   {
    "id": "build",
    "label": "Build",
-   "alt": "Production"
+   "alt": "Production",
+   "desc": "Setup, cutting and in-process inspection at the machine."
   },
   {
    "id": "learn",
    "label": "Learn",
-   "alt": "Post-Production"
+   "alt": "Post-Production",
+   "desc": "Parts are warehoused, certified and shipped &mdash; and the actuals feed back."
   }
  ],
  "groups": [
@@ -827,5 +831,6 @@ const HUB = {
     "u": "https://adionsystems.atlassian.net/wiki/spaces/ProShopOnlineTraining/pages/1834090502"
    }
   ]
- }
+ },
+ "schema": 2
 };

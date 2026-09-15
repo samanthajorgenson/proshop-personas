@@ -123,11 +123,21 @@
   .subnav a[aria-current="page"]::after{transform:scaleX(1);}
 
   /* ---------- board ---------- */
-  .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start;}
-  .stagecol{display:flex;flex-direction:column;gap:10px;}
-  .stagehead{background:var(--flame-wash);border:1px solid var(--flame-line);border-radius:var(--radius-sm);padding:9px 12px;}
+  .boardhint{font-size:12px;color:var(--mute);margin-bottom:14px;}
+  .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:26px 22px;align-items:start;}
+  .stagecol{display:flex;flex-direction:column;gap:8px;}
+  .stagehead{position:relative;background:var(--flame-wash);border:1px solid var(--flame-line);
+             border-radius:var(--radius-sm);padding:10px 13px 11px;margin-bottom:2px;}
   .stagehead .s{font-family:var(--mono);font-size:10px;color:var(--flame);font-weight:700;}
   .stagehead .n{font-size:12.5px;font-weight:800;}
+  .stagehead .sd{font-size:10.5px;color:var(--ink-soft);line-height:1.35;margin-top:4px;}
+  /* between-stage arrow: anchored to the header, sitting in the grid gap */
+  .stagehead .snext{position:absolute;right:-18px;top:50%;transform:translateY(-50%);
+                    width:14px;color:var(--flame);opacity:.85;display:block;}
+  .stagehead .snext svg{width:14px;height:9px;display:block;}
+  /* between-card arrow inside a stage */
+  .jconn{display:block;width:10px;height:13px;margin:1px auto;color:var(--flame);opacity:.55;}
+  .jconn svg{width:10px;height:13px;display:block;}
 
   .gcard{display:flex;flex-direction:column;gap:6px;background:var(--paper);border:1.5px solid var(--line);
          border-radius:var(--radius);padding:15px 14px 13px;position:relative;overflow:hidden;}
@@ -338,6 +348,9 @@
   footer.foot b{color:var(--paper);}
 
   @media (max-width:1000px){
+    /* Columns reflow, so the left-to-right stage arrows would point at nothing.
+       The down-arrows inside a stage still read correctly and stay. */
+    .stagehead .snext{display:none;}
     .stages{grid-template-columns:1fr 1fr;}
     .trip,.tiers,.jgrid{grid-template-columns:1fr;}
     .flowrow{grid-template-columns:1fr;gap:8px;}
@@ -390,7 +403,10 @@
   </div>
 </footer>
 
-<script src="personas.js"></script>
+<!-- ?v= must match HUB.schema in personas.js. The page and its data are separately
+     cached files; without this a browser could pair new markup with stale data, which
+     previously threw mid-render and left a lens blank. Bump both together. -->
+<script src="personas.js?v=2"></script>
 <script>
 /* ============================================================================
    ProShop Persona Hub
@@ -408,6 +424,8 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ARROW = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>';
 const DOWN  = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 12l6 6 6-6"/></svg>';
 const FLOWARROW = '<svg viewBox="0 0 22 10" aria-hidden="true"><line x1="0" y1="5" x2="15" y2="5" stroke="currentColor" stroke-width="2"/><polygon points="15,1 22,5 15,9" fill="currentColor"/></svg>';
+const STEPARROW = '<svg viewBox="0 0 20 12" aria-hidden="true"><line x1="0" y1="6" x2="12" y2="6" stroke="currentColor" stroke-width="2.2"/><polygon points="12,1.5 20,6 12,10.5" fill="currentColor"/></svg>';
+const STEPDOWN  = '<svg viewBox="0 0 12 20" aria-hidden="true"><line x1="6" y1="0" x2="6" y2="12" stroke="currentColor" stroke-width="2.2"/><polygon points="1.5,12 6,20 10.5,12" fill="currentColor"/></svg>';
 
 const esc  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const attr = s => String(s).replace(/'/g,"\\'");
@@ -458,10 +476,26 @@ function applyRoute(){
   if(changedPage) window.scrollTo({top:0,behavior:'instant'});
 }
 
-/* fade the page out, re-render, fade back in */
+/* Fade out, re-render, fade back in.
+   The render is wrapped: if it throws, we still paint something and still clear the
+   fade class. Previously a throw left innerHTML unassigned AND the page at opacity 0,
+   so a single bad field showed up as a completely blank lens. */
 function swap(render){
   const page = $('#page');
-  const paint = ()=>{ page.innerHTML = render(); page.classList.remove('swap'); afterPaint(); };
+  const paint = ()=>{
+    try {
+      page.innerHTML = render();
+    } catch (err) {
+      console.error('Render failed for route', route, err);
+      page.innerHTML = `<div class="wrap"><div class="notice">
+          <span class="ni">Something went wrong</span>
+          <span>This view failed to render. A refresh usually fixes it — if it does not,
+          the page and its data may be out of step. Details are in the browser console.</span>
+        </div></div>`;
+    }
+    page.classList.remove('swap');
+    afterPaint();
+  };
   if(REDUCED){ paint(); return; }
   page.classList.add('swap');
   setTimeout(paint, 140);
@@ -613,15 +647,29 @@ function groupCard(g){
 
 function renderBoard(){
   const gs = groups('user');
-  const staged = HUB.stages.map(s=>{
+  /* The board is a process, so it is drawn as one: cards flow down inside a stage,
+     and stages flow left to right. The between-stage arrow hangs off the stage
+     header rather than sitting in the grid, so it cannot drift out of alignment
+     when columns end up different heights. */
+  const staged = HUB.stages.map((s,si)=>{
     const items = gs.filter(g=>g.stage===s.id);
+    const next  = si < HUB.stages.length-1
+      ? `<span class="snext" aria-hidden="true">${STEPARROW}</span>` : '';
+    const cards = items.map((g,i)=>
+      (i ? `<span class="jconn" aria-hidden="true">${STEPDOWN}</span>` : '') + groupCard(g)).join('');
     return `<div class="stagecol">
-        <div class="stagehead"><div class="s">${esc(s.label)}</div><div class="n">${esc(s.alt)}</div></div>
-        ${items.map(groupCard).join('')}
+        <div class="stagehead">
+          <div class="s">${esc(s.label)}</div>
+          <div class="n">${esc(s.alt)}</div>
+          ${s.desc?`<div class="sd">${rich(s.desc)}</div>`:''}
+          ${next}
+        </div>
+        ${cards}
       </div>`;
   }).join('');
   const cross = gs.filter(g=>g.stage==='cross');
   return `<div class="wrap" data-lens="user">
+      <p class="boardhint">A job moves left to right through the four stages. Open any role to go deeper.</p>
       <div class="stages">${staged}</div>
       <div class="crossband">
         <div class="ch">Cross-cutting</div>
@@ -633,14 +681,16 @@ function renderBoard(){
 
 /* Points at the maintained source of truth rather than restating it. */
 function sourceBox(lensId){
-  const items = (HUB.links[lensId]||[]).map(l=>`
+  const links = HUB.links || {};
+  if(!links[lensId]) return '';
+  const items = links[lensId].map(l=>`
     <a class="srcitem act" href="${esc(l.u)}" target="_blank" rel="noopener">
       <span class="st">${esc(l.t)} <span class="ext" aria-hidden="true">&#8599;</span></span>
       <span class="sd">${esc(l.d)}</span>
     </a>`).join('');
   return `<div class="srcbox">
       <h3>Where the rest lives</h3>
-      <p class="sn">${esc(HUB.links.note)}</p>
+      <p class="sn">${esc(links.note||'')}</p>
       <div class="srcgrid">${items}</div>
     </div>`;
 }
