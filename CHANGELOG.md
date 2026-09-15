@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-09-14 — Headline, tab scroll position, plainer role wording
+
+- **Landing headline** is now "One machine shop team. Three ways to look at them."
+- **Fix: switching a persona tab jumped the page back to the top.** `applyRoute()` scrolled up
+  whenever any part of the route changed, including the tab. It now only scrolls up when you
+  actually move somewhere new (a different lens or a different group); switching tab or section
+  keeps your place. If the tab strip has scrolled out of sight above, it is nudged just back
+  under the sticky header so you can still see what changed.
+- **"Canonical" replaced with plain language.** It read as jargon for a company-wide audience.
+  Interface chrome now just says roles: the tab is "Roles", the heading is "Roles in this group",
+  and badges read "4 roles". Where the point is that a name is governed by CX rather than ours,
+  the prose says "official" instead, so the meaning survives the plainer wording.
+
 ## 2026-09-14 — Personas readable in parts; em dashes removed
 
 **Full personas no longer read like a PDF.** Each persona was one long scroll of nine

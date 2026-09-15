@@ -8,7 +8,7 @@
    PERSONAS / PDFS / KEY2PDF / PDF_META / DL_ORDER are carried over verbatim from
    the previous teaching tool and supply the Level-3 "full persona" content.
 
-   HUB adds the hub structure: lenses, stages, functional groups, the canonical
+   HUB adds the hub structure: lenses, stages, functional groups, the official
    roles nested inside them, and the position backbone.
 
    PROVENANCE - every variant's pain points and desired outcomes come from the F2
@@ -16,7 +16,7 @@
      confirmed - the nesting is stated in the hub hand-off spec
      proposed  - content is sourced, but WHICH group it nests in is our proposal
                  and must be confirmed against Persona_Nesting_Map.md
-     unnested  - canonical role with no functional group assigned yet
+     unnested  - role with no functional group assigned yet
    Nothing here is invented: a persona with no source content is marked
    status:"content_pending" rather than filled in.
    ============================================================================ */
@@ -354,7 +354,7 @@ const HUB = {
    "persona_key": "06_inventory_shipping",
    "variants": [],
    "notes": [
-    "Canonical role pending (CX) - no canonical persona has been nested here yet."
+    "Role pending (CX): no role has been nested here yet."
    ]
   },
   {
@@ -527,7 +527,7 @@ const HUB = {
     }
    ],
    "notes": [
-    "Buyer-lens decision-maker. The broader canonical buyer set is owned by PMM and is still pending."
+    "Buyer-lens decision-maker. The broader official buyer set is owned by PMM and is still pending."
    ]
   },
   {
@@ -535,7 +535,7 @@ const HUB = {
    "lens": "buyer",
    "name": "The Quality Management Professional",
    "stage": "na",
-   "summary": "Listed in the canonical buyer / decision-maker set alongside The Visionary Owner and The Shop Boss. The full persona depth for this role lives in the User lens, under Functional QA.",
+   "summary": "Listed in the official buyer / decision-maker set alongside The Visionary Owner and The Shop Boss. The full persona depth for this role lives in the User lens, under Functional QA.",
    "short": "Buys for compliance and audit survival",
    "home_modules": [],
    "positions": [
@@ -567,7 +567,7 @@ const HUB = {
     }
    ],
    "notes": [
-    "This role is dual-lens: a daily user inside Functional QA and a decision-maker here. Only one set of canonical content exists for it - this is the same content viewed from the buyer side."
+    "This role is dual-lens: a daily user inside Functional QA and a decision-maker here. Only one set of official content exists for it - this is the same content viewed from the buyer side."
    ]
   }
  ],
@@ -715,7 +715,7 @@ const HUB = {
   "source": "Ideal Customer Profile - Marketing / GTM Hub (Confluence 2058911745), last modified 3/6/2026"
  },
  "role": {
-  "purpose": "The Role lens is the full job taxonomy CX uses to scope implementation and training. The canonical role definitions are owned by CX Enablement and are still being authored. What is shown here is how CX applies roles today, plus the structure every finished role definition has to fill.",
+  "purpose": "The Role lens is the full job taxonomy CX uses to scope implementation and training. The official role definitions are owned by CX Enablement and are still being authored. What is shown here is how CX applies roles today, plus the structure every finished role definition has to fill.",
   "journey": [
    {
     "stage": "Crawl",
@@ -821,15 +821,15 @@ const HUB = {
    },
    {
     "t": "F2, User Persona Definitions",
-    "d": "The CX-owned template every canonical role definition fills.",
+    "d": "The CX-owned template every official role definition fills.",
     "u": "https://adionsystems.atlassian.net/wiki/spaces/MT/pages/2357100644/F2+User+Persona+Definitions"
    },
    {
     "t": "User Personas for Target Audience",
-    "d": "The canonical CX persona list this hub's nested roles come from.",
+    "d": "The official CX role list this hub's nested roles come from.",
     "u": "https://adionsystems.atlassian.net/wiki/spaces/ProShopOnlineTraining/pages/1834090502"
    }
   ]
  },
- "schema": 3
+ "schema": 4
 };

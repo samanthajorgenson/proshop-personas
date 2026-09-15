@@ -436,7 +436,7 @@
 <!-- ?v= must match HUB.schema in personas.js. The page and its data are separately
      cached files; without this a browser could pair new markup with stale data, which
      previously threw mid-render and left a lens blank. Bump both together. -->
-<script src="personas.js?v=3"></script>
+<script src="personas.js?v=4"></script>
 <script>
 /* ============================================================================
    ProShop Persona Hub
@@ -492,7 +492,7 @@ function parseHash(){
 /* A persona is read in parts rather than as one long page. Each part is its own
    route, so any section of any persona can be linked to directly. */
 const PERSONA_TABS = [
-  {id:'roles',   label:'Canonical roles'},
+  {id:'roles',   label:'Roles'},
   {id:'glance',  label:'At a glance'},
   {id:'day',     label:'A day in the life'},
   {id:'needs',   label:'Goals &amp; needs'},
@@ -507,9 +507,18 @@ function focusTab(g){
   return ok.includes(route.tab) ? route.tab : 'roles';
 }
 
+/* Two routes share a "view" when they differ only by which tab or section is open.
+   Switching tab within a persona should leave you where you are, not fling you back
+   to the top of the page. Moving to another lens or another group is a real change
+   of place, and does scroll up. */
+function viewKey(r){
+  const g = r.sub && group(r.sub) && group(r.sub).lens === r.lens ? r.sub : '';
+  return r.lens + '|' + g;
+}
+
 function applyRoute(){
   const next = parseHash();
-  const changedPage = next.lens!==route.lens || next.sub!==route.sub || next.tab!==route.tab;
+  const movedView = viewKey(next) !== viewKey(route);
   route = next;
   renderTabs();
   if(route.lens==='home'){
@@ -520,7 +529,23 @@ function applyRoute(){
     renderIntro();
     swap(()=>renderLensPage());
   }
-  if(changedPage) window.scrollTo({top:0,behavior:'instant'});
+  if(movedView) window.scrollTo({top:0,behavior:'instant'});
+  else keepTabsInView();
+}
+
+/* Staying put is right until the tab strip itself has scrolled out of sight above,
+   at which point the reader would be looking at new content with no idea what
+   switched. Nudge just far enough to put the strip back under the sticky header. */
+function keepTabsInView(){
+  requestAnimationFrame(()=>{
+    const strip = $('#page .ptabs') || $('#lensintro .subnav');
+    if(!strip) return;
+    const stuck = $('.topbar').offsetHeight + $('.lensbar').offsetHeight;
+    const top = strip.getBoundingClientRect().top;
+    if(top < stuck + 4){
+      window.scrollTo({top: window.scrollY + top - stuck - 12, behavior:'instant'});
+    }
+  });
 }
 
 /* Fade out, re-render, fade back in.
@@ -609,7 +634,7 @@ function renderHome(){
     <div class="hero" style="margin:-28px 0 0">
       <div class="wrap">
         <div class="kick">ProShop Persona Framework</div>
-        <h1>One set of people. <em>Three ways to look at them.</em></h1>
+        <h1>One machine shop team. <em>Three ways to look at them.</em></h1>
         <p class="sub">ProShop's personas were scattered across CX, marketing and product; each team describing the
           same machinists and quality managers in its own language. The hub keeps one spine of real people and puts a
           lens in front of it for each team, so nobody has to translate between three versions of the same person.</p>
@@ -633,7 +658,7 @@ function renderHome(){
         <div class="steps">
           <div class="step"><h4>Start at the board</h4><p>Functional groups laid out across the four workflow stages,
             plus the two that cut across every stage.</p></div>
-          <div class="step"><h4>Open a group</h4><p>The group's summary, and the canonical CX roles nested inside it
+          <div class="step"><h4>Open a group</h4><p>The group's summary, and the specific roles nested inside it, named the way CX names them
             with their pain points and desired outcomes.</p></div>
           <div class="step"><h4>Read the full persona</h4><p>Day in the life, snapshot, tech comfort, goals and
             frustrations, KPIs, modules and where they sit in the flow, plus the print-ready PDF.</p></div>
@@ -650,7 +675,7 @@ function renderHome(){
           <div class="vbcard" data-lens="buyer"><div class="vt">Buyer personas (PMM)</div>
             <div class="vd">The F3 definitions are still a template. What is published comes from the ICP page, decision authority, evaluation triggers and the buying journey are not written yet.</div></div>
           <div class="vbcard" data-lens="role"><div class="vt">Role taxonomy (CX)</div>
-            <div class="vd">The canonical role definitions are in progress. The lens shows how CX applies roles today
+            <div class="vd">The official role definitions are in progress. The lens shows how CX applies roles today
               and the structure each definition has to fill.</div></div>
         </div>
       </div>
@@ -683,7 +708,7 @@ function groupCard(g){
   let badge;
   if(v===0) badge = `<span class="cnt warn">Role pending</span>`;
   else if(pending===v) badge = `<span class="cnt warn">${v} role · content pending</span>`;
-  else badge = `<span class="cnt">${v} canonical role${v>1?'s':''}</span>`;
+  else badge = `<span class="cnt">${v} role${v>1?'s':''}</span>`;
   return `<a class="gcard act" href="#/${g.lens}/${g.id}">
       <span class="gn">${rich(g.name)}</span>
       <span class="gs">${rich(g.short)}</span>
@@ -837,7 +862,7 @@ function roleSection(id){
   return `
     <div class="blk">
       <h2 class="bt">What a finished role definition contains</h2>
-      <p class="bd">The F2 template sets the structure every canonical role definition has to fill. This is the shape
+      <p class="bd">The F2 template sets the structure every official role definition has to fill. This is the shape
         of the content still to be authored, useful as a checklist while CX works through the taxonomy.</p>
       <div class="flds">${r.definition_fields.map(([k,v])=>`
         <div class="fldrow"><div class="fk">${rich(k)}</div><div class="fv">${rich(v)}</div></div>`).join('')}</div>
@@ -851,7 +876,7 @@ function variantCols(v){
   if(v.status === 'content_pending'){
     return `<div class="accmeta" style="border:0;padding:0">
         <div class="notice" style="width:100%"><span class="ni">Content pending</span>
-          <span>This canonical role exists in the CX list, but its pain points and desired outcomes are still blank at
+          <span>This role is on the CX list, but its pain points and desired outcomes are still blank at
           the source. It is shown as pending rather than written for them.</span></div>
       </div>
       <div class="accmeta"><span class="src">Source: ${esc(v.source)}</span></div>`;
@@ -890,7 +915,7 @@ function renderFocus(g){
           </button>
           <div class="accbody"><div class="accinner">${variantCols(v)}</div></div>
         </div>`).join('')}</div>`
-    : `<div class="notice"><span class="ni">Pending</span><span>No canonical role has been nested into this group yet.
+    : `<div class="notice"><span class="ni">Pending</span><span>No role has been nested into this group yet.
         CX has not authored one, so nothing is shown rather than invented.</span></div>`;
 
   const tab  = focusTab(g);
@@ -904,9 +929,9 @@ function renderFocus(g){
   let body;
   if(tab === 'roles'){
     body = `${notes}
-      <div class="fsec">Canonical roles nested here</div>
+      <div class="fsec">Roles in this group</div>
       ${acc}
-      ${g.persona_key ? `<p class="tabhint">Read the rest of this persona: ${tabs.filter(t=>t.id!=='roles')
+      ${g.persona_key ? `<p class="tabhint">More on this persona: ${tabs.filter(t=>t.id!=='roles')
           .map(t=>`<a href="#/${g.lens}/${g.id}/${t.id}">${rich(t.label)}</a>`).join(' &middot; ')}</p>` : `
         <p class="tabhint">The full persona for this role lives under
           <a href="#/user/functional_qa/glance">Functional QA</a> in the User lens.</p>`}`;
