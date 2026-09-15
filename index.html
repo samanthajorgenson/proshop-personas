@@ -36,10 +36,6 @@
          background:none;border:none;color:var(--paper);cursor:pointer;font-family:inherit;padding:4px 6px;border-radius:var(--radius-sm);}
   .brand .logo{width:26px;height:26px;border-radius:7px;background:var(--flame);display:grid;place-items:center;font-size:15px;}
   .brand small{font-weight:500;color:#9B98A6;font-size:11px;letter-spacing:.04em;}
-  .whoami{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#9B98A6;}
-  .whoami select{font-family:inherit;font-size:11.5px;font-weight:700;color:var(--paper);background:rgba(255,255,255,.10);
-                 border:1px solid rgba(255,255,255,.22);border-radius:var(--radius-sm);padding:7px 10px;cursor:pointer;}
-  .whoami select:focus-visible{outline:none;box-shadow:var(--ring);}
 
   /* ---------- lens tabs ---------- */
   .lensbar{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);position:sticky;top:var(--nav-h);z-index:39;}
@@ -58,17 +54,6 @@
   .tab[data-lens="role"]{--tint:var(--lens-role);}
   .tab[data-lens="position"]{--tint:var(--lens-position);}
 
-  /* ---------- first-run team picker ---------- */
-  .picker{background:var(--flame-wash);border-bottom:1px solid var(--flame-line);}
-  .picker .wrap{padding:16px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
-  .picker .q{font-size:13px;font-weight:800;}
-  .picker .sub{font-size:11.5px;color:var(--mute);width:100%;margin-top:-6px;}
-  .picker .opts{display:flex;gap:8px;flex-wrap:wrap;}
-  .picker .opt{font-size:12px;font-weight:700;background:var(--paper);border:1.5px solid var(--flame-line);
-               border-radius:999px;padding:8px 14px;cursor:pointer;font-family:inherit;transition:var(--t-fast);}
-  .picker .opt:hover{border-color:var(--flame);transform:translateY(-1px);}
-  .picker .skip{margin-left:auto;font-size:11.5px;color:var(--mute);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline;}
-
   /* ---------- lens intro ---------- */
   .lensintro{background:var(--paper);border-bottom:1px solid var(--line);}
   .lensintro .wrap{padding:26px 24px 22px;}
@@ -79,6 +64,7 @@
   .lmeta{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
   .pill{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:999px;}
   .pill.built{background:rgba(25,135,84,.12);color:var(--green);}
+  .pill.partial{background:rgba(31,95,168,.12);color:var(--lens-buyer);}
   .pill.scaffold{background:var(--amber-wash);color:var(--amber);}
   .pill.owner{background:var(--wash);color:var(--mute);border:1px solid var(--line);}
   .filterbtn{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--mute);background:var(--wash);
@@ -252,11 +238,59 @@
   .dept li{font-size:12.5px;font-weight:600;color:var(--ink-soft);padding-left:15px;position:relative;}
   .dept li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:2px;background:var(--accent);opacity:.5;}
 
-  /* ---------- unnested tray ---------- */
-  .tray{margin-top:26px;background:var(--paper);border:1px dashed var(--line);border-radius:var(--radius);padding:20px 22px;}
-  .tray h3{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--mute);margin-bottom:4px;}
-  .tray .td{font-size:12px;color:var(--ink-soft);margin-bottom:14px;}
-  .traygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;}
+  /* ---------- buyer + role content blocks ---------- */
+  .blk{margin-bottom:34px;}
+  .bt{font-size:21px;font-weight:800;letter-spacing:-.015em;margin-bottom:7px;}
+  .bd{font-size:13.5px;color:var(--ink-soft);max-width:64em;margin-bottom:14px;}
+  .bl{list-style:none;margin:-6px 0 16px;display:flex;flex-direction:column;gap:6px;}
+  .bl li{font-size:12.5px;color:var(--ink-soft);padding-left:16px;position:relative;}
+  .bl li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .bsrc{font-size:10.5px;color:var(--mute);margin-top:12px;}
+
+  .icpgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+  .icpcard{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--paper);}
+  .icphead{color:var(--paper);padding:11px 18px;display:flex;align-items:baseline;gap:10px;}
+  .icphead .ig{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.8;}
+  .icphead .il{font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;}
+  .icpcard.t-a .icphead{background:var(--flame);}
+  .icpcard.t-b .icphead{background:#C15A20;}
+  .icpcard.t-c .icphead{background:var(--mute);}
+  .icpbody{padding:16px 18px;display:flex;flex-direction:column;gap:7px;}
+  .ir{font-size:12.5px;color:var(--ink-soft);line-height:1.5;}
+  .ir b{color:var(--ink);}
+
+  .dmtable{display:flex;flex-direction:column;gap:9px;}
+  .dmrow{display:grid;grid-template-columns:1.1fr 1.4fr 1.4fr;gap:16px;background:var(--paper);
+         border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px;}
+  .dmn{font-size:13.5px;font-weight:800;}
+  .dml{display:block;font-size:9px;letter-spacing:.11em;text-transform:uppercase;font-weight:800;color:var(--mute);margin-bottom:3px;}
+  .dmp,.dmo{font-size:12px;color:var(--ink-soft);}
+  .dmo{color:var(--green);font-weight:600;}
+
+  .tiers{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .tier{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--accent);
+        border-radius:var(--radius-sm);padding:16px 18px;}
+  .tier h4{font-size:14px;font-weight:800;margin-bottom:7px;}
+  .tier p{font-size:12.5px;color:var(--ink-soft);margin-bottom:6px;}
+  .tier .tb b{color:var(--ink);}
+  .tier .tx{font-size:11px;color:var(--mute);font-style:italic;margin-bottom:0;}
+
+  .vbgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+  .vbcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:17px 19px;}
+  .vt{font-size:13px;font-weight:800;color:var(--accent);margin-bottom:6px;}
+  .vd{font-size:12.5px;color:var(--ink-soft);}
+
+  .jgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .jcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;}
+  .jst{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;
+       background:var(--accent);color:var(--paper);border-radius:999px;padding:4px 10px;margin-bottom:9px;}
+  .jnm{font-size:14px;font-weight:800;margin-bottom:6px;}
+  .jcard p{font-size:12.5px;color:var(--ink-soft);}
+
+  .flds{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;}
+  .fldrow{display:grid;grid-template-columns:1fr 2.1fr;gap:16px;background:var(--paper);padding:11px 16px;}
+  .fk{font-size:12.5px;font-weight:800;}
+  .fv{font-size:12px;color:var(--ink-soft);}
 
   footer.foot{background:var(--ink);color:#9B98A6;padding:28px 0;font-size:11px;}
   footer.foot .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;}
@@ -268,6 +302,8 @@
     .trip{grid-template-columns:1fr;}
     .flowrow{grid-template-columns:1fr;gap:8px;}
     .farr{flex-direction:row;gap:6px;padding:3px 0;}
+    .tiers,.jgrid{grid-template-columns:1fr;}
+    .dmrow{grid-template-columns:1fr;gap:10px;}
   }
   @media (max-width:680px){
     .stages{grid-template-columns:1fr;}
@@ -276,6 +312,8 @@
     h1.ltitle{font-size:23px;}
     .fhead,.fbody{padding-left:18px;padding-right:18px;}
     .fhead h2{font-size:21px;}
+    .fldrow{grid-template-columns:1fr;gap:4px;}
+    .bt{font-size:18px;}
   }
   @media (prefers-reduced-motion:reduce){
     *{transition-duration:.01ms !important;}
@@ -290,24 +328,11 @@
     <button class="brand act" type="button" onclick="goHome()" aria-label="ProShop Persona Hub home">
       <span class="logo" aria-hidden="true">P</span> ProShop Persona Hub <small>Persona framework</small>
     </button>
-    <div class="whoami">
-      <label for="teamsel">I am a&hellip;</label>
-      <select id="teamsel" onchange="setTeam(this.value,true)"></select>
-    </div>
   </div>
 </div>
 
 <div class="lensbar">
   <div class="wrap" role="tablist" id="lenstabs" aria-label="Persona lenses"></div>
-</div>
-
-<div class="picker" id="picker" hidden>
-  <div class="wrap">
-    <div class="q">Which team are you on?</div>
-    <div class="sub">This just sets your starting lens. Every lens stays open to everyone.</div>
-    <div class="opts" id="pickeropts"></div>
-    <button class="skip" type="button" onclick="dismissPicker()">Skip</button>
-  </div>
 </div>
 
 <div class="lensintro" id="lensintro"></div>
@@ -337,7 +362,7 @@
 const $ = (s,r=document)=>r.querySelector(s);
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const state = { lens:'user', focus:null, team:null, l3:false };
+const state = { lens:'user', focus:null, l3:false };
 
 const ARROW = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>';
 const DOWN  = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 12l6 6 6-6"/></svg>';
@@ -353,10 +378,6 @@ const groups = id => HUB.groups.filter(g=>g.lens===id);
 const group  = id => HUB.groups.find(g=>g.id===id);
 const persona= key => PERSONAS.find(p=>p._key===key);
 
-/* ---------------- session memory (simple, per-tab) ---------------- */
-function remember(k,v){ try{ sessionStorage.setItem(k,v); }catch(e){} }
-function recall(k){ try{ return sessionStorage.getItem(k); }catch(e){ return null; } }
-
 /* ---------------- chrome ---------------- */
 function renderTabs(){
   $('#lenstabs').innerHTML = HUB.lenses.map(l=>
@@ -366,38 +387,22 @@ function renderTabs(){
      </button>`).join('');
 }
 
-function renderTeamSelect(){
-  const sel = $('#teamsel');
-  sel.innerHTML = '<option value="">Choose…</option>' +
-    HUB.teams.map(t=>`<option value="${t.id}"${state.team===t.id?' selected':''}>${esc(t.label)}</option>`).join('');
-}
-
-function renderPicker(){
-  $('#pickeropts').innerHTML = HUB.teams.map(t=>
-    `<button class="opt" type="button" onclick="setTeam('${t.id}',true)">${esc(t.label)}</button>`).join('');
-  if(!recall('team')) $('#picker').hidden = false;
-}
-function dismissPicker(){ $('#picker').hidden = true; remember('team','skipped'); }
-
-function setTeam(id, jump){
-  state.team = id || null;
-  remember('team', id || 'skipped');
-  $('#picker').hidden = true;
-  renderTeamSelect();
-  const t = HUB.teams.find(x=>x.id===id);
-  if(t && jump) setLens(t.lens);
-}
+const STATE_PILL = {
+  built:   ['built','Built'],
+  partial: ['partial','Partly built — more content pending'],
+  scaffold:['scaffold','Scaffold — content pending']
+};
 
 function renderIntro(){
   const l = lens(state.lens);
-  const built = l.state === 'built';
+  const [cls,label] = STATE_PILL[l.state] || STATE_PILL.scaffold;
   $('#lensintro').innerHTML = `
     <div class="wrap" data-lens="${l.id}">
       <div class="eyebrow">${esc(l.who)}</div>
       <h1 class="ltitle">${esc(l.label)} lens</h1>
       <p class="ldesc">${esc(l.desc)}</p>
       <div class="lmeta">
-        <span class="pill ${built?'built':'scaffold'}">${built?'Built':'Scaffold — content pending'}</span>
+        <span class="pill ${cls}">${esc(label)}</span>
         <span class="pill owner">Owner: ${esc(l.owner)}</span>
         <button class="filterbtn" type="button" disabled title="Property filtering is specified but not wired yet — it will read from the Property Register.">Filters — not wired yet</button>
       </div>
@@ -484,16 +489,7 @@ function renderBoard(){
   if(l === 'role'){ host.innerHTML = renderRoleScaffold(); return; }
 
   const gs = groups(l);
-  if(l === 'buyer'){
-    host.innerHTML = `
-      <div class="notice" style="margin-bottom:18px">
-        <span class="ni">Scaffold</span>
-        <span>The full canonical buyer set is owned by <b>PMM</b> and is still pending. What is shown below is the
-        buyer-side content that already exists in the persona kit — it is not the finished Buyer lens.</span>
-      </div>
-      <div class="crossgrid">${gs.map(groupCard).join('')}</div>`;
-    return;
-  }
+  if(l === 'buyer'){ host.innerHTML = renderBuyer(gs); return; }
 
   /* user lens: stage board + cross-cutting band */
   const staged = HUB.stages.map(s=>{
@@ -511,26 +507,70 @@ function renderBoard(){
       <div class="ch">Cross-cutting</div>
       <div class="cd">These groups are not owned by one stage — they touch the job at every stage.</div>
       <div class="crossgrid">${cross.map(groupCard).join('')}</div>
-    </div>
-    ${renderTray()}`;
+    </div>`;
 }
 
-function renderTray(){
-  if(!HUB.unnested.length) return '';
-  return `<div class="tray">
-      <h3>Canonical roles not yet nested</h3>
-      <div class="td">These roles exist in the canonical CX list with full content, but the hand-off did not say which
-        functional group they belong to. They are parked here rather than guessed at.</div>
-      <div class="traygrid">${HUB.unnested.map(v=>`
-        <div class="accitem" data-open="true">
-          <div class="acchead" style="cursor:default">
-            <span class="atxt"><span class="an">${rich(v.name)}</span><span class="as">${rich(v.subtitle)}</span></span>
-            <span class="tag unnested">Unnested</span>
-          </div>
-          <div class="accbody" style="max-height:none">
-            <div class="accinner">${variantCols(v)}</div>
-          </div>
-        </div>`).join('')}</div>
+/* ---------------- buyer lens ---------------- */
+function renderBuyer(gs){
+  const icp = HUB.icp;
+  const grades = icp.grades.map(g=>`
+    <div class="icpcard t-${g.tone}">
+      <div class="icphead"><span class="ig">${esc(g.grade)}</span><span class="il">${esc(g.label)}</span></div>
+      <div class="icpbody">${g.rows.map(([k,v])=>`<div class="ir"><b>${rich(k)}:</b> ${rich(v)}</div>`).join('')}</div>
+    </div>`).join('');
+
+  const dm = icp.decision_makers.map(d=>`
+    <div class="dmrow">
+      <div class="dmn">${rich(d.name)}</div>
+      <div class="dmp"><span class="dml">Top pain</span>${rich(d.pain)}</div>
+      <div class="dmo"><span class="dml">Winning outcome</span>${rich(d.outcome)}</div>
+    </div>`).join('');
+
+  const tiers = icp.tiers.map(t=>`
+    <div class="tier">
+      <h4>${rich(t.name)}</h4>
+      <p>${rich(t.def)}</p>
+      <p class="tb"><b>Why they buy:</b> ${rich(t.buy)}</p>
+      <p class="tx">${rich(t.examples)}</p>
+    </div>`).join('');
+
+  const vb = icp.value_bridge.map(v=>`
+    <div class="vbcard"><div class="vt">${rich(v.t)}</div><div class="vd">${rich(v.d)}</div></div>`).join('');
+
+  return `
+    <section class="blk">
+      <h2 class="bt">Who buys ProShop</h2>
+      <p class="bd">${rich(icp.definition)}</p>
+      <ul class="bl">${icp.conditions.map(c=>`<li>${rich(c)}</li>`).join('')}</ul>
+      <div class="icpgrid">${grades}</div>
+      <p class="bsrc">Source: ${esc(icp.source)}</p>
+    </section>
+
+    <section class="blk">
+      <h2 class="bt">The decision-makers</h2>
+      <p class="bd">ProShop sells to the shop floor and the business, not just the C-suite. These three are the people
+        who evaluate, advocate for and sign off on the investment.</p>
+      <div class="dmtable">${dm}</div>
+      <div class="crossgrid" style="margin-top:16px">${gs.map(groupCard).join('')}</div>
+    </section>
+
+    <section class="blk">
+      <h2 class="bt">Industry priority tiers</h2>
+      <p class="bd">${rich(icp.lens)}</p>
+      <div class="tiers">${tiers}</div>
+    </section>
+
+    <section class="blk">
+      <h2 class="bt">The value bridge</h2>
+      <p class="bd">Why ProShop fits regulated, discrete manufacturing specifically.</p>
+      <div class="vbgrid">${vb}</div>
+    </section>
+
+    <div class="notice">
+      <span class="ni">Still pending</span>
+      <span>The full <b>F3 buyer persona definitions</b> are owned by PMM and are still a template — the content above
+      comes from the ICP page. A finished buyer persona also needs decision authority, evaluation triggers, what they
+      fear, how they evaluate, and the buying journey.</span>
     </div>`;
 }
 
@@ -548,17 +588,54 @@ function renderPositions(){
 }
 
 function renderRoleScaffold(){
+  const r = HUB.role;
+  const journey = r.journey.map(j=>`
+    <div class="jcard">
+      <div class="jst">${rich(j.stage)}</div>
+      <div class="jnm">${rich(j.name)}</div>
+      <p>${rich(j.d)}</p>
+    </div>`).join('');
+  const delivery = r.delivery.map(d=>`
+    <div class="vbcard"><div class="vt">${rich(d.t)}</div><div class="vd">${rich(d.d)}</div></div>`).join('');
+  const fields = r.definition_fields.map(([k,v])=>`
+    <div class="fldrow"><div class="fk">${rich(k)}</div><div class="fv">${rich(v)}</div></div>`).join('');
+
   return `
-    <div class="notice" style="margin-bottom:18px">
-      <span class="ni">Scaffold</span>
-      <span>The Role lens is framed but its content is owned by <b>CX / Implementation</b> and is still pending.
-      Nothing is shown here rather than inventing a taxonomy.</span>
+    <div class="notice" style="margin-bottom:22px">
+      <span class="ni">Partly built</span>
+      <span>${rich(r.purpose)}</span>
     </div>
+
+    <section class="blk">
+      <h2 class="bt">How a client learns their roles</h2>
+      <p class="bd">CX maps training to roles along a crawl / walk / run journey. Each implementation milestone covers
+        one ProShop workflow, and the roles that touch that workflow are brought in for it.</p>
+      <div class="jgrid">${journey}</div>
+    </section>
+
+    <section class="blk">
+      <h2 class="bt">How training reaches each role</h2>
+      <div class="vbgrid">${delivery}</div>
+    </section>
+
+    <section class="blk">
+      <h2 class="bt">What role-level training is driving toward</h2>
+      <div class="chips">${r.outcomes.map(o=>`<span class="chip">${rich(o)}</span>`).join('')}</div>
+    </section>
+
+    <section class="blk">
+      <h2 class="bt">What a finished role definition contains</h2>
+      <p class="bd">The F2 template sets the structure every canonical role definition has to fill. This is the shape
+        of the content still to be authored — useful as a checklist while CX works through the taxonomy.</p>
+      <div class="flds">${fields}</div>
+    </section>
+
     <div class="notice plain">
-      <span class="ni">What goes here</span>
-      <span>The full job taxonomy used to scope implementation and training — broader than the User lens, and resolving
-      down to the same <button class="xlens" type="button" style="background:var(--lens-position)" onclick="setLens('position')">Position backbone ${ARROW}</button></span>
-    </div>`;
+      <span class="ni">Resolves to</span>
+      <span>Every role in this lens ultimately maps to the shared
+      <button class="xlens" type="button" style="background:var(--lens-position)" onclick="setLens('position')">Position backbone ${ARROW}</button></span>
+    </div>
+    <p class="bsrc" style="margin-top:14px">Sources: ${r.sources.map(esc).join(' &middot; ')}</p>`;
 }
 
 /* ---------------- focus view ---------------- */
@@ -571,7 +648,7 @@ function variantCols(v){
           the source. It is shown as pending rather than written for them.</span>
         </div>
       </div>
-      <div class="accmeta"><span class="src">Source: ${esc(v.source)}</span><span class="tag ${v.nesting}">${esc(v.nesting)}</span></div>`;
+      <div class="accmeta"><span class="src">Source: ${esc(v.source)}</span></div>`;
   }
   const pos = v.positions.length
     ? `<span class="chip pos">${v.positions.map(esc).join('</span><span class="chip pos">')}</span>` : '';
@@ -584,7 +661,6 @@ function variantCols(v){
       <ul>${v.outcomes.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></div>
     <div class="accmeta">
       ${pos}
-      <span class="tag ${v.nesting}">${v.nesting==='proposed'?'Nesting proposed':v.nesting}</span>
       ${x}
       <span class="src">Source: ${esc(v.source)}</span>
     </div>`;
@@ -759,13 +835,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape' && state.focus) ba
 
 /* ---------------- boot ---------------- */
 (function init(){
-  const saved = recall('team');
-  if(saved && saved !== 'skipped'){
-    state.team = saved;
-    const t = HUB.teams.find(x=>x.id===saved);
-    if(t) state.lens = t.lens;
-  }
-  renderTabs(); renderTeamSelect(); renderPicker(); renderIntro(); renderBoard();
+  renderTabs(); renderIntro(); renderBoard();
 })();
 </script>
 </body>

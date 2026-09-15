@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026-09-14 — Hub revisions: nesting confirmed, Buyer + Role lenses populated
+
+- **Programming Powerhouse and Talented Assembly Technician** nested under Operator & Tool Crib
+  (Build / Production), per Samantha. The "not yet nested" tray is gone — every canonical role
+  with content now has a home.
+- **Nesting tags removed.** All nestings are confirmed, so the confirmed/proposed badges no
+  longer render. Per-role source attribution stays.
+- **"I am a…" role-based entry removed** (top-bar selector and first-run picker). The hub opens
+  on the User lens for everyone. This drops spec §3 at Samantha's direction.
+- **Buyer lens populated from Confluence** (Ideal Customer Profile, page 2058911745): the
+  "Who buys ProShop" Bullseye / Strong Fit cards brought over from the primer and extended with
+  Grade C, plus the three decision-makers with pain → winning outcome, the P1/P2 industry
+  priority tiers, and the value bridge.
+- **Role lens populated from Confluence** (Customer Education Strategy 1833959429, F2 template
+  2357100644): the crawl/walk/run client journey, how training reaches each role, the outcomes
+  training drives, and the field structure every finished role definition must fill.
+- Buyer and Role now read "partly built" rather than "scaffold".
+
+**Deliberately withheld from the public site:** the ICP page's TAM/ARR figures and its Anti-ICP
+sales prioritisation list, and CX's internal vendor stack. This repo is publicly served by
+GitHub Pages, and SOURCES_LOG directs that GTM/CI specifics stay out of the hub.
+
 ## 2026-09-14 — Persona Hub (v1)
 
 `index.html` is now the **Persona Hub**: four lenses onto the same people, with three depth

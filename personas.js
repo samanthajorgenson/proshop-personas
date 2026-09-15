@@ -42,8 +42,8 @@ const HUB = {
    "id": "buyer",
    "label": "Buyer",
    "who": "Sales / Marketing",
-   "desc": "The decision-makers who buy ProShop.",
-   "state": "scaffold",
+   "desc": "The decision-makers who buy ProShop, and the shops they run.",
+   "state": "partial",
    "owner": "PMM (Marketing)"
   },
   {
@@ -59,7 +59,7 @@ const HUB = {
    "label": "Role",
    "who": "CX / Implementation",
    "desc": "The full job taxonomy used to scope implementation and training.",
-   "state": "scaffold",
+   "state": "partial",
    "owner": "CX Enablement"
   },
   {
@@ -91,33 +91,6 @@ const HUB = {
    "id": "learn",
    "label": "Learn",
    "alt": "Post-Production"
-  }
- ],
- "teams": [
-  {
-   "id": "sales",
-   "label": "Sales / Marketing",
-   "lens": "buyer"
-  },
-  {
-   "id": "product",
-   "label": "Product / Design",
-   "lens": "user"
-  },
-  {
-   "id": "cx",
-   "label": "CX / Implementation",
-   "lens": "role"
-  },
-  {
-   "id": "ops",
-   "label": "Product Ops",
-   "lens": "user"
-  },
-  {
-   "id": "other",
-   "label": "Other",
-   "lens": "user"
   }
  ],
  "groups": [
@@ -152,7 +125,7 @@ const HUB = {
      "positions": [],
      "cross_lens": null,
      "source": "F2 User Personas (CX Enablement) - User Personas for Target Audience",
-     "nesting": "proposed",
+     "nesting": "confirmed",
      "status": "ok"
     }
    ],
@@ -189,7 +162,7 @@ const HUB = {
      "positions": [],
      "cross_lens": null,
      "source": "F2 User Personas (CX Enablement) - User Personas for Target Audience",
-     "nesting": "proposed",
+     "nesting": "confirmed",
      "status": "ok"
     }
    ],
@@ -228,7 +201,7 @@ const HUB = {
      "positions": [],
      "cross_lens": null,
      "source": "F2 User Personas (CX Enablement) - User Personas for Target Audience",
-     "nesting": "proposed",
+     "nesting": "confirmed",
      "status": "ok"
     }
    ],
@@ -265,7 +238,7 @@ const HUB = {
      "positions": [],
      "cross_lens": null,
      "source": "F2 User Personas (CX Enablement) - User Personas for Target Audience",
-     "nesting": "proposed",
+     "nesting": "confirmed",
      "status": "ok"
     }
    ],
@@ -302,7 +275,7 @@ const HUB = {
      "positions": [],
      "cross_lens": null,
      "source": "F2 User Personas (CX Enablement) - User Personas for Target Audience",
-     "nesting": "proposed",
+     "nesting": "confirmed",
      "status": "ok"
     },
     {
@@ -321,7 +294,47 @@ const HUB = {
      "positions": [],
      "cross_lens": null,
      "source": "F2 User Personas (CX Enablement) - User Personas for Target Audience",
-     "nesting": "proposed",
+     "nesting": "confirmed",
+     "status": "ok"
+    },
+    {
+     "name": "The Programming Powerhouse",
+     "subtitle": "Programs the job and owns setup documentation",
+     "pain": [
+      "Lack of schedule clarity leads to constant re-prioritization",
+      "Unable to find/view previous job data",
+      "Holder of the Tribal Knowledge (constant questions)"
+     ],
+     "outcomes": [
+      "Generate and provide G-Code",
+      "Maintain tooling and fixture catalog",
+      "Establish and document setup sheets, tool lists, and work instructions",
+      "Identify continuous improvement opportunities"
+     ],
+     "positions": [],
+     "cross_lens": null,
+     "source": "F2 User Personas (CX Enablement) - User Personas for Target Audience",
+     "nesting": "confirmed",
+     "status": "ok"
+    },
+    {
+     "name": "The Talented Assembly Technician",
+     "subtitle": "Assembles and verifies complex builds",
+     "pain": [
+      "Unable to locate BOM requirements and inventory",
+      "Work instructions unclear or “tribal knowledge”",
+      "Lack of schedule or work queue for forward planning"
+     ],
+     "outcomes": [
+      "Manage BOM allocations and inventory transactions",
+      "Document work instructions and necessary tooling",
+      "Complete assembly of complex components",
+      "Record inspection and test results"
+     ],
+     "positions": [],
+     "cross_lens": null,
+     "source": "F2 User Personas (CX Enablement) - User Personas for Target Audience",
+     "nesting": "confirmed",
      "status": "ok"
     }
    ],
@@ -628,50 +641,228 @@ const HUB = {
    ]
   }
  ],
- "unnested": [
-  {
-   "name": "The Programming Powerhouse",
-   "subtitle": "Programs the job and owns setup documentation",
-   "pain": [
-    "Lack of schedule clarity leads to constant re-prioritization",
-    "Unable to find/view previous job data",
-    "Holder of the Tribal Knowledge (constant questions)"
-   ],
-   "outcomes": [
-    "Generate and provide G-Code",
-    "Maintain tooling and fixture catalog",
-    "Establish and document setup sheets, tool lists, and work instructions",
-    "Identify continuous improvement opportunities"
-   ],
-   "positions": [],
-   "cross_lens": null,
-   "source": "F2 User Personas (CX Enablement) - User Personas for Target Audience",
-   "nesting": "unnested",
-   "status": "ok"
-  },
-  {
-   "name": "The Talented Assembly Technician",
-   "subtitle": "Assembles and verifies complex builds",
-   "pain": [
-    "Unable to locate BOM requirements and inventory",
-    "Work instructions unclear or “tribal knowledge”",
-    "Lack of schedule or work queue for forward planning"
-   ],
-   "outcomes": [
-    "Manage BOM allocations and inventory transactions",
-    "Document work instructions and necessary tooling",
-    "Complete assembly of complex components",
-    "Record inspection and test results"
-   ],
-   "positions": [],
-   "cross_lens": null,
-   "source": "F2 User Personas (CX Enablement) - User Personas for Target Audience",
-   "nesting": "unnested",
-   "status": "ok"
-  }
- ],
+ "unnested": [],
  "sources": {
   "f2": "F2 User Personas (CX Enablement) - User Personas for Target Audience",
   "positions": "ProShop access model (Editor + A-Seat CSVs), via the hub hand-off spec SS6"
+ },
+ "icp": {
+  "definition": "ProShop's ideal customer is the small-to-mid-market precision machine shop of 20-75+ employees serving defense, medical and aerospace in North America - where compliance, traceability and execution accuracy are non-negotiable.",
+  "conditions": [
+   "Documentation errors are as costly as part defects",
+   "Audits, certifications and customer mandates directly impact revenue",
+   "Manual systems - paper, spreadsheets, tribal knowledge - actively limit growth"
+  ],
+  "lens": "ProShop defines its ICP with a regulatory-first lens: the higher the regulatory burden and process complexity, the more differentiated ProShop becomes.",
+  "grades": [
+   {
+    "grade": "Grade A",
+    "label": "Bullseye",
+    "tone": "a",
+    "rows": [
+     [
+      "Industry",
+      "Aerospace, Defense, Medical"
+     ],
+     [
+      "Size",
+      "20&ndash;75 employees"
+     ],
+     [
+      "Compliance",
+      "AS9100, ITAR, CMMC, ISO 13485 (mandatory)"
+     ],
+     [
+      "Pain",
+      "&ldquo;We lose contracts if we fail audits.&rdquo;"
+     ],
+     [
+      "Buys because",
+      "Risk mitigation &amp; survival"
+     ]
+    ]
+   },
+   {
+    "grade": "Grade B",
+    "label": "Strong Fit",
+    "tone": "b",
+    "rows": [
+     [
+      "Industry",
+      "Industrial, Auto, Robotics, Energy, Oil &amp; Gas"
+     ],
+     [
+      "Size",
+      "10&ndash;19 or 76&ndash;150 employees"
+     ],
+     [
+      "Compliance",
+      "ISO 9001, or aspiring to bullseye certs"
+     ],
+     [
+      "Pain",
+      "&ldquo;Manual errors are killing our margin.&rdquo;"
+     ],
+     [
+      "Buys because",
+      "Scaling &amp; professionalization"
+     ]
+    ]
+   },
+   {
+    "grade": "Grade C",
+    "label": "Lower Fit",
+    "tone": "c",
+    "rows": [
+     [
+      "Industry",
+      "General mfg: Commercial, Ag, Mining, Consumer Goods"
+     ],
+     [
+      "Size",
+      "Under 10 or 200+ employees"
+     ],
+     [
+      "Compliance",
+      "Minimal or no formal QMS requirements"
+     ],
+     [
+      "Pain",
+      "&ldquo;We need better inventory tracking.&rdquo;"
+     ],
+     [
+      "Buys because",
+      "Modernization &amp; cleanup"
+     ]
+    ]
+   }
+  ],
+  "tiers": [
+   {
+    "name": "P1 &mdash; Regulated industries",
+    "def": "Legally required documentation, traceability and audit readiness.",
+    "buy": "Compliance failure means lost contracts or licence risk.",
+    "examples": "Aerospace, Defense, Medical, Space"
+   },
+   {
+    "name": "P2 &mdash; Complex manufacturing",
+    "def": "High workflow complexity with less mandated oversight.",
+    "buy": "Tribal knowledge, scheduling issues and margin erosion.",
+    "examples": "Automotive, Robotics, Semiconductor, Energy, Industrial Automation"
+   }
+  ],
+  "decision_makers": [
+   {
+    "name": "The Visionary Owner",
+    "pain": "Inaccurate quoting, poor scheduling, weak records",
+    "outcome": "Higher margins, predictable delivery"
+   },
+   {
+    "name": "The Quality Management Professional",
+    "pain": "Audit chaos, compliance risk",
+    "outcome": "100% audit readiness and improved first-pass yield"
+   },
+   {
+    "name": "The Shop Boss",
+    "pain": "Manual scheduling, no real-time visibility",
+    "outcome": "Better capacity utilisation, shorter lead times"
+   }
+  ],
+  "value_bridge": [
+   {
+    "t": "Regulated components",
+    "d": "Purpose-built for discrete precision components with complex processes."
+   },
+   {
+    "t": "Paperless shop floor",
+    "d": "Replaces paper travelers and manual inspection plans with real-time digital documentation."
+   },
+   {
+    "t": "Tribal-knowledge capture",
+    "d": "Centralises G-code, setup sheets and work instructions so the shop doesn't stop if one person leaves."
+   }
+  ],
+  "source": "Ideal Customer Profile - Marketing / GTM Hub (Confluence 2058911745), last modified 3/6/2026"
+ },
+ "role": {
+  "purpose": "The Role lens is the full job taxonomy CX uses to scope implementation and training. The canonical role definitions are owned by CX Enablement and are still being authored. What is shown here is how CX applies roles today, plus the structure every finished role definition has to fill.",
+  "journey": [
+   {
+    "stage": "Crawl",
+    "name": "Implementation clients",
+    "d": "Guided through their education journey by an Implementation Specialist, with ProShop Academy delivering the content. Each milestone focuses on one ProShop workflow, and clients are advised to involve every relevant user before that milestone's training begins."
+   },
+   {
+    "stage": "Walk &amp; Run",
+    "name": "Continuous-education clients",
+    "d": "After go-live, clients self-serve through ProShop Academy and the Knowledge Base, with Customer Success Managers monitoring for training needs and opportunities."
+   }
+  ],
+  "delivery": [
+   {
+    "t": "ProShop Academy courses",
+    "d": "Structured, multi-format courses with assessments, designed around the common workflows and roles that align with the ICP."
+   },
+   {
+    "t": "Live training",
+    "d": "Deep-dive conversations, complex workflows and relationship building with an expert trainer."
+   },
+   {
+    "t": "In-app guidance",
+    "d": "Contextual tooltips, checklists and walkthroughs for short workflows, plus help icons on unique attributes."
+   },
+   {
+    "t": "Knowledge base",
+    "d": "How-tos, FAQs and best practice - text-first, supplemented with screenshots and short clips."
+   }
+  ],
+  "outcomes": [
+   "Gain real-time business analytics",
+   "Maintain regulatory compliance",
+   "Improve on-time delivery",
+   "Increase throughput",
+   "Increase profitability and job-costing accuracy",
+   "Reduce non-conforming product and escapes (NCRs &amp; RMAs)",
+   "Optimise inventory and streamline purchasing",
+   "Reduce tribal knowledge"
+  ],
+  "definition_fields": [
+   [
+    "Role in the shop",
+    "What the person actually does day to day - the decisions they make and the processes they own."
+   ],
+   [
+    "ProShop modules they use",
+    "Split into daily and occasional use, which drives learning paths and article tagging."
+   ],
+   [
+    "Technical comfort level",
+    "High, medium or low - prior exposure to ERP and digital tools, not capability."
+   ],
+   [
+    "Jobs to be done",
+    "Written as &ldquo;when I &hellip;, I want to &hellip;, so I can &hellip;&rdquo;, in the user's language."
+   ],
+   [
+    "Primary pain points",
+    "Friction before ProShop and friction still inside it."
+   ],
+   [
+    "What success looks like",
+    "Concrete and observable, not &ldquo;more productive&rdquo;."
+   ],
+   [
+    "Common questions they ask",
+    "Verbatim questions from onboarding, tickets and training."
+   ],
+   [
+    "Content preferences",
+    "Length, depth, format, and where they look when stuck."
+   ]
+  ],
+  "sources": [
+   "ProShop's Customer Education Strategy - CX Enablement (Confluence 1833959429)",
+   "F2 - User Persona Definitions template - CX Enablement (Confluence 2357100644)"
+  ]
  }
 };

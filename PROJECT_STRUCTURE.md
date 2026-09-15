@@ -61,8 +61,21 @@ in a separate working environment. This repo holds the **published outputs only*
 |---|---|---|
 | **User** | Built — all three depths, real content | Product Ops |
 | **Position** | Built — taxonomy by department (entitlements excluded) | IT/Admin (taxonomy only) |
-| **Buyer** | Scaffold — existing Shop Owner + QMP content only | PMM (Marketing) |
-| **Role** | Scaffold — framed, no content | CX Enablement |
+| **Buyer** | Partly built — ICP content, decision-makers, tiers, value bridge. F3 personas pending | PMM (Marketing) |
+| **Role** | Partly built — CX education journey + definition structure. Taxonomy pending | CX Enablement |
+
+### ⚠️ This site is public — what is deliberately withheld
+
+GitHub Pages serves this repo to the open internet. SOURCES_LOG flags several inputs as
+**[CONFIDENTIAL — INTERNAL]** and directs that GTM/CI specifics stay out of the hub. The
+following were read during the build and **intentionally not published**:
+
+- TAM and revenue figures from the ICP page (CRM account counts, ARR concentration)
+- The Anti-ICP sales prioritisation list ("do not prioritise leads that…")
+- CX's internal vendor/tooling stack
+- Anything from the Strategic Methodology proposal (unratified; contains loss data and financials)
+
+Keep this rule in mind before pasting further Confluence content into `personas.js`.
 
 **Depth levels inside the User lens**
 
@@ -71,29 +84,20 @@ in a separate working environment. This repo holds the **published outputs only*
 3. "View full persona" — the absorbed persona kit content, PDF still downloadable
 
 **Provenance and honesty rules.** Every nested role's pain points and desired outcomes come
-from the F2 CX persona list (see SOURCES_LOG). Each carries a `nesting` flag rendered in the
-UI:
+from the F2 CX persona list (see SOURCES_LOG). All nestings were confirmed by Samantha on
+2026-09-14, so the `nesting` badges no longer render, but the field is kept in `personas.js`
+as provenance. Roles with no source content (The Busy Bookkeeper) are marked
+`content_pending` rather than written for. Nothing in the hub is invented.
 
-- `confirmed` — the nesting is stated in the hub hand-off spec
-- `proposed` — the content is sourced, but **which group it nests in is our proposal** and
-  must be confirmed against `Persona_Nesting_Map.md`
-- `unnested` — a canonical role with no group assigned; parked in a visible tray
-
-Roles with no source content (The Busy Bookkeeper) are marked `content_pending` rather than
-written for. Nothing in the hub is invented.
-
-> ### ⚠️ Inputs that were missing when the hub was built
+> ### Inputs that were missing when the hub was built
 >
 > `Persona_Nesting_Map.md`, `ProShop_Property_Register.md`, the framework model doc and
-> `hub_mock_interactive.html` were **not available** anywhere on disk. Consequences:
+> `hub_mock_interactive.html` were **not available** anywhere on disk. Remaining consequences:
 >
-> - **Six nestings are marked "proposed"** (Sales Superstar→Estimator, CRM→Order Entry,
->   Meticulous Planner→Planner/PM, Supply Chain Connoisseur→Buyer&Receiver, and Tool Crib
->   Captain + Modern Machinist→Operator&Tool Crib). They are content-matched but unconfirmed.
-> - **Two canonical roles are unplaced** (Programming Powerhouse, Talented Assembly
->   Technician) — no existing functional group obviously fits them.
 > - **Property filtering shows an affordance only**, since the Property Register defines it.
 > - The expand-to-focus interaction was built from the spec's prose, not the mock.
+> - The nesting was settled directly with Samantha instead of from the map, so if the map
+>   later surfaces, diff it against `HUB.groups[].variants` in `personas.js`.
 
 ---
 
