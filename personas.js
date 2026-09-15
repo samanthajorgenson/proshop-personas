@@ -44,7 +44,8 @@ const HUB = {
    "who": "Sales / Marketing",
    "desc": "The decision-makers who buy ProShop, and the shops they run.",
    "state": "partial",
-   "owner": "PMM (Marketing)"
+   "owner": "PMM (Marketing)",
+   "blurb": "Who signs, who champions, and the shops they run."
   },
   {
    "id": "user",
@@ -52,7 +53,8 @@ const HUB = {
    "who": "Product / Design",
    "desc": "The daily practitioners who live in the product.",
    "state": "built",
-   "owner": "Product Ops"
+   "owner": "Product Ops",
+   "blurb": "The people in the product every day, at three levels of depth."
   },
   {
    "id": "role",
@@ -60,15 +62,8 @@ const HUB = {
    "who": "CX / Implementation",
    "desc": "The full job taxonomy used to scope implementation and training.",
    "state": "partial",
-   "owner": "CX Enablement"
-  },
-  {
-   "id": "position",
-   "label": "Position",
-   "who": "Shared backbone",
-   "desc": "The canonical position taxonomy every lens resolves to.",
-   "state": "built",
-   "owner": "IT / Admin (taxonomy only)"
+   "owner": "CX Enablement",
+   "blurb": "How CX scopes implementation and training around roles."
   }
  ],
  "stages": [
@@ -569,75 +564,6 @@ const HUB = {
    ],
    "notes": [
     "This role is dual-lens: a daily user inside Functional QA and a decision-maker here. Only one set of canonical content exists for it - this is the same content viewed from the buyer side."
-   ]
-  }
- ],
- "positions": [
-  {
-   "dept": "Manufacturing",
-   "roles": [
-    "Shop Floor Operator/Technician",
-    "Machinist/Setup Machinist",
-    "CNC Programmer"
-   ]
-  },
-  {
-   "dept": "Quality",
-   "roles": [
-    "QA Inspector/Technician"
-   ]
-  },
-  {
-   "dept": "Engineering",
-   "roles": [
-    "QA/MFG/DSG Engineer"
-   ]
-  },
-  {
-   "dept": "Planning",
-   "roles": [
-    "Manufacturing Planner",
-    "Scheduler"
-   ]
-  },
-  {
-   "dept": "Sales",
-   "roles": [
-    "Estimator/Sales Engineer",
-    "Sales Representative"
-   ]
-  },
-  {
-   "dept": "Supply Chain",
-   "roles": [
-    "Purchaser",
-    "Shipping/Receiving Coordinator"
-   ]
-  },
-  {
-   "dept": "Accounting",
-   "roles": [
-    "Accounting Assistant"
-   ]
-  },
-  {
-   "dept": "Facilities",
-   "roles": [
-    "Shop Assistant",
-    "Maintenance Technician",
-    "Safety Coordinator"
-   ]
-  },
-  {
-   "dept": "IT",
-   "roles": [
-    "IT Support Specialist"
-   ]
-  },
-  {
-   "dept": "Company-Wide",
-   "roles": [
-    "Office Administrative Assistant"
    ]
   }
  ],

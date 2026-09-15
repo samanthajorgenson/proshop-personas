@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-09-14 — Landing page, real URLs, chunked lens pages
+
+The hub now behaves like a site rather than one long document.
+
+- **Landing page at `#/`** — what the hub is, why it exists, who each lens is for, how the
+  User lens's three depths work, and what is still being written. Three lens cards lead in.
+- **Hash routing.** Every view has a real URL (`#/buyer/tiers`, `#/user/functional_qa`), so the
+  back and forward buttons, refresh, bookmarks and shared links all work. Navigation is real
+  anchors, so middle-click and open-in-new-tab work too. Unknown routes fall back to the landing.
+- **Lens pages are chunked.** Buyer and Role were single long scrolls; each is now four sections
+  behind a sub-nav, one at a time. Buyer: who buys / decision-makers / priority tiers / why
+  ProShop fits. Role: learning journey / how training lands / what it drives / definition
+  structure. The User lens keeps board → focus.
+- **Breadcrumb** back to the hub on every lens page, and a skip-to-content link.
+- **Position lens removed** from the site — a flat list of job titles was not usable or
+  actionable. The taxonomy is preserved as an internal reference at `reference/positions.md`,
+  with a note on what it would have to do to earn a place back.
+- **ProShop 101 primer link removed** from the footer. `teaching-tool.html` stays in the repo
+  but is no longer linked.
+
 ## 2026-09-14 — Hub revisions: nesting confirmed, Buyer + Role lenses populated
 
 - **Programming Powerhouse and Talented Assembly Technician** nested under Operator & Tool Crib

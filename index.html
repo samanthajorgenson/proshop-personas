@@ -4,78 +4,123 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ProShop Persona Hub</title>
+<meta name="description" content="One set of people, seen through the lens your team actually works in — buyer, user, or role.">
 <link rel="stylesheet" href="design-tokens.css">
 <style>
-  /* All colour/size values come from design-tokens.css. Nothing here hard-codes
-     a brand colour, so the pending Figma swap stays a one-file change. */
+  /* Colour and size values all come from design-tokens.css so the pending Figma
+     swap stays a one-file change. Nothing here hard-codes a brand colour. */
   *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
   body{font-family:var(--sans);color:var(--ink);background:var(--wash);line-height:1.5;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
   [hidden]{display:none !important;}
 
-  /* ---------- generic interactive affordance ---------- */
-  .act{cursor:pointer;font:inherit;color:inherit;text-align:left;border:none;background:none;
+  /* ---------- interactive affordances ---------- */
+  .act{cursor:pointer;font:inherit;color:inherit;text-align:left;border:none;background:none;text-decoration:none;
        transition:transform var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease),border-color var(--t-fast);}
-  .act:focus-visible,.btn:focus-visible,.tab:focus-visible{outline:none;box-shadow:var(--ring);}
+  a{color:inherit;}
+  :focus-visible{outline:none;box-shadow:var(--ring);border-radius:var(--radius-sm);}
   .btn{display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:12.5px;font-weight:700;
-       padding:10px 16px;border-radius:var(--radius-sm);cursor:pointer;border:none;
+       padding:10px 16px;border-radius:var(--radius-sm);cursor:pointer;border:none;text-decoration:none;
        transition:transform var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease),background var(--t-fast);}
   .btn.flame{background:var(--flame);color:var(--paper);box-shadow:0 2px 0 #BE3A00,0 7px 20px rgba(255,79,0,.28);}
   .btn.flame:hover{transform:translateY(-2px);box-shadow:0 4px 0 #BE3A00,0 12px 26px rgba(255,79,0,.34);}
   .btn.flame:active{transform:translateY(1px);box-shadow:0 1px 0 #BE3A00;}
   .btn.line{background:var(--paper);color:var(--ink);border:1.5px solid var(--line);}
   .btn.line:hover{border-color:var(--accent,var(--flame));transform:translateY(-2px);}
-  .btn.line:active{transform:translateY(1px);}
-  .btn.ghost{background:rgba(255,255,255,.10);color:var(--paper);border:1px solid rgba(255,255,255,.22);}
-  .btn.ghost:hover{background:rgba(255,255,255,.2);}
+  .skiplink{position:absolute;left:-9999px;top:0;z-index:100;background:var(--flame);color:var(--paper);
+            padding:10px 16px;font-size:12.5px;font-weight:700;border-radius:0 0 var(--radius-sm) 0;}
+  .skiplink:focus{left:0;}
 
   /* ---------- top bar ---------- */
   .topbar{background:var(--ink);color:var(--paper);position:sticky;top:0;z-index:40;}
-  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;min-height:var(--nav-h);gap:16px;flex-wrap:wrap;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;min-height:var(--nav-h);gap:16px;}
   .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:16px;letter-spacing:-.01em;
-         background:none;border:none;color:var(--paper);cursor:pointer;font-family:inherit;padding:4px 6px;border-radius:var(--radius-sm);}
+         color:var(--paper);text-decoration:none;padding:4px 6px;border-radius:var(--radius-sm);}
   .brand .logo{width:26px;height:26px;border-radius:7px;background:var(--flame);display:grid;place-items:center;font-size:15px;}
   .brand small{font-weight:500;color:#9B98A6;font-size:11px;letter-spacing:.04em;}
 
-  /* ---------- lens tabs ---------- */
   .lensbar{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);position:sticky;top:var(--nav-h);z-index:39;}
-  .lensbar .wrap{display:flex;gap:4px;overflow-x:auto;}
-  .tab{position:relative;background:none;border:none;color:#C9C6D2;font-family:inherit;cursor:pointer;
-       padding:13px 16px 12px;border-radius:var(--radius-sm) var(--radius-sm) 0 0;white-space:nowrap;transition:color var(--t-fast),background var(--t-fast);}
+  .lensbar .wrap{display:flex;gap:2px;overflow-x:auto;}
+  .tab{position:relative;color:#C9C6D2;text-decoration:none;padding:12px 16px 11px;white-space:nowrap;
+       border-radius:var(--radius-sm) var(--radius-sm) 0 0;transition:color var(--t-fast),background var(--t-fast);}
   .tab .tl{font-size:13px;font-weight:800;display:block;}
   .tab .tw{font-size:10px;font-weight:600;color:#83808F;letter-spacing:.04em;}
   .tab::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:3px;border-radius:3px 3px 0 0;
-              background:var(--tint);transform:scaleX(0);transform-origin:center;transition:transform var(--t-med) var(--ease);}
-  .tab:hover{color:var(--paper);background:rgba(255,255,255,.06);}
-  .tab[aria-selected="true"]{color:var(--paper);}
-  .tab[aria-selected="true"]::after{transform:scaleX(1);}
+              background:var(--tint);transform:scaleX(0);transition:transform var(--t-med) var(--ease);}
+  .tab:hover{color:var(--paper);background:rgba(255,255,255,.07);}
+  .tab:hover::after,.tab[aria-current="page"]::after{transform:scaleX(1);}
+  .tab[aria-current="page"]{color:var(--paper);}
   .tab[data-lens="buyer"]{--tint:var(--lens-buyer);}
   .tab[data-lens="user"]{--tint:var(--lens-user);}
   .tab[data-lens="role"]{--tint:var(--lens-role);}
-  .tab[data-lens="position"]{--tint:var(--lens-position);}
+
+  /* ---------- page transition ---------- */
+  #page{transition:opacity var(--t-med) var(--ease),transform var(--t-med) var(--ease);}
+  #page.swap{opacity:0;transform:translateY(10px);}
+  main{padding:28px 0 64px;}
+
+  /* ---------- landing ---------- */
+  .hero{background:radial-gradient(900px 420px at 80% -25%,#2E1238 0%,transparent 62%),var(--ink);
+        color:var(--paper);padding:72px 0 64px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-70px;top:-70px;width:290px;height:290px;
+               background:var(--flame);opacity:.13;transform:rotate(45deg);}
+  .hero .wrap{position:relative;z-index:1;}
+  .hero .kick{font-size:11px;letter-spacing:.22em;font-weight:700;color:var(--flame);text-transform:uppercase;margin-bottom:14px;}
+  .hero h1{font-size:46px;font-weight:800;letter-spacing:-.028em;line-height:1.04;max-width:16em;}
+  .hero h1 em{font-style:normal;color:var(--flame);}
+  .hero .sub{font-size:16px;color:#C9C6D2;margin-top:16px;max-width:42em;}
+
+  .hsec{padding:52px 0;}
+  .hsec.alt{background:var(--paper);border-block:1px solid var(--line);}
+  .hh{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px;}
+  .hp{font-size:14px;color:var(--ink-soft);max-width:60em;margin-bottom:26px;}
+
+  .lenscards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
+  .lenscard{display:flex;flex-direction:column;background:var(--paper);border:1.5px solid var(--line);
+            border-radius:var(--radius);padding:24px;position:relative;overflow:hidden;}
+  .hsec.alt .lenscard{background:var(--wash);}
+  .lenscard::before{content:"";position:absolute;left:0;top:0;width:100%;height:5px;background:var(--accent);opacity:.6;transition:opacity var(--t-fast);}
+  .lenscard:hover{border-color:var(--accent);transform:translateY(-5px);box-shadow:var(--shadow-lg);}
+  .lenscard:hover::before{opacity:1;}
+  .lenscard .lw{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--accent);margin-bottom:8px;}
+  .lenscard .ln{font-size:21px;font-weight:800;letter-spacing:-.015em;margin-bottom:7px;}
+  .lenscard .lb{font-size:13px;color:var(--ink-soft);margin-bottom:16px;}
+  .lenscard .lgo{margin-top:auto;display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;
+                 letter-spacing:.07em;text-transform:uppercase;color:var(--accent);}
+
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;counter-reset:s;}
+  .step{position:relative;padding-left:44px;}
+  .step::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;
+                border-radius:50%;background:var(--flame);color:var(--paper);display:grid;place-items:center;font-weight:800;font-size:14px;}
+  .step h4{font-size:14px;font-weight:800;margin-bottom:5px;}
+  .step p{font-size:12.5px;color:var(--ink-soft);}
 
   /* ---------- lens intro ---------- */
   .lensintro{background:var(--paper);border-bottom:1px solid var(--line);}
-  .lensintro .wrap{padding:26px 24px 22px;}
+  .lensintro .wrap{padding:26px 24px 0;}
+  .crumb{font-size:11px;color:var(--mute);margin-bottom:10px;}
+  .crumb a{color:var(--mute);text-decoration:none;font-weight:700;}
+  .crumb a:hover{color:var(--flame);}
   .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--accent);margin-bottom:8px;}
   .eyebrow::before{content:"";width:22px;height:2px;background:var(--accent);border-radius:2px;}
-  h1.ltitle{font-size:29px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;}
+  h1.ltitle{font-size:28px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;}
   .ldesc{font-size:14px;color:var(--ink-soft);max-width:60em;}
   .lmeta{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
   .pill{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:999px;}
   .pill.built{background:rgba(25,135,84,.12);color:var(--green);}
   .pill.partial{background:rgba(31,95,168,.12);color:var(--lens-buyer);}
-  .pill.scaffold{background:var(--amber-wash);color:var(--amber);}
   .pill.owner{background:var(--wash);color:var(--mute);border:1px solid var(--line);}
-  .filterbtn{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--mute);background:var(--wash);
-             border:1px dashed var(--line);border-radius:var(--radius-sm);padding:8px 12px;cursor:not-allowed;font-family:inherit;}
 
-  main{padding:28px 0 60px;}
-
-  /* ---------- board / focus swap ---------- */
-  .stack{position:relative;}
-  .view{transition:opacity var(--t-med) var(--ease),transform var(--t-med) var(--ease);}
-  .view.out{opacity:0;transform:translateY(10px);pointer-events:none;position:absolute;inset:0;}
+  /* section sub-nav — chunks each lens instead of one long scroll */
+  .subnav{display:flex;gap:3px;margin-top:20px;overflow-x:auto;}
+  .subnav a{position:relative;font-size:12.5px;font-weight:700;color:var(--mute);text-decoration:none;
+            padding:10px 14px;white-space:nowrap;border-radius:var(--radius-sm) var(--radius-sm) 0 0;transition:var(--t-fast);}
+  .subnav a::after{content:"";position:absolute;left:10px;right:10px;bottom:0;height:3px;border-radius:3px 3px 0 0;
+                   background:var(--accent);transform:scaleX(0);transition:transform var(--t-med) var(--ease);}
+  .subnav a:hover{color:var(--ink);background:var(--wash);}
+  .subnav a[aria-current="page"]{color:var(--ink);}
+  .subnav a[aria-current="page"]::after{transform:scaleX(1);}
 
   /* ---------- board ---------- */
   .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start;}
@@ -83,10 +128,9 @@
   .stagehead{background:var(--flame-wash);border:1px solid var(--flame-line);border-radius:var(--radius-sm);padding:9px 12px;}
   .stagehead .s{font-family:var(--mono);font-size:10px;color:var(--flame);font-weight:700;}
   .stagehead .n{font-size:12.5px;font-weight:800;}
-  .stagehead .a{font-size:10px;color:var(--mute);font-weight:600;}
 
-  .gcard{width:100%;background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius);
-         padding:15px 14px 13px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;}
+  .gcard{display:flex;flex-direction:column;gap:6px;background:var(--paper);border:1.5px solid var(--line);
+         border-radius:var(--radius);padding:15px 14px 13px;position:relative;overflow:hidden;}
   .gcard::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:var(--accent);opacity:.5;transition:opacity var(--t-fast);}
   .gcard:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:var(--shadow-lg);}
   .gcard:hover::before{opacity:1;}
@@ -106,16 +150,16 @@
   .crossband .gcard .cnt{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:#C9C6D2;}
   .crossband .gcard .cnt.warn{background:var(--amber-wash);color:var(--amber);}
 
-  /* ---------- focus view ---------- */
+  /* ---------- focus ---------- */
   .railbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
   .backall{flex:none;font-size:12px;font-weight:800;background:var(--paper);border:1.5px solid var(--line);
-           border-radius:var(--radius-sm);padding:9px 13px;cursor:pointer;font-family:inherit;transition:var(--t-fast);}
+           border-radius:var(--radius-sm);padding:9px 13px;text-decoration:none;transition:var(--t-fast);}
   .backall:hover{border-color:var(--accent);transform:translateX(-2px);}
   .rail{display:flex;gap:7px;overflow-x:auto;padding-bottom:3px;}
   .railchip{flex:none;font-size:11.5px;font-weight:700;background:var(--paper);border:1.5px solid var(--line);
-            border-radius:999px;padding:8px 14px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:var(--t-fast);}
+            border-radius:999px;padding:8px 14px;white-space:nowrap;text-decoration:none;transition:var(--t-fast);}
   .railchip:hover{border-color:var(--accent);}
-  .railchip[aria-current="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper);}
+  .railchip[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--paper);}
 
   .fpanel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
   .fhead{padding:24px 26px 22px;border-bottom:1px solid var(--line);}
@@ -129,7 +173,6 @@
   .fbody{padding:22px 26px 26px;}
   .fsec{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
         padding-bottom:6px;border-bottom:2px solid var(--accent);margin:0 0 14px;}
-  .fsec.mt{margin-top:26px;}
 
   /* ---------- accordion ---------- */
   .acc{display:flex;flex-direction:column;gap:9px;}
@@ -138,7 +181,6 @@
   .acchead{width:100%;display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;
            font-family:inherit;background:none;border:none;text-align:left;transition:background var(--t-fast);}
   .acchead:hover{background:var(--wash);}
-  .acchead:focus-visible{outline:none;box-shadow:var(--ring);}
   .acchead .an{display:block;font-size:13.5px;font-weight:800;}
   .acchead .as{display:block;font-size:11px;color:var(--mute);margin-top:1px;}
   .acchead .atxt{flex:1;min-width:0;}
@@ -156,16 +198,11 @@
   .col li::before{content:"";position:absolute;left:0;top:6px;width:5px;height:5px;border-radius:50%;}
   .col.pain li::before{background:var(--amber);}
   .col.out li::before{background:var(--green);}
-  .accmeta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-top:4px;border-top:1px dashed var(--line);margin-top:2px;}
+  .accmeta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-top:8px;border-top:1px dashed var(--line);}
   .src{font-size:10px;color:var(--mute);}
-  .tag{font-size:9.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:999px;}
-  .tag.confirmed{background:rgba(25,135,84,.12);color:var(--green);}
-  .tag.proposed{background:var(--amber-wash);color:var(--amber);}
-  .tag.unnested{background:var(--wash);color:var(--mute);border:1px solid var(--line);}
   .xlens{font-size:10px;font-weight:800;background:var(--lens-buyer);color:var(--paper);border:none;
-         border-radius:999px;padding:5px 11px;cursor:pointer;font-family:inherit;transition:var(--t-fast);}
+         border-radius:999px;padding:5px 11px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:var(--t-fast);}
   .xlens:hover{transform:translateY(-1px);}
-  .xlens:focus-visible{outline:none;box-shadow:var(--ring);}
 
   /* ---------- notices ---------- */
   .notice{display:flex;gap:12px;align-items:flex-start;background:var(--amber-wash);border:1px solid rgba(180,83,9,.25);
@@ -230,27 +267,19 @@
   .pdlrow{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;}
   .pdlrow .note{font-size:10px;color:var(--mute);}
 
-  /* ---------- positions lens ---------- */
-  .depts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
-  .dept{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;}
-  .dept h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--accent);margin-bottom:11px;}
-  .dept ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
-  .dept li{font-size:12.5px;font-weight:600;color:var(--ink-soft);padding-left:15px;position:relative;}
-  .dept li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:2px;background:var(--accent);opacity:.5;}
-
-  /* ---------- buyer + role content blocks ---------- */
-  .blk{margin-bottom:34px;}
+  /* ---------- buyer + role content ---------- */
+  .blk{margin-bottom:8px;}
   .bt{font-size:21px;font-weight:800;letter-spacing:-.015em;margin-bottom:7px;}
-  .bd{font-size:13.5px;color:var(--ink-soft);max-width:64em;margin-bottom:14px;}
-  .bl{list-style:none;margin:-6px 0 16px;display:flex;flex-direction:column;gap:6px;}
+  .bd{font-size:13.5px;color:var(--ink-soft);max-width:64em;margin-bottom:16px;}
+  .bl{list-style:none;margin:-8px 0 20px;display:flex;flex-direction:column;gap:6px;}
   .bl li{font-size:12.5px;color:var(--ink-soft);padding-left:16px;position:relative;}
   .bl li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent);}
-  .bsrc{font-size:10.5px;color:var(--mute);margin-top:12px;}
+  .bsrc{font-size:10.5px;color:var(--mute);margin-top:16px;}
 
   .icpgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
   .icpcard{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--paper);}
   .icphead{color:var(--paper);padding:11px 18px;display:flex;align-items:baseline;gap:10px;}
-  .icphead .ig{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.8;}
+  .icphead .ig{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.85;}
   .icphead .il{font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;}
   .icpcard.t-a .icphead{background:var(--flame);}
   .icpcard.t-b .icphead{background:#C15A20;}
@@ -295,60 +324,56 @@
   footer.foot{background:var(--ink);color:#9B98A6;padding:28px 0;font-size:11px;}
   footer.foot .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;}
   footer.foot b{color:var(--paper);}
-  footer.foot a{color:var(--flame);font-weight:700;}
 
   @media (max-width:1000px){
     .stages{grid-template-columns:1fr 1fr;}
-    .trip{grid-template-columns:1fr;}
+    .trip,.tiers,.jgrid{grid-template-columns:1fr;}
     .flowrow{grid-template-columns:1fr;gap:8px;}
     .farr{flex-direction:row;gap:6px;padding:3px 0;}
-    .tiers,.jgrid{grid-template-columns:1fr;}
     .dmrow{grid-template-columns:1fr;gap:10px;}
+    .hero h1{font-size:38px;}
   }
   @media (max-width:680px){
     .stages{grid-template-columns:1fr;}
     .accinner{grid-template-columns:1fr;gap:14px;}
     .snap,.kpis{grid-template-columns:1fr;}
-    h1.ltitle{font-size:23px;}
+    .fldrow{grid-template-columns:1fr;gap:4px;}
+    h1.ltitle{font-size:22px;}
+    .hero{padding:52px 0 46px;}
+    .hero h1{font-size:30px;}
+    .bt,.hh{font-size:18px;}
     .fhead,.fbody{padding-left:18px;padding-right:18px;}
     .fhead h2{font-size:21px;}
-    .fldrow{grid-template-columns:1fr;gap:4px;}
-    .bt{font-size:18px;}
   }
   @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
     *{transition-duration:.01ms !important;}
-    .accbody{transition:none !important;}
   }
 </style>
 </head>
 <body>
 
+<a class="skiplink" href="#main">Skip to content</a>
+
 <div class="topbar">
   <div class="wrap">
-    <button class="brand act" type="button" onclick="goHome()" aria-label="ProShop Persona Hub home">
-      <span class="logo" aria-hidden="true">P</span> ProShop Persona Hub <small>Persona framework</small>
-    </button>
+    <a class="brand" href="#/"><span class="logo" aria-hidden="true">P</span> ProShop Persona Hub <small>Persona framework</small></a>
   </div>
 </div>
 
-<div class="lensbar">
-  <div class="wrap" role="tablist" id="lenstabs" aria-label="Persona lenses"></div>
-</div>
+<nav class="lensbar" aria-label="Persona lenses">
+  <div class="wrap" id="lenstabs"></div>
+</nav>
 
-<div class="lensintro" id="lensintro"></div>
+<div class="lensintro" id="lensintro" hidden></div>
 
-<main>
-  <div class="wrap">
-    <div class="stack">
-      <div class="view" id="boardview"></div>
-      <div class="view out" id="focusview" hidden></div>
-    </div>
-  </div>
+<main id="main">
+  <div id="page"></div>
 </main>
 
 <footer class="foot">
   <div class="wrap">
-    <span>ProShop Persona Hub &middot; <a href="teaching-tool.html">ProShop&nbsp;101 primer &amp; downloads &rarr;</a></span>
+    <span>ProShop Persona Hub</span>
     <span>Authored and updated <b>9/14/2026</b> by <b>Samantha Jorgenson</b>, Product Operations Manager</span>
   </div>
 </footer>
@@ -356,21 +381,25 @@
 <script src="personas.js"></script>
 <script>
 /* ============================================================================
-   ProShop Persona Hub — application
-   Content lives in personas.js. This file renders it.
+   ProShop Persona Hub
+   Routing is hash-based so every view has a real URL: the back button, refresh,
+   bookmarks and shared links all behave the way a webpage should.
+     #/                     landing
+     #/buyer[/section]      buyer lens, one section at a time
+     #/user[/groupId]       board, or one functional group in focus
+     #/role[/section]       role lens, one section at a time
    ============================================================================ */
-const $ = (s,r=document)=>r.querySelector(s);
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-const state = { lens:'user', focus:null, l3:false };
 
 const ARROW = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>';
 const DOWN  = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 12l6 6 6-6"/></svg>';
 const FLOWARROW = '<svg viewBox="0 0 22 10" aria-hidden="true"><line x1="0" y1="5" x2="15" y2="5" stroke="currentColor" stroke-width="2"/><polygon points="15,1 22,5 15,9" fill="currentColor"/></svg>';
 
-const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const esc  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const attr = s => String(s).replace(/'/g,"\\'");
-/* Persona copy carries intentional HTML entities/tags from the kit — pass through. */
+/* Persona copy carries intentional HTML entities from the kit — pass through. */
 const rich = s => (s==null?'':String(s));
 
 const lens   = id => HUB.lenses.find(l=>l.id===id);
@@ -378,120 +407,179 @@ const groups = id => HUB.groups.filter(g=>g.lens===id);
 const group  = id => HUB.groups.find(g=>g.id===id);
 const persona= key => PERSONAS.find(p=>p._key===key);
 
+const SECTIONS = {
+  buyer:[{id:'who',label:'Who buys ProShop'},{id:'people',label:'The decision-makers'},
+         {id:'tiers',label:'Priority tiers'},{id:'fit',label:'Why ProShop fits'}],
+  role: [{id:'journey',label:'The learning journey'},{id:'delivery',label:'How training lands'},
+         {id:'outcomes',label:'What it drives'},{id:'structure',label:'Definition structure'}]
+};
+const STATE_PILL = {built:['built','Built'],partial:['partial','Partly built — more content pending'],
+                    scaffold:['scaffold','Scaffold — content pending']};
+
+let route = {lens:'home', sub:null};
+
+/* ---------------- routing ---------------- */
+function parseHash(){
+  const raw = location.hash.replace(/^#\/?/,'').replace(/\/$/,'');
+  if(!raw) return {lens:'home', sub:null};
+  const [a,b] = raw.split('/');
+  if(!lens(a)) return {lens:'home', sub:null};
+  return {lens:a, sub:b||null};
+}
+
+function applyRoute(){
+  const next = parseHash();
+  const changedPage = next.lens!==route.lens || next.sub!==route.sub;
+  route = next;
+  renderTabs();
+  if(route.lens==='home'){
+    $('#lensintro').hidden = true;
+    swap(renderHome);
+  } else {
+    $('#lensintro').hidden = false;
+    renderIntro();
+    swap(()=>renderLensPage());
+  }
+  if(changedPage) window.scrollTo({top:0,behavior:'instant'});
+}
+
+/* fade the page out, re-render, fade back in */
+function swap(render){
+  const page = $('#page');
+  const paint = ()=>{ page.innerHTML = render(); page.classList.remove('swap'); afterPaint(); };
+  if(REDUCED){ paint(); return; }
+  page.classList.add('swap');
+  setTimeout(paint, 140);
+}
+function afterPaint(){
+  const first = $('.accitem[data-open="true"] .accbody');
+  if(first) first.style.maxHeight = first.scrollHeight + 'px';
+}
+
+window.addEventListener('hashchange', applyRoute);
+
 /* ---------------- chrome ---------------- */
 function renderTabs(){
   $('#lenstabs').innerHTML = HUB.lenses.map(l=>
-    `<button class="tab" type="button" role="tab" data-lens="${l.id}"
-       aria-selected="${l.id===state.lens}" onclick="setLens('${l.id}')">
-       <span class="tl">${esc(l.label)}</span><span class="tw">${esc(l.who)}</span>
-     </button>`).join('');
+    `<a class="tab" href="#/${l.id}" data-lens="${l.id}"${route.lens===l.id?' aria-current="page"':''}>
+       <span class="tl">${esc(l.label)}</span><span class="tw">${esc(l.who)}</span></a>`).join('');
 }
 
-const STATE_PILL = {
-  built:   ['built','Built'],
-  partial: ['partial','Partly built — more content pending'],
-  scaffold:['scaffold','Scaffold — content pending']
-};
-
 function renderIntro(){
-  const l = lens(state.lens);
+  const l = lens(route.lens);
   const [cls,label] = STATE_PILL[l.state] || STATE_PILL.scaffold;
+  const secs = SECTIONS[l.id];
+  const cur  = currentSection();
+  const sub  = secs ? `<div class="subnav">${secs.map(s=>
+        `<a href="#/${l.id}/${s.id}"${s.id===cur?' aria-current="page"':''}>${esc(s.label)}</a>`).join('')}</div>` : '';
   $('#lensintro').innerHTML = `
     <div class="wrap" data-lens="${l.id}">
+      <div class="crumb"><a href="#/">Persona Hub</a> &rsaquo; ${esc(l.label)} lens</div>
       <div class="eyebrow">${esc(l.who)}</div>
       <h1 class="ltitle">${esc(l.label)} lens</h1>
       <p class="ldesc">${esc(l.desc)}</p>
       <div class="lmeta">
         <span class="pill ${cls}">${esc(label)}</span>
         <span class="pill owner">Owner: ${esc(l.owner)}</span>
-        <button class="filterbtn" type="button" disabled title="Property filtering is specified but not wired yet — it will read from the Property Register.">Filters — not wired yet</button>
+      </div>
+      ${sub}
+    </div>`;
+}
+
+function currentSection(){
+  const secs = SECTIONS[route.lens];
+  if(!secs) return null;
+  return secs.some(s=>s.id===route.sub) ? route.sub : secs[0].id;
+}
+
+/* ---------------- landing ---------------- */
+function renderHome(){
+  const cards = HUB.lenses.map(l=>`
+    <a class="lenscard act" href="#/${l.id}" data-lens="${l.id}">
+      <span class="lw">${esc(l.who)}</span>
+      <span class="ln">${esc(l.label)} lens</span>
+      <span class="lb">${esc(l.blurb||l.desc)}</span>
+      <span class="lgo">Open the ${esc(l.label.toLowerCase())} lens ${ARROW}</span>
+    </a>`).join('');
+
+  return `
+    <div class="hero" style="margin:-28px 0 0">
+      <div class="wrap">
+        <div class="kick">ProShop Persona Framework</div>
+        <h1>One set of people. <em>Three ways to look at them.</em></h1>
+        <p class="sub">ProShop's personas were scattered across CX, marketing and product — each team describing the
+          same machinists and quality managers in its own language. The hub keeps one spine of real people and puts a
+          lens in front of it for each team, so nobody has to translate between three versions of the same person.</p>
+      </div>
+    </div>
+
+    <div class="hsec">
+      <div class="wrap">
+        <h2 class="hh">Pick the lens your work asks for</h2>
+        <p class="hp">Every lens is open to everyone — these are starting points, not permissions. The same person can
+          appear in more than one, and where they do, the hub links across.</p>
+        <div class="lenscards">${cards}</div>
+      </div>
+    </div>
+
+    <div class="hsec alt">
+      <div class="wrap">
+        <h2 class="hh">How the User lens goes deep</h2>
+        <p class="hp">The User lens is the most developed of the three. It works in three levels, so you can stay at
+          the overview or go all the way to the full persona.</p>
+        <div class="steps">
+          <div class="step"><h4>Start at the board</h4><p>Functional groups laid out across the four workflow stages,
+            plus the two that cut across every stage.</p></div>
+          <div class="step"><h4>Open a group</h4><p>The group's summary, and the canonical CX roles nested inside it
+            with their pain points and desired outcomes.</p></div>
+          <div class="step"><h4>Read the full persona</h4><p>Day in the life, snapshot, tech comfort, goals and
+            frustrations, KPIs, modules and where they sit in the flow — plus the print-ready PDF.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hsec">
+      <div class="wrap">
+        <h2 class="hh">What is still being written</h2>
+        <p class="hp">The hub shows what is sourced and flags what is not, rather than filling gaps with plausible
+          invention. Two things are outstanding.</p>
+        <div class="vbgrid">
+          <div class="vbcard" data-lens="buyer"><div class="vt">Buyer personas (PMM)</div>
+            <div class="vd">The F3 definitions are still a template. What is published comes from the ICP page —
+              decision authority, evaluation triggers and the buying journey are not written yet.</div></div>
+          <div class="vbcard" data-lens="role"><div class="vt">Role taxonomy (CX)</div>
+            <div class="vd">The canonical role definitions are in progress. The lens shows how CX applies roles today
+              and the structure each definition has to fill.</div></div>
+        </div>
       </div>
     </div>`;
 }
 
-/* ---------------- lens + focus routing ---------------- */
-function setLens(id){
-  state.lens = id;
-  state.focus = null;
-  state.l3 = false;
-  /* Clear the focus panel outright. Leaving it mounted showed the previous lens's
-     group for a beat after switching — and after a cross-lens jump that found no
-     target, it never went away at all. */
-  const f = $('#focusview');
-  f.hidden = true; f.classList.add('out'); f.innerHTML = '';
-  renderTabs(); renderIntro(); renderBoard();
-  showBoard();
-  window.scrollTo({top:0,behavior:REDUCED?'auto':'smooth'});
-}
-function goHome(){ setLens(state.lens); }
-
-function showBoard(){
-  const b = $('#boardview'), f = $('#focusview');
-  f.classList.add('out'); b.hidden = false;
-  requestAnimationFrame(()=>b.classList.remove('out'));
-  setTimeout(()=>{ if(!state.focus) f.hidden = true; }, REDUCED?0:320);
-}
-function showFocus(){
-  const b = $('#boardview'), f = $('#focusview');
-  f.hidden = false; b.classList.add('out');
-  requestAnimationFrame(()=>f.classList.remove('out'));
-  setTimeout(()=>{ if(state.focus) b.hidden = true; }, REDUCED?0:320);
+/* ---------------- lens pages ---------------- */
+function renderLensPage(){
+  const l = route.lens;
+  if(l==='user')  return route.sub && group(route.sub) ? renderFocus(group(route.sub)) : renderBoard();
+  if(l==='buyer') return `<div class="wrap" data-lens="buyer">${buyerSection(currentSection())}</div>`;
+  if(l==='role')  return `<div class="wrap" data-lens="role">${roleSection(currentSection())}</div>`;
+  return '';
 }
 
-function openGroup(gid){
-  state.focus = gid; state.l3 = false;
-  renderFocus(); showFocus();
-  /* Both the top bar and the lens tabs are sticky, so scroll short of the target
-     by their combined height or the heading lands underneath them. */
-  const sticky = $('.topbar').offsetHeight + $('.lensbar').offsetHeight;
-  const y = Math.max(0, $('main').offsetTop - sticky - 12);
-  window.scrollTo({top:y,behavior:REDUCED?'auto':'smooth'});
-}
-function backToBoard(){
-  state.focus = null; state.l3 = false;
-  $('#boardview').hidden = false;
-  showBoard();
-}
-
-/* cross-lens jump: switch lens, then focus the group that holds that variant */
-function crossLens(targetLens, variantName){
-  setLens(targetLens);
-  const g = groups(targetLens).find(x=>x.variants.some(v=>v.name===variantName));
-  if(g) setTimeout(()=>{ openGroup(g.id); setTimeout(()=>openAccordionByName(variantName),340); }, 40);
-}
-function openAccordionByName(name){
-  const heads = [...document.querySelectorAll('#focusview .acchead')];
-  const i = heads.findIndex(h=>h.dataset.vname===name);
-  if(i>=0) toggleAcc(i,true);
-}
-
-/* ---------------- board ---------------- */
 function groupCard(g){
   const v = g.variants.length;
   const pending = g.variants.filter(x=>x.status==='content_pending').length;
   let badge;
   if(v===0) badge = `<span class="cnt warn">Role pending</span>`;
-  else if(pending===v) badge = `<span class="cnt warn">${v} role${v>1?'s':''} · content pending</span>`;
+  else if(pending===v) badge = `<span class="cnt warn">${v} role · content pending</span>`;
   else badge = `<span class="cnt">${v} canonical role${v>1?'s':''}</span>`;
-  return `<button class="gcard act" type="button" onclick="openGroup('${g.id}')" aria-label="Open ${esc(g.name.replace(/&amp;/g,'and'))}">
+  return `<a class="gcard act" href="#/${g.lens}/${g.id}">
       <span class="gn">${rich(g.name)}</span>
       <span class="gs">${rich(g.short)}</span>
       <span class="grow">${badge}<span class="cta">Open ${ARROW}</span></span>
-    </button>`;
+    </a>`;
 }
 
 function renderBoard(){
-  const l = state.lens;
-  const host = $('#boardview');
-  host.setAttribute('data-lens', l);
-
-  if(l === 'position'){ host.innerHTML = renderPositions(); return; }
-  if(l === 'role'){ host.innerHTML = renderRoleScaffold(); return; }
-
-  const gs = groups(l);
-  if(l === 'buyer'){ host.innerHTML = renderBuyer(gs); return; }
-
-  /* user lens: stage board + cross-cutting band */
+  const gs = groups('user');
   const staged = HUB.stages.map(s=>{
     const items = gs.filter(g=>g.stage===s.id);
     return `<div class="stagecol">
@@ -500,188 +588,151 @@ function renderBoard(){
       </div>`;
   }).join('');
   const cross = gs.filter(g=>g.stage==='cross');
-
-  host.innerHTML = `
-    <div class="stages">${staged}</div>
-    <div class="crossband" data-lens="${l}">
-      <div class="ch">Cross-cutting</div>
-      <div class="cd">These groups are not owned by one stage — they touch the job at every stage.</div>
-      <div class="crossgrid">${cross.map(groupCard).join('')}</div>
+  return `<div class="wrap" data-lens="user">
+      <div class="stages">${staged}</div>
+      <div class="crossband">
+        <div class="ch">Cross-cutting</div>
+        <div class="cd">These groups are not owned by one stage — they touch the job at every stage.</div>
+        <div class="crossgrid">${cross.map(groupCard).join('')}</div>
+      </div>
     </div>`;
 }
 
-/* ---------------- buyer lens ---------------- */
-function renderBuyer(gs){
-  const icp = HUB.icp;
-  const grades = icp.grades.map(g=>`
-    <div class="icpcard t-${g.tone}">
-      <div class="icphead"><span class="ig">${esc(g.grade)}</span><span class="il">${esc(g.label)}</span></div>
-      <div class="icpbody">${g.rows.map(([k,v])=>`<div class="ir"><b>${rich(k)}:</b> ${rich(v)}</div>`).join('')}</div>
-    </div>`).join('');
+/* ---------------- buyer sections ---------------- */
+function buyerSection(id){
+  const icp = HUB.icp, gs = groups('buyer');
 
-  const dm = icp.decision_makers.map(d=>`
-    <div class="dmrow">
-      <div class="dmn">${rich(d.name)}</div>
-      <div class="dmp"><span class="dml">Top pain</span>${rich(d.pain)}</div>
-      <div class="dmo"><span class="dml">Winning outcome</span>${rich(d.outcome)}</div>
-    </div>`).join('');
-
-  const tiers = icp.tiers.map(t=>`
-    <div class="tier">
-      <h4>${rich(t.name)}</h4>
-      <p>${rich(t.def)}</p>
-      <p class="tb"><b>Why they buy:</b> ${rich(t.buy)}</p>
-      <p class="tx">${rich(t.examples)}</p>
-    </div>`).join('');
-
-  const vb = icp.value_bridge.map(v=>`
-    <div class="vbcard"><div class="vt">${rich(v.t)}</div><div class="vd">${rich(v.d)}</div></div>`).join('');
-
-  return `
-    <section class="blk">
+  if(id==='who') return `
+    <div class="blk">
       <h2 class="bt">Who buys ProShop</h2>
       <p class="bd">${rich(icp.definition)}</p>
       <ul class="bl">${icp.conditions.map(c=>`<li>${rich(c)}</li>`).join('')}</ul>
-      <div class="icpgrid">${grades}</div>
+      <div class="icpgrid">${icp.grades.map(g=>`
+        <div class="icpcard t-${g.tone}">
+          <div class="icphead"><span class="ig">${esc(g.grade)}</span><span class="il">${esc(g.label)}</span></div>
+          <div class="icpbody">${g.rows.map(([k,v])=>`<div class="ir"><b>${rich(k)}:</b> ${rich(v)}</div>`).join('')}</div>
+        </div>`).join('')}</div>
       <p class="bsrc">Source: ${esc(icp.source)}</p>
-    </section>
+    </div>`;
 
-    <section class="blk">
+  if(id==='people') return `
+    <div class="blk">
       <h2 class="bt">The decision-makers</h2>
-      <p class="bd">ProShop sells to the shop floor and the business, not just the C-suite. These three are the people
-        who evaluate, advocate for and sign off on the investment.</p>
-      <div class="dmtable">${dm}</div>
-      <div class="crossgrid" style="margin-top:16px">${gs.map(groupCard).join('')}</div>
-    </section>
+      <p class="bd">ProShop sells to the shop floor and the business, not just the C-suite. These three evaluate,
+        advocate for and sign off on the investment.</p>
+      <div class="dmtable">${icp.decision_makers.map(d=>`
+        <div class="dmrow">
+          <div class="dmn">${rich(d.name)}</div>
+          <div class="dmp"><span class="dml">Top pain</span>${rich(d.pain)}</div>
+          <div class="dmo"><span class="dml">Winning outcome</span>${rich(d.outcome)}</div>
+        </div>`).join('')}</div>
+      <h3 class="bt" style="font-size:16px;margin:26px 0 10px">Open a buyer persona</h3>
+      <div class="crossgrid">${gs.map(groupCard).join('')}</div>
+      <div class="notice" style="margin-top:20px">
+        <span class="ni">Still pending</span>
+        <span>The full <b>F3 buyer persona definitions</b> are owned by PMM and remain a template. A finished buyer
+        persona also needs decision authority, what triggers the evaluation, what they fear, how they evaluate, and
+        the buying journey.</span>
+      </div>
+    </div>`;
 
-    <section class="blk">
+  if(id==='tiers') return `
+    <div class="blk">
       <h2 class="bt">Industry priority tiers</h2>
       <p class="bd">${rich(icp.lens)}</p>
-      <div class="tiers">${tiers}</div>
-    </section>
+      <div class="tiers">${icp.tiers.map(t=>`
+        <div class="tier">
+          <h4>${rich(t.name)}</h4>
+          <p>${rich(t.def)}</p>
+          <p class="tb"><b>Why they buy:</b> ${rich(t.buy)}</p>
+          <p class="tx">${rich(t.examples)}</p>
+        </div>`).join('')}</div>
+      <p class="bsrc">Source: ${esc(icp.source)}</p>
+    </div>`;
 
-    <section class="blk">
-      <h2 class="bt">The value bridge</h2>
-      <p class="bd">Why ProShop fits regulated, discrete manufacturing specifically.</p>
-      <div class="vbgrid">${vb}</div>
-    </section>
-
-    <div class="notice">
-      <span class="ni">Still pending</span>
-      <span>The full <b>F3 buyer persona definitions</b> are owned by PMM and are still a template — the content above
-      comes from the ICP page. A finished buyer persona also needs decision authority, evaluation triggers, what they
-      fear, how they evaluate, and the buying journey.</span>
+  return `
+    <div class="blk">
+      <h2 class="bt">Why ProShop fits</h2>
+      <p class="bd">The three things that make ProShop differentiated for regulated, discrete manufacturing.</p>
+      <div class="vbgrid">${icp.value_bridge.map(v=>`
+        <div class="vbcard"><div class="vt">${rich(v.t)}</div><div class="vd">${rich(v.d)}</div></div>`).join('')}</div>
+      <p class="bsrc">Source: ${esc(icp.source)}</p>
     </div>`;
 }
 
-function renderPositions(){
-  return `
-    <div class="notice plain" style="margin-bottom:18px">
-      <span class="ni">Note</span>
-      <span>Positions are the shared backbone every lens resolves to. <b>Entitlements and access levels are out of
-      scope here</b> — positions map to access owned by IT/Admin, which this hub deliberately does not display.</span>
-    </div>
-    <div class="depts">${HUB.positions.map(d=>`
-      <div class="dept"><h3>${esc(d.dept)}</h3>
-        <ul>${d.roles.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
-      </div>`).join('')}</div>`;
-}
-
-function renderRoleScaffold(){
+/* ---------------- role sections ---------------- */
+function roleSection(id){
   const r = HUB.role;
-  const journey = r.journey.map(j=>`
-    <div class="jcard">
-      <div class="jst">${rich(j.stage)}</div>
-      <div class="jnm">${rich(j.name)}</div>
-      <p>${rich(j.d)}</p>
-    </div>`).join('');
-  const delivery = r.delivery.map(d=>`
-    <div class="vbcard"><div class="vt">${rich(d.t)}</div><div class="vd">${rich(d.d)}</div></div>`).join('');
-  const fields = r.definition_fields.map(([k,v])=>`
-    <div class="fldrow"><div class="fk">${rich(k)}</div><div class="fv">${rich(v)}</div></div>`).join('');
+
+  if(id==='journey') return `
+    <div class="blk">
+      <div class="notice" style="margin-bottom:22px"><span class="ni">Partly built</span><span>${rich(r.purpose)}</span></div>
+      <h2 class="bt">The learning journey</h2>
+      <p class="bd">CX maps training to roles along a crawl / walk / run path. Each implementation milestone covers one
+        ProShop workflow, and the roles that touch that workflow are brought in for it.</p>
+      <div class="jgrid">${r.journey.map(j=>`
+        <div class="jcard"><div class="jst">${rich(j.stage)}</div><div class="jnm">${rich(j.name)}</div><p>${rich(j.d)}</p></div>`).join('')}</div>
+    </div>`;
+
+  if(id==='delivery') return `
+    <div class="blk">
+      <h2 class="bt">How training lands</h2>
+      <p class="bd">Four delivery routes, chosen by how complex the workflow is and how much depth the role needs.</p>
+      <div class="vbgrid">${r.delivery.map(d=>`
+        <div class="vbcard"><div class="vt">${rich(d.t)}</div><div class="vd">${rich(d.d)}</div></div>`).join('')}</div>
+    </div>`;
+
+  if(id==='outcomes') return `
+    <div class="blk">
+      <h2 class="bt">What role-level training drives</h2>
+      <p class="bd">The business outcomes customer education is measured against — useful for deciding which roles
+        matter most on a given implementation.</p>
+      <div class="chips">${r.outcomes.map(o=>`<span class="chip">${rich(o)}</span>`).join('')}</div>
+    </div>`;
 
   return `
-    <div class="notice" style="margin-bottom:22px">
-      <span class="ni">Partly built</span>
-      <span>${rich(r.purpose)}</span>
-    </div>
-
-    <section class="blk">
-      <h2 class="bt">How a client learns their roles</h2>
-      <p class="bd">CX maps training to roles along a crawl / walk / run journey. Each implementation milestone covers
-        one ProShop workflow, and the roles that touch that workflow are brought in for it.</p>
-      <div class="jgrid">${journey}</div>
-    </section>
-
-    <section class="blk">
-      <h2 class="bt">How training reaches each role</h2>
-      <div class="vbgrid">${delivery}</div>
-    </section>
-
-    <section class="blk">
-      <h2 class="bt">What role-level training is driving toward</h2>
-      <div class="chips">${r.outcomes.map(o=>`<span class="chip">${rich(o)}</span>`).join('')}</div>
-    </section>
-
-    <section class="blk">
+    <div class="blk">
       <h2 class="bt">What a finished role definition contains</h2>
       <p class="bd">The F2 template sets the structure every canonical role definition has to fill. This is the shape
         of the content still to be authored — useful as a checklist while CX works through the taxonomy.</p>
-      <div class="flds">${fields}</div>
-    </section>
-
-    <div class="notice plain">
-      <span class="ni">Resolves to</span>
-      <span>Every role in this lens ultimately maps to the shared
-      <button class="xlens" type="button" style="background:var(--lens-position)" onclick="setLens('position')">Position backbone ${ARROW}</button></span>
-    </div>
-    <p class="bsrc" style="margin-top:14px">Sources: ${r.sources.map(esc).join(' &middot; ')}</p>`;
+      <div class="flds">${r.definition_fields.map(([k,v])=>`
+        <div class="fldrow"><div class="fk">${rich(k)}</div><div class="fv">${rich(v)}</div></div>`).join('')}</div>
+      <p class="bsrc">Sources: ${r.sources.map(esc).join(' &middot; ')}</p>
+    </div>`;
 }
 
 /* ---------------- focus view ---------------- */
 function variantCols(v){
   if(v.status === 'content_pending'){
-    return `<div class="accmeta" style="border:0;margin:0;padding:0">
-        <div class="notice" style="width:100%">
-          <span class="ni">Content pending</span>
+    return `<div class="accmeta" style="border:0;padding:0">
+        <div class="notice" style="width:100%"><span class="ni">Content pending</span>
           <span>This canonical role exists in the CX list, but its pain points and desired outcomes are still blank at
-          the source. It is shown as pending rather than written for them.</span>
-        </div>
+          the source. It is shown as pending rather than written for them.</span></div>
       </div>
       <div class="accmeta"><span class="src">Source: ${esc(v.source)}</span></div>`;
   }
   const pos = v.positions.length
     ? `<span class="chip pos">${v.positions.map(esc).join('</span><span class="chip pos">')}</span>` : '';
   const x = v.cross_lens
-    ? `<button class="xlens" type="button" onclick="crossLens('${v.cross_lens}','${attr(v.name)}')">Also a ${esc(v.cross_lens)} persona ${ARROW}</button>` : '';
+    ? `<a class="xlens" href="#/${v.cross_lens}" data-xname="${attr(v.name)}">Also a ${esc(v.cross_lens)} persona ${ARROW}</a>` : '';
   return `
     <div class="col pain"><h4><span class="dot"></span>Pain points</h4>
       <ul>${v.pain.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></div>
     <div class="col out"><h4><span class="dot"></span>Desired outcomes</h4>
       <ul>${v.outcomes.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></div>
-    <div class="accmeta">
-      ${pos}
-      ${x}
-      <span class="src">Source: ${esc(v.source)}</span>
-    </div>`;
+    <div class="accmeta">${pos}${x}<span class="src">Source: ${esc(v.source)}</span></div>`;
 }
 
-function renderFocus(){
-  const g = group(state.focus);
-  if(!g) return;
-  const l = state.lens;
+function renderFocus(g){
   const st = HUB.stages.find(s=>s.id===g.stage);
   const stageLabel = g.stage==='cross' ? 'Cross-cutting' : (st ? `${st.label} · ${st.alt}` : 'Buyer lens');
-  const gs = groups(l);
+  const gs = groups(g.lens);
 
   const rail = gs.map(x=>
-    `<button class="railchip" type="button" aria-current="${x.id===g.id}" onclick="openGroup('${x.id}')">${rich(x.name)}</button>`).join('');
-
+    `<a class="railchip" href="#/${x.lens}/${x.id}"${x.id===g.id?' aria-current="page"':''}>${rich(x.name)}</a>`).join('');
   const modChips = g.home_modules.map(m=>`<span class="chip home">${esc(m)}</span>`).join('');
   const posChips = g.positions.length
-    ? g.positions.map(p=>`<span class="chip pos">${esc(p)}</span>`).join('')
-    : `<span class="chip">Position mapping pending</span>`;
-
+    ? g.positions.map(p=>`<span class="chip pos">${esc(p)}</span>`).join('') : '';
   const notes = g.notes.map(n=>`<div class="notice" style="margin-bottom:12px"><span class="ni">Note</span><span>${esc(n)}</span></div>`).join('');
 
   const acc = g.variants.length
@@ -690,17 +741,26 @@ function renderFocus(){
           <button class="acchead" type="button" data-vname="${attr(v.name)}" aria-expanded="${i===0}" onclick="toggleAcc(${i})">
             <span class="chev" aria-hidden="true"></span>
             <span class="atxt"><span class="an">${rich(v.name)}</span><span class="as">${rich(v.subtitle)}</span></span>
-            ${v.status==='content_pending'?'<span class="tag proposed">Content pending</span>':''}
+            ${v.status==='content_pending'?'<span class="cnt warn">Content pending</span>':''}
           </button>
           <div class="accbody"><div class="accinner">${variantCols(v)}</div></div>
         </div>`).join('')}</div>`
     : `<div class="notice"><span class="ni">Pending</span><span>No canonical role has been nested into this group yet.
-        The hand-off flags this as <b>pending with CX</b> — so nothing is shown rather than invented.</span></div>`;
+        CX has not authored one — so nothing is shown rather than invented.</span></div>`;
 
-  $('#focusview').setAttribute('data-lens', l);
-  $('#focusview').innerHTML = `
+  const l3 = g.persona_key ? `
+      <div class="l3toggle">
+        <button class="btn flame" type="button" id="l3btn" onclick="toggleL3()">View full persona ${DOWN}</button>
+        <span class="l3note">The full persona from the kit — day in the life, KPIs, flow and modules.</span>
+      </div>` : `
+      <div class="l3toggle">
+        <a class="btn line" href="#/user/functional_qa">Open the full persona in the User lens ${ARROW}</a>
+        <span class="l3note">Only one set of depth exists for this role, and it lives under Functional QA.</span>
+      </div>`;
+
+  return `<div class="wrap" data-lens="${g.lens}">
     <div class="railbar">
-      <button class="backall" type="button" onclick="backToBoard()">&#9666; All groups</button>
+      <a class="backall act" href="#/${g.lens}">&#9666; All groups</a>
       <div class="rail">${rail}</div>
     </div>
     <div class="fpanel">
@@ -714,29 +774,17 @@ function renderFocus(){
         ${notes}
         <div class="fsec">Canonical roles nested here</div>
         ${acc}
-        ${g.persona_key ? `
-        <div class="l3toggle">
-          <button class="btn flame" type="button" id="l3btn" onclick="toggleL3()">View full persona ${DOWN}</button>
-          <span class="l3note">The full PM-grade persona from the persona kit — day in the life, KPIs, flow and modules.</span>
-        </div>` : `
-        <div class="l3toggle">
-          <button class="btn line" type="button" onclick="crossLens('user','${attr(g.variants[0]?.name||'')}')">Open the full persona in the User lens ${ARROW}</button>
-          <span class="l3note">Only one set of persona depth exists for this role, and it lives under Functional QA.</span>
-        </div>`}
+        ${l3}
         <div class="level3" id="level3" hidden></div>
       </div>
-    </div>`;
-  requestAnimationFrame(()=>{
-    const first = $('.accitem[data-open="true"] .accbody', $('#focusview'));
-    if(first) first.style.maxHeight = first.scrollHeight + 'px';
-  });
+    </div>
+  </div>`;
 }
 
 function toggleAcc(i, forceOpen){
-  const items = [...document.querySelectorAll('#focusview .accitem')];
+  const items = $$('#page .accitem');
   const it = items[i]; if(!it) return;
-  const body = it.querySelector('.accbody');
-  const head = it.querySelector('.acchead');
+  const body = it.querySelector('.accbody'), head = it.querySelector('.acchead');
   const open = forceOpen ? true : it.dataset.open !== 'true';
   it.dataset.open = open;
   head.setAttribute('aria-expanded', open);
@@ -744,25 +792,25 @@ function toggleAcc(i, forceOpen){
   if(open) setTimeout(()=>{ if(it.dataset.open==='true') body.style.maxHeight='none'; }, REDUCED?0:340);
 }
 
-/* ---------------- level 3: the absorbed rich persona ---------------- */
+/* ---------------- level 3 ---------------- */
+let l3open = false;
 function toggleL3(){
-  state.l3 = !state.l3;
+  l3open = !l3open;
   const box = $('#level3'), btn = $('#l3btn');
-  if(state.l3){
-    box.innerHTML = renderRich(group(state.focus).persona_key);
+  if(l3open){
+    box.innerHTML = renderRich(group(route.sub).persona_key);
     box.hidden = false;
     btn.innerHTML = 'Hide full persona ' + DOWN;
-    btn.style.transform = '';
     requestAnimationFrame(()=>box.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'start'}));
   } else {
-    box.hidden = true; box.innerHTML='';
+    box.hidden = true; box.innerHTML = '';
     btn.innerHTML = 'View full persona ' + DOWN;
   }
 }
 
 function renderRich(key){
   const p = persona(key);
-  if(!p) return '<div class="notice"><span class="ni">Missing</span><span>No rich persona is linked to this group.</span></div>';
+  if(!p) return '';
   const li = a => a.map(x=>`<li>${rich(x)}</li>`).join('');
   const snap = p.snapshot.map(([k,v])=>`<div class="r"><span class="k">${rich(k)}</span><span class="v">${rich(v)}</span></div>`).join('');
   const day  = p.day.map(([t,x])=>`<div class="row"><div class="t">${rich(t)}</div><div class="x">${rich(x)}</div></div>`).join('');
@@ -778,35 +826,27 @@ function renderRich(key){
 
   return `
     <div class="pquote"><span class="m">&ldquo;</span><p>${rich(p.quote)}</p></div>
-
     <div class="psec">Who they are</div>
     <p class="txt">${rich(p.who1)}</p>
     ${p.who2?`<p class="txt">${rich(p.who2)}</p>`:''}
-
     <div class="psec">A day in the life</div>
     <div class="tl2">${day}</div>
-
     <div class="psec">Snapshot</div>
     <div class="snap">${snap}</div>
-
     <div class="psec">Environment &amp; tech comfort</div>
     <p class="txt" style="margin-bottom:13px">${rich(p.environment)}</p>
     <div class="meters">${meters}</div>
-
     <div class="psec">Goals, frustrations &amp; needs</div>
     <div class="trip">
       <div class="pnl g"><div class="h"><span class="dot"></span>Goals</div><ul>${li(p.goals)}</ul></div>
       <div class="pnl f"><div class="h"><span class="dot"></span>Frustrations</div><ul>${li(p.frustrations)}</ul></div>
       <div class="pnl n"><div class="h"><span class="dot"></span>Needs</div><ul>${li(p.needs)}</ul></div>
     </div>
-
     <div class="psec">Measured on</div>
     <div class="kpis">${kpis}</div>
-
     <div class="psec">ProShop modules they live in</div>
     <div class="mods">${mods}</div>
     ${nav}
-
     <div class="psec">Where they sit in the flow</div>
     <div class="flowrow">
       <div class="fnode"><div class="l">${rich(ul)}</div><div class="w">${rich(uw)}</div><div class="ww">${rich(uwt)}</div></div>
@@ -817,7 +857,6 @@ function renderRich(key){
     </div>
     <p class="txt" style="font-size:11px;color:var(--mute);margin-top:10px">${rich(p.flow_note)}</p>
     <p class="txt" style="font-size:11px;color:var(--mute);margin-top:8px">${rich(p.footnote)}</p>
-
     <div class="pdlrow">
       <span class="note">Authored and updated 9/14/2026 by Samantha Jorgenson, Product Operations Manager</span>
       ${pdfLabel?`<button class="btn flame" type="button" onclick="dl('${attr(pdfLabel)}')">Download this persona (PDF) ${DOWN}</button>`:''}
@@ -831,12 +870,25 @@ function dl(label){
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-document.addEventListener('keydown', e=>{ if(e.key==='Escape' && state.focus) backToBoard(); });
+/* Cross-lens links land on the lens, then open the matching role. */
+document.addEventListener('click', e=>{
+  const x = e.target.closest('.xlens[data-xname]');
+  if(!x) return;
+  const name = x.dataset.xname, target = x.getAttribute('href').replace('#/','');
+  const g = groups(target).find(gr=>gr.variants.some(v=>v.name===name));
+  if(g){ e.preventDefault(); location.hash = `#/${target}/${g.id}`;
+         setTimeout(()=>openAccordionByName(name), 420); }
+});
+function openAccordionByName(name){
+  const i = $$('#page .acchead').findIndex(h=>h.dataset.vname===name);
+  if(i>=0) toggleAcc(i,true);
+}
 
-/* ---------------- boot ---------------- */
-(function init(){
-  renderTabs(); renderIntro(); renderBoard();
-})();
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape' && route.lens!=='home' && route.sub) location.hash = `#/${route.lens}`;
+});
+
+applyRoute();
 </script>
 </body>
 </html>

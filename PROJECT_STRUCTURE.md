@@ -60,9 +60,25 @@ in a separate working environment. This repo holds the **published outputs only*
 | Lens | State | Owner |
 |---|---|---|
 | **User** | Built — all three depths, real content | Product Ops |
-| **Position** | Built — taxonomy by department (entitlements excluded) | IT/Admin (taxonomy only) |
 | **Buyer** | Partly built — ICP content, decision-makers, tiers, value bridge. F3 personas pending | PMM (Marketing) |
 | **Role** | Partly built — CX education journey + definition structure. Taxonomy pending | CX Enablement |
+
+The **Position lens was removed from the site** on 2026-09-14 — a flat taxonomy of job titles
+was not usable or actionable on its own. It lives at [`reference/positions.md`](reference/positions.md),
+which is not linked from the hub.
+
+### Routes
+
+Hash routing gives every view a real, shareable URL; the back button, refresh and bookmarks all
+work, and unknown routes fall back to the landing page.
+
+| Route | View |
+|---|---|
+| `#/` | Landing — what the hub is, who each lens is for |
+| `#/buyer` · `#/buyer/<section>` | Buyer lens: `who`, `people`, `tiers`, `fit` |
+| `#/user` | Functional-group board |
+| `#/user/<groupId>` | One group in focus, with its nested roles and full persona |
+| `#/role` · `#/role/<section>` | Role lens: `journey`, `delivery`, `outcomes`, `structure` |
 
 ### ⚠️ This site is public — what is deliberately withheld
 
@@ -106,11 +122,13 @@ as provenance. Roles with no source content (The Busy Bookkeeper) are marked
 ```
 proshop-personas/                 (repo root — served by GitHub Pages)
 │
-├── index.html                    THE PERSONA HUB — four lenses, three depths (hand-authored)
+├── index.html                    THE PERSONA HUB — landing + three lenses (hand-authored)
 ├── personas.js                   ALL HUB CONTENT — edit content here, not in index.html
 ├── design-tokens.css             Every colour/size token — the one-file Figma swap
-├── teaching-tool.html            The previous single-lens tool, kept for its ProShop 101
-│                                 primer, company context and downloads grid
+├── reference/
+│   └── positions.md              Position taxonomy — internal reference, NOT on the site
+├── teaching-tool.html            The previous single-lens tool. Kept for its ProShop 101
+│                                 primer and company context; no longer linked from the hub
 ├── README.md                     Repo overview, local preview + hosting notes
 ├── CHANGELOG.md                  What's shipped, by date
 ├── PROJECT_STRUCTURE.md          ← this file
