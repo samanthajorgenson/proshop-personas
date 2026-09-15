@@ -321,6 +321,18 @@
   .fk{font-size:12.5px;font-weight:800;}
   .fv{font-size:12px;color:var(--ink-soft);}
 
+  /* ---------- source-of-truth link-out ---------- */
+  .srcbox{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);}
+  .srcbox h3{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--mute);margin-bottom:5px;}
+  .srcbox .sn{font-size:12px;color:var(--ink-soft);margin-bottom:14px;max-width:62em;}
+  .srcgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;}
+  .srcitem{display:flex;flex-direction:column;gap:4px;background:var(--paper);border:1px solid var(--line);
+           border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:13px 15px;}
+  .srcitem:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow);}
+  .srcitem .st{font-size:12.5px;font-weight:800;color:var(--accent);}
+  .srcitem .ext{font-size:11px;opacity:.7;}
+  .srcitem .sd{font-size:11.5px;color:var(--ink-soft);line-height:1.4;}
+
   footer.foot{background:var(--ink);color:#9B98A6;padding:28px 0;font-size:11px;}
   footer.foot .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;}
   footer.foot b{color:var(--paper);}
@@ -407,11 +419,14 @@ const groups = id => HUB.groups.filter(g=>g.lens===id);
 const group  = id => HUB.groups.find(g=>g.id===id);
 const persona= key => PERSONAS.find(p=>p._key===key);
 
+/* Kept deliberately short. The GTM Hub and the Customer Education Strategy own the
+   sales and training detail and are actively maintained; duplicating them here would
+   only go stale. The hub carries the people, and links out for the rest.
+   The trimmed sections ('tiers', 'fit', 'delivery', 'outcomes') still have their data
+   in personas.js — re-adding one is a single line here. */
 const SECTIONS = {
-  buyer:[{id:'who',label:'Who buys ProShop'},{id:'people',label:'The decision-makers'},
-         {id:'tiers',label:'Priority tiers'},{id:'fit',label:'Why ProShop fits'}],
-  role: [{id:'journey',label:'The learning journey'},{id:'delivery',label:'How training lands'},
-         {id:'outcomes',label:'What it drives'},{id:'structure',label:'Definition structure'}]
+  buyer:[{id:'who',label:'Who buys ProShop'},{id:'people',label:'The decision-makers'}],
+  role: [{id:'journey',label:'The learning journey'},{id:'structure',label:'Definition structure'}]
 };
 const STATE_PILL = {built:['built','Built'],partial:['partial','Partly built — more content pending'],
                     scaffold:['scaffold','Scaffold — content pending']};
@@ -472,9 +487,13 @@ function renderIntro(){
   const cur  = currentSection();
   const sub  = secs ? `<div class="subnav">${secs.map(s=>
         `<a href="#/${l.id}/${s.id}"${s.id===cur?' aria-current="page"':''}>${esc(s.label)}</a>`).join('')}</div>` : '';
+  const g = focusGroup();
+  const crumb = g
+    ? `<a href="#/">Persona Hub</a> &rsaquo; <a href="#/${l.id}">${esc(l.label)} lens</a> &rsaquo; ${rich(g.name)}`
+    : `<a href="#/">Persona Hub</a> &rsaquo; ${esc(l.label)} lens`;
   $('#lensintro').innerHTML = `
     <div class="wrap" data-lens="${l.id}">
-      <div class="crumb"><a href="#/">Persona Hub</a> &rsaquo; ${esc(l.label)} lens</div>
+      <div class="crumb">${crumb}</div>
       <div class="eyebrow">${esc(l.who)}</div>
       <h1 class="ltitle">${esc(l.label)} lens</h1>
       <p class="ldesc">${esc(l.desc)}</p>
@@ -489,7 +508,10 @@ function renderIntro(){
 function currentSection(){
   const secs = SECTIONS[route.lens];
   if(!secs) return null;
-  return secs.some(s=>s.id===route.sub) ? route.sub : secs[0].id;
+  if(secs.some(s=>s.id===route.sub)) return route.sub;
+  /* In a focus view no section is current — otherwise the sub-nav would wrongly
+     highlight the first one while the reader is actually inside a persona. */
+  return focusGroup() ? null : secs[0].id;
 }
 
 /* ---------------- landing ---------------- */
@@ -558,10 +580,21 @@ function renderHome(){
 /* ---------------- lens pages ---------------- */
 function renderLensPage(){
   const l = route.lens;
-  if(l==='user')  return route.sub && group(route.sub) ? renderFocus(group(route.sub)) : renderBoard();
+  /* A sub-route is either a functional group (focus view) or a content section.
+     Check the group first — every lens can hold groups, not just the User lens. */
+  const g = focusGroup();
+  if(g) return renderFocus(g);
+  if(l==='user')  return renderBoard();
   if(l==='buyer') return `<div class="wrap" data-lens="buyer">${buyerSection(currentSection())}</div>`;
   if(l==='role')  return `<div class="wrap" data-lens="role">${roleSection(currentSection())}</div>`;
   return '';
+}
+
+/* The group named by the current route, but only if it belongs to this lens. */
+function focusGroup(){
+  if(!route.sub) return null;
+  const g = group(route.sub);
+  return (g && g.lens === route.lens) ? g : null;
 }
 
 function groupCard(g){
@@ -598,6 +631,20 @@ function renderBoard(){
     </div>`;
 }
 
+/* Points at the maintained source of truth rather than restating it. */
+function sourceBox(lensId){
+  const items = (HUB.links[lensId]||[]).map(l=>`
+    <a class="srcitem act" href="${esc(l.u)}" target="_blank" rel="noopener">
+      <span class="st">${esc(l.t)} <span class="ext" aria-hidden="true">&#8599;</span></span>
+      <span class="sd">${esc(l.d)}</span>
+    </a>`).join('');
+  return `<div class="srcbox">
+      <h3>Where the rest lives</h3>
+      <p class="sn">${esc(HUB.links.note)}</p>
+      <div class="srcgrid">${items}</div>
+    </div>`;
+}
+
 /* ---------------- buyer sections ---------------- */
 function buyerSection(id){
   const icp = HUB.icp, gs = groups('buyer');
@@ -613,6 +660,7 @@ function buyerSection(id){
           <div class="icpbody">${g.rows.map(([k,v])=>`<div class="ir"><b>${rich(k)}:</b> ${rich(v)}</div>`).join('')}</div>
         </div>`).join('')}</div>
       <p class="bsrc">Source: ${esc(icp.source)}</p>
+      ${sourceBox('buyer')}
     </div>`;
 
   if(id==='people') return `
@@ -634,6 +682,7 @@ function buyerSection(id){
         persona also needs decision authority, what triggers the evaluation, what they fear, how they evaluate, and
         the buying journey.</span>
       </div>
+      ${sourceBox('buyer')}
     </div>`;
 
   if(id==='tiers') return `
@@ -672,6 +721,7 @@ function roleSection(id){
         ProShop workflow, and the roles that touch that workflow are brought in for it.</p>
       <div class="jgrid">${r.journey.map(j=>`
         <div class="jcard"><div class="jst">${rich(j.stage)}</div><div class="jnm">${rich(j.name)}</div><p>${rich(j.d)}</p></div>`).join('')}</div>
+      ${sourceBox('role')}
     </div>`;
 
   if(id==='delivery') return `
@@ -698,6 +748,7 @@ function roleSection(id){
       <div class="flds">${r.definition_fields.map(([k,v])=>`
         <div class="fldrow"><div class="fk">${rich(k)}</div><div class="fv">${rich(v)}</div></div>`).join('')}</div>
       <p class="bsrc">Sources: ${r.sources.map(esc).join(' &middot; ')}</p>
+      ${sourceBox('role')}
     </div>`;
 }
 

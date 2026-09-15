@@ -790,5 +790,42 @@ const HUB = {
    "ProShop's Customer Education Strategy - CX Enablement (Confluence 1833959429)",
    "F2 - User Persona Definitions template - CX Enablement (Confluence 2357100644)"
   ]
+ },
+ "links": {
+  "note": "ProShop Confluence — sign-in required. These pages are the maintained source of truth; the hub deliberately does not copy them.",
+  "buyer": [
+   {
+    "t": "Ideal Customer Profile",
+    "d": "Grading, priority tiers, the value bridge, TAM and the anti-ICP.",
+    "u": "https://adionsystems.atlassian.net/wiki/spaces/MT/pages/2058911745/Ideal+Customer+Profile"
+   },
+   {
+    "t": "GTM Hub",
+    "d": "Launch briefs, positioning and messaging, pricing and packaging, competitive battlecards, enablement.",
+    "u": "https://adionsystems.atlassian.net/wiki/spaces/MT/pages/2046427406/GTM+Hub"
+   },
+   {
+    "t": "F3 — Buyer Persona Definitions",
+    "d": "The PMM-owned template these personas will eventually be authored into.",
+    "u": "https://adionsystems.atlassian.net/wiki/spaces/MT/pages/2358804498/F3+Buyer+Persona+Definitions"
+   }
+  ],
+  "role": [
+   {
+    "t": "ProShop's Customer Education Strategy",
+    "d": "Delivery methods, metrics, resourcing and the continuous-improvement loop.",
+    "u": "https://adionsystems.atlassian.net/wiki/spaces/ProShopOnlineTraining/pages/1833959429/ProShop+s+Customer+Education+Strategy"
+   },
+   {
+    "t": "F2 — User Persona Definitions",
+    "d": "The CX-owned template every canonical role definition fills.",
+    "u": "https://adionsystems.atlassian.net/wiki/spaces/MT/pages/2357100644/F2+User+Persona+Definitions"
+   },
+   {
+    "t": "User Personas for Target Audience",
+    "d": "The canonical CX persona list this hub's nested roles come from.",
+    "u": "https://adionsystems.atlassian.net/wiki/spaces/ProShopOnlineTraining/pages/1834090502"
+   }
+  ]
  }
 };

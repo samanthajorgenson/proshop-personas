@@ -1,5 +1,29 @@
 # Changelog
 
+## 2026-09-14 — Buyer persona cards fixed; lens content trimmed to avoid duplicating the GTM Hub
+
+**Fix:** clicking a buyer persona did nothing but bounce you to the "Who buys ProShop" tab.
+`renderLensPage()` only looked for a functional group on the User lens, so `#/buyer/shopowner`
+fell through to the section resolver, which didn't recognise `shopowner` as a section and
+defaulted to the first one. Group lookup now runs for every lens. The sub-nav also no longer
+highlights a section while you are inside a persona, and the breadcrumb names the persona.
+
+**Scope:** the GTM Hub and its subpages already own buyer-facing GTM content — launch briefs,
+per-launch ICP briefs, positioning and messaging, pricing, competitive battlecards and
+enablement — and they are actively maintained. The hub was starting to restate them, so both
+lenses were cut back to what only the persona framework can offer:
+
+- **Buyer** keeps *Who buys ProShop* and *The decision-makers*. Priority tiers and the value
+  bridge are gone — they are ICP-page content.
+- **Role** keeps *The learning journey* and *Definition structure*. Delivery methods and
+  education outcomes are gone — they are Customer Education Strategy content.
+- Both lenses gained a **"Where the rest lives"** panel linking to the maintained Confluence
+  sources instead of copying them.
+
+The removed sections' data is still in `personas.js`; restoring one is a single line in
+`SECTIONS`. Retired routes (`#/buyer/tiers`, `#/role/outcomes`) fall back to the first section
+rather than breaking.
+
 ## 2026-09-14 — Landing page, real URLs, chunked lens pages
 
 The hub now behaves like a site rather than one long document.
