@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026-09-14 — Personas readable in parts; em dashes removed
+
+**Full personas no longer read like a PDF.** Each persona was one long scroll of nine
+stacked sections. A persona is now read in parts, each its own route so any section of any
+persona can be linked to directly:
+
+`Canonical roles` · `At a glance` · `A day in the life` · `Goals & needs` · `In the product` ·
+`Where they fit`
+
+Each part renders roughly 1 to 2.5KB instead of a single 12KB wall. Along the way: the quote
+leads "At a glance" with who-they-are and the snapshot side by side, the day in the life is
+drawn as a real timeline with a spine and step markers rather than a two-column list, and the
+PDF download moved into the persona header so it is always to hand. The PDF still gives the
+full print-style document; the page no longer tries to be one.
+
+**Also**
+- Removed the arrows between roles inside a stage. The left-to-right arrows between stages stay.
+- Removed every em dash from the site (148 of them). Replaced with a comma where an appositive
+  followed and a semicolon where an independent clause did, rather than one blanket
+  substitution that would have left comma splices. Four cases were hand-corrected afterwards.
+- Removed the "ProShop Confluence, sign-in required..." sentence from the Buyer and Role pages.
+
 ## 2026-09-14 — Stage subtitles, flow arrows, and a fix for blank lens pages
 
 **Fix: Buyer and Role pages could render blank in production.** `index.html` and `personas.js`

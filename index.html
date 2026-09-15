@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ProShop Persona Hub</title>
-<meta name="description" content="One set of people, seen through the lens your team actually works in — buyer, user, or role.">
+<meta name="description" content="One set of people, seen through the lens your team actually works in, buyer, user, or role.">
 <link rel="stylesheet" href="design-tokens.css">
 <style>
   /* Colour and size values all come from design-tokens.css so the pending Figma
@@ -112,7 +112,7 @@
   .pill.partial{background:rgba(31,95,168,.12);color:var(--lens-buyer);}
   .pill.owner{background:var(--wash);color:var(--mute);border:1px solid var(--line);}
 
-  /* section sub-nav — chunks each lens instead of one long scroll */
+  /* section sub-nav, chunks each lens instead of one long scroll */
   .subnav{display:flex;gap:3px;margin-top:20px;overflow-x:auto;}
   .subnav a{position:relative;font-size:12.5px;font-weight:700;color:var(--mute);text-decoration:none;
             padding:10px 14px;white-space:nowrap;border-radius:var(--radius-sm) var(--radius-sm) 0 0;transition:var(--t-fast);}
@@ -135,9 +135,6 @@
   .stagehead .snext{position:absolute;right:-18px;top:50%;transform:translateY(-50%);
                     width:14px;color:var(--flame);opacity:.85;display:block;}
   .stagehead .snext svg{width:14px;height:9px;display:block;}
-  /* between-card arrow inside a stage */
-  .jconn{display:block;width:10px;height:13px;margin:1px auto;color:var(--flame);opacity:.55;}
-  .jconn svg{width:10px;height:13px;display:block;}
 
   .gcard{display:flex;flex-direction:column;gap:6px;background:var(--paper);border:1.5px solid var(--line);
          border-radius:var(--radius);padding:15px 14px 13px;position:relative;overflow:hidden;}
@@ -223,17 +220,48 @@
   .notice.plain .ni{color:var(--mute);}
 
   /* ---------- level 3 ---------- */
-  .l3toggle{margin-top:24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-  .l3note{font-size:11px;color:var(--mute);}
-  .level3{margin-top:20px;border-top:2px solid var(--accent);padding-top:22px;}
-  .psec{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--ink);
-        padding-bottom:6px;border-bottom:2px solid var(--flame);margin:26px 0 13px;}
-  .psec:first-child{margin-top:0;}
+  /* persona tab nav inside the focus panel */
+  .ptabs{display:flex;gap:3px;margin:18px -4px -22px;overflow-x:auto;padding-bottom:0;}
+  .ptabs a{position:relative;font-size:12px;font-weight:700;color:var(--mute);text-decoration:none;
+           padding:10px 12px 12px;white-space:nowrap;transition:var(--t-fast);}
+  .ptabs a::after{content:"";position:absolute;left:8px;right:8px;bottom:0;height:3px;border-radius:3px 3px 0 0;
+                  background:var(--accent);transform:scaleX(0);transition:transform var(--t-med) var(--ease);}
+  .ptabs a:hover{color:var(--ink);}
+  .ptabs a[aria-current="page"]{color:var(--ink);}
+  .ptabs a[aria-current="page"]::after{transform:scaleX(1);}
+  .tabhint{margin-top:22px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--mute);}
+  .tabhint a{color:var(--accent);font-weight:700;text-decoration:none;}
+  .tabhint a:hover{text-decoration:underline;}
+  .fhrow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start;}
+  p.txt.intro{margin:-6px 0 14px;color:var(--mute);}
+  .inwords{margin-top:24px;background:var(--flame-wash);border:1px solid var(--flame-line);
+           border-radius:var(--radius);padding:18px 20px;}
+  .inwords .iwl{display:block;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;
+                color:var(--flame);margin-bottom:7px;}
+  .inwords p{font-size:13.5px;font-style:italic;color:var(--ink-soft);}
+  .flownote{margin-top:12px;}
+  .foot-note{font-size:11px;color:var(--mute);margin-top:18px;padding-top:12px;border-top:1px solid var(--line);}
+
+  /* day in the life, drawn as an actual timeline */
+  .tline{list-style:none;position:relative;padding-left:26px;margin-top:4px;}
+  .tline::before{content:"";position:absolute;left:6px;top:6px;bottom:8px;width:2px;background:var(--flame-line);border-radius:2px;}
+  .tstep{position:relative;display:grid;grid-template-columns:70px 1fr;gap:14px;padding:10px 0;align-items:baseline;}
+  .tdot{position:absolute;left:-26px;top:15px;width:11px;height:11px;border-radius:50%;
+        background:var(--paper);border:2.5px solid var(--flame);}
+  .tlab{font-family:var(--mono);font-size:10.5px;color:var(--flame);font-weight:700;}
+  .tbody{font-size:12.5px;color:var(--ink-soft);}
+
+  .fsec.mt{margin-top:30px;}
   .pquote{display:flex;gap:12px;margin-bottom:6px;}
+  .pquote.big{margin-bottom:26px;}
   .pquote .m{font-family:Georgia,serif;font-size:40px;color:var(--flame);font-weight:800;line-height:.8;}
   .pquote p{font-size:14.5px;font-style:italic;color:var(--ink-soft);padding-top:5px;}
+  .pquote.big p{font-size:17px;line-height:1.45;}
   p.txt{font-size:13px;color:var(--ink-soft);}
   p.txt + p.txt{margin-top:9px;}
+  .snap.one{grid-template-columns:1fr;}
   .snap{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;}
   .snap .r{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px dashed var(--flame-line);}
   .snap .r .k{color:var(--mute);font-weight:600;}
@@ -363,6 +391,8 @@
     .accinner{grid-template-columns:1fr;gap:14px;}
     .snap,.kpis{grid-template-columns:1fr;}
     .fldrow{grid-template-columns:1fr;gap:4px;}
+    .twocol{grid-template-columns:1fr;gap:20px;}
+    .tstep{grid-template-columns:1fr;gap:3px;}
     h1.ltitle{font-size:22px;}
     .hero{padding:52px 0 46px;}
     .hero h1{font-size:30px;}
@@ -406,7 +436,7 @@
 <!-- ?v= must match HUB.schema in personas.js. The page and its data are separately
      cached files; without this a browser could pair new markup with stale data, which
      previously threw mid-render and left a lens blank. Bump both together. -->
-<script src="personas.js?v=2"></script>
+<script src="personas.js?v=3"></script>
 <script>
 /* ============================================================================
    ProShop Persona Hub
@@ -425,11 +455,10 @@ const ARROW = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" strok
 const DOWN  = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 12l6 6 6-6"/></svg>';
 const FLOWARROW = '<svg viewBox="0 0 22 10" aria-hidden="true"><line x1="0" y1="5" x2="15" y2="5" stroke="currentColor" stroke-width="2"/><polygon points="15,1 22,5 15,9" fill="currentColor"/></svg>';
 const STEPARROW = '<svg viewBox="0 0 20 12" aria-hidden="true"><line x1="0" y1="6" x2="12" y2="6" stroke="currentColor" stroke-width="2.2"/><polygon points="12,1.5 20,6 12,10.5" fill="currentColor"/></svg>';
-const STEPDOWN  = '<svg viewBox="0 0 12 20" aria-hidden="true"><line x1="6" y1="0" x2="6" y2="12" stroke="currentColor" stroke-width="2.2"/><polygon points="1.5,12 6,20 10.5,12" fill="currentColor"/></svg>';
 
 const esc  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const attr = s => String(s).replace(/'/g,"\\'");
-/* Persona copy carries intentional HTML entities from the kit — pass through. */
+/* Persona copy carries intentional HTML entities from the kit, pass through. */
 const rich = s => (s==null?'':String(s));
 
 const lens   = id => HUB.lenses.find(l=>l.id===id);
@@ -441,28 +470,46 @@ const persona= key => PERSONAS.find(p=>p._key===key);
    sales and training detail and are actively maintained; duplicating them here would
    only go stale. The hub carries the people, and links out for the rest.
    The trimmed sections ('tiers', 'fit', 'delivery', 'outcomes') still have their data
-   in personas.js — re-adding one is a single line here. */
+   in personas.js, re-adding one is a single line here. */
 const SECTIONS = {
   buyer:[{id:'who',label:'Who buys ProShop'},{id:'people',label:'The decision-makers'}],
   role: [{id:'journey',label:'The learning journey'},{id:'structure',label:'Definition structure'}]
 };
-const STATE_PILL = {built:['built','Built'],partial:['partial','Partly built — more content pending'],
-                    scaffold:['scaffold','Scaffold — content pending']};
+const STATE_PILL = {built:['built','Built'],partial:['partial','Partly built, more content pending'],
+                    scaffold:['scaffold','Scaffold, content pending']};
 
 let route = {lens:'home', sub:null};
 
 /* ---------------- routing ---------------- */
 function parseHash(){
   const raw = location.hash.replace(/^#\/?/,'').replace(/\/$/,'');
-  if(!raw) return {lens:'home', sub:null};
-  const [a,b] = raw.split('/');
-  if(!lens(a)) return {lens:'home', sub:null};
-  return {lens:a, sub:b||null};
+  if(!raw) return {lens:'home', sub:null, tab:null};
+  const [a,b,c] = raw.split('/');
+  if(!lens(a)) return {lens:'home', sub:null, tab:null};
+  return {lens:a, sub:b||null, tab:c||null};
+}
+
+/* A persona is read in parts rather than as one long page. Each part is its own
+   route, so any section of any persona can be linked to directly. */
+const PERSONA_TABS = [
+  {id:'roles',   label:'Canonical roles'},
+  {id:'glance',  label:'At a glance'},
+  {id:'day',     label:'A day in the life'},
+  {id:'needs',   label:'Goals &amp; needs'},
+  {id:'product', label:'In the product'},
+  {id:'flow',    label:'Where they fit'}
+];
+function personaTabs(g){
+  return g.persona_key ? PERSONA_TABS : PERSONA_TABS.filter(t=>t.id==='roles');
+}
+function focusTab(g){
+  const ok = personaTabs(g).map(t=>t.id);
+  return ok.includes(route.tab) ? route.tab : 'roles';
 }
 
 function applyRoute(){
   const next = parseHash();
-  const changedPage = next.lens!==route.lens || next.sub!==route.sub;
+  const changedPage = next.lens!==route.lens || next.sub!==route.sub || next.tab!==route.tab;
   route = next;
   renderTabs();
   if(route.lens==='home'){
@@ -489,7 +536,7 @@ function swap(render){
       console.error('Render failed for route', route, err);
       page.innerHTML = `<div class="wrap"><div class="notice">
           <span class="ni">Something went wrong</span>
-          <span>This view failed to render. A refresh usually fixes it — if it does not,
+          <span>This view failed to render. A refresh usually fixes it, if it does not,
           the page and its data may be out of step. Details are in the browser console.</span>
         </div></div>`;
     }
@@ -543,7 +590,7 @@ function currentSection(){
   const secs = SECTIONS[route.lens];
   if(!secs) return null;
   if(secs.some(s=>s.id===route.sub)) return route.sub;
-  /* In a focus view no section is current — otherwise the sub-nav would wrongly
+  /* In a focus view no section is current, otherwise the sub-nav would wrongly
      highlight the first one while the reader is actually inside a persona. */
   return focusGroup() ? null : secs[0].id;
 }
@@ -563,7 +610,7 @@ function renderHome(){
       <div class="wrap">
         <div class="kick">ProShop Persona Framework</div>
         <h1>One set of people. <em>Three ways to look at them.</em></h1>
-        <p class="sub">ProShop's personas were scattered across CX, marketing and product — each team describing the
+        <p class="sub">ProShop's personas were scattered across CX, marketing and product; each team describing the
           same machinists and quality managers in its own language. The hub keeps one spine of real people and puts a
           lens in front of it for each team, so nobody has to translate between three versions of the same person.</p>
       </div>
@@ -572,7 +619,7 @@ function renderHome(){
     <div class="hsec">
       <div class="wrap">
         <h2 class="hh">Pick the lens your work asks for</h2>
-        <p class="hp">Every lens is open to everyone — these are starting points, not permissions. The same person can
+        <p class="hp">Every lens is open to everyone; these are starting points, not permissions. The same person can
           appear in more than one, and where they do, the hub links across.</p>
         <div class="lenscards">${cards}</div>
       </div>
@@ -589,7 +636,7 @@ function renderHome(){
           <div class="step"><h4>Open a group</h4><p>The group's summary, and the canonical CX roles nested inside it
             with their pain points and desired outcomes.</p></div>
           <div class="step"><h4>Read the full persona</h4><p>Day in the life, snapshot, tech comfort, goals and
-            frustrations, KPIs, modules and where they sit in the flow — plus the print-ready PDF.</p></div>
+            frustrations, KPIs, modules and where they sit in the flow, plus the print-ready PDF.</p></div>
         </div>
       </div>
     </div>
@@ -601,8 +648,7 @@ function renderHome(){
           invention. Two things are outstanding.</p>
         <div class="vbgrid">
           <div class="vbcard" data-lens="buyer"><div class="vt">Buyer personas (PMM)</div>
-            <div class="vd">The F3 definitions are still a template. What is published comes from the ICP page —
-              decision authority, evaluation triggers and the buying journey are not written yet.</div></div>
+            <div class="vd">The F3 definitions are still a template. What is published comes from the ICP page, decision authority, evaluation triggers and the buying journey are not written yet.</div></div>
           <div class="vbcard" data-lens="role"><div class="vt">Role taxonomy (CX)</div>
             <div class="vd">The canonical role definitions are in progress. The lens shows how CX applies roles today
               and the structure each definition has to fill.</div></div>
@@ -615,7 +661,7 @@ function renderHome(){
 function renderLensPage(){
   const l = route.lens;
   /* A sub-route is either a functional group (focus view) or a content section.
-     Check the group first — every lens can hold groups, not just the User lens. */
+     Check the group first, every lens can hold groups, not just the User lens. */
   const g = focusGroup();
   if(g) return renderFocus(g);
   if(l==='user')  return renderBoard();
@@ -655,8 +701,7 @@ function renderBoard(){
     const items = gs.filter(g=>g.stage===s.id);
     const next  = si < HUB.stages.length-1
       ? `<span class="snext" aria-hidden="true">${STEPARROW}</span>` : '';
-    const cards = items.map((g,i)=>
-      (i ? `<span class="jconn" aria-hidden="true">${STEPDOWN}</span>` : '') + groupCard(g)).join('');
+    const cards = items.map(groupCard).join('');
     return `<div class="stagecol">
         <div class="stagehead">
           <div class="s">${esc(s.label)}</div>
@@ -673,7 +718,7 @@ function renderBoard(){
       <div class="stages">${staged}</div>
       <div class="crossband">
         <div class="ch">Cross-cutting</div>
-        <div class="cd">These groups are not owned by one stage — they touch the job at every stage.</div>
+        <div class="cd">These groups are not owned by one stage; they touch the job at every stage.</div>
         <div class="crossgrid">${cross.map(groupCard).join('')}</div>
       </div>
     </div>`;
@@ -690,7 +735,6 @@ function sourceBox(lensId){
     </a>`).join('');
   return `<div class="srcbox">
       <h3>Where the rest lives</h3>
-      <p class="sn">${esc(links.note||'')}</p>
       <div class="srcgrid">${items}</div>
     </div>`;
 }
@@ -785,7 +829,7 @@ function roleSection(id){
   if(id==='outcomes') return `
     <div class="blk">
       <h2 class="bt">What role-level training drives</h2>
-      <p class="bd">The business outcomes customer education is measured against — useful for deciding which roles
+      <p class="bd">The business outcomes customer education is measured against, useful for deciding which roles
         matter most on a given implementation.</p>
       <div class="chips">${r.outcomes.map(o=>`<span class="chip">${rich(o)}</span>`).join('')}</div>
     </div>`;
@@ -794,7 +838,7 @@ function roleSection(id){
     <div class="blk">
       <h2 class="bt">What a finished role definition contains</h2>
       <p class="bd">The F2 template sets the structure every canonical role definition has to fill. This is the shape
-        of the content still to be authored — useful as a checklist while CX works through the taxonomy.</p>
+        of the content still to be authored, useful as a checklist while CX works through the taxonomy.</p>
       <div class="flds">${r.definition_fields.map(([k,v])=>`
         <div class="fldrow"><div class="fk">${rich(k)}</div><div class="fv">${rich(v)}</div></div>`).join('')}</div>
       <p class="bsrc">Sources: ${r.sources.map(esc).join(' &middot; ')}</p>
@@ -847,17 +891,31 @@ function renderFocus(g){
           <div class="accbody"><div class="accinner">${variantCols(v)}</div></div>
         </div>`).join('')}</div>`
     : `<div class="notice"><span class="ni">Pending</span><span>No canonical role has been nested into this group yet.
-        CX has not authored one — so nothing is shown rather than invented.</span></div>`;
+        CX has not authored one, so nothing is shown rather than invented.</span></div>`;
 
-  const l3 = g.persona_key ? `
-      <div class="l3toggle">
-        <button class="btn flame" type="button" id="l3btn" onclick="toggleL3()">View full persona ${DOWN}</button>
-        <span class="l3note">The full persona from the kit — day in the life, KPIs, flow and modules.</span>
-      </div>` : `
-      <div class="l3toggle">
-        <a class="btn line" href="#/user/functional_qa">Open the full persona in the User lens ${ARROW}</a>
-        <span class="l3note">Only one set of depth exists for this role, and it lives under Functional QA.</span>
-      </div>`;
+  const tab  = focusTab(g);
+  const tabs = personaTabs(g);
+  const p    = g.persona_key ? persona(g.persona_key) : null;
+  const pdfLabel = g.persona_key ? KEY2PDF[g.persona_key] : null;
+
+  const tabnav = tabs.length > 1 ? `<div class="ptabs">${tabs.map(t=>
+      `<a href="#/${g.lens}/${g.id}/${t.id}"${t.id===tab?' aria-current="page"':''}>${rich(t.label)}</a>`).join('')}</div>` : '';
+
+  let body;
+  if(tab === 'roles'){
+    body = `${notes}
+      <div class="fsec">Canonical roles nested here</div>
+      ${acc}
+      ${g.persona_key ? `<p class="tabhint">Read the rest of this persona: ${tabs.filter(t=>t.id!=='roles')
+          .map(t=>`<a href="#/${g.lens}/${g.id}/${t.id}">${rich(t.label)}</a>`).join(' &middot; ')}</p>` : `
+        <p class="tabhint">The full persona for this role lives under
+          <a href="#/user/functional_qa/glance">Functional QA</a> in the User lens.</p>`}`;
+  } else {
+    body = personaTab(p, tab);
+  }
+
+  const dlBtn = pdfLabel
+    ? `<button class="btn line sm" type="button" onclick="dl('${attr(pdfLabel)}')">Download PDF ${DOWN}</button>` : '';
 
   return `<div class="wrap" data-lens="${g.lens}">
     <div class="railbar">
@@ -866,18 +924,18 @@ function renderFocus(g){
     </div>
     <div class="fpanel">
       <div class="fhead">
-        <div class="fstage">${esc(stageLabel)}</div>
-        <h2>${rich(g.name)}</h2>
+        <div class="fhrow">
+          <div>
+            <div class="fstage">${esc(stageLabel)}</div>
+            <h2>${rich(g.name)}</h2>
+          </div>
+          ${dlBtn}
+        </div>
         <p class="fsum">${rich(g.summary)}</p>
         <div class="chips">${modChips}${posChips}</div>
+        ${tabnav}
       </div>
-      <div class="fbody">
-        ${notes}
-        <div class="fsec">Canonical roles nested here</div>
-        ${acc}
-        ${l3}
-        <div class="level3" id="level3" hidden></div>
-      </div>
+      <div class="fbody">${body}</div>
     </div>
   </div>`;
 }
@@ -893,62 +951,85 @@ function toggleAcc(i, forceOpen){
   if(open) setTimeout(()=>{ if(it.dataset.open==='true') body.style.maxHeight='none'; }, REDUCED?0:340);
 }
 
-/* ---------------- level 3 ---------------- */
-let l3open = false;
-function toggleL3(){
-  l3open = !l3open;
-  const box = $('#level3'), btn = $('#l3btn');
-  if(l3open){
-    box.innerHTML = renderRich(group(route.sub).persona_key);
-    box.hidden = false;
-    btn.innerHTML = 'Hide full persona ' + DOWN;
-    requestAnimationFrame(()=>box.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'start'}));
-  } else {
-    box.hidden = true; box.innerHTML = '';
-    btn.innerHTML = 'View full persona ' + DOWN;
-  }
-}
-
-function renderRich(key){
-  const p = persona(key);
-  if(!p) return '';
+/* ---------------- persona, read in parts ----------------
+   Each tab is a self-contained chunk. The PDF download still gives the full
+   print-style document; the page deliberately does not try to be that. */
+function personaTab(p, tab){
+  if(!p) return '<div class="notice"><span class="ni">Missing</span><span>No persona is linked to this group.</span></div>';
   const li = a => a.map(x=>`<li>${rich(x)}</li>`).join('');
-  const snap = p.snapshot.map(([k,v])=>`<div class="r"><span class="k">${rich(k)}</span><span class="v">${rich(v)}</span></div>`).join('');
-  const day  = p.day.map(([t,x])=>`<div class="row"><div class="t">${rich(t)}</div><div class="x">${rich(x)}</div></div>`).join('');
-  const meters = p.meters.map(([lab,lvl,pct])=>`<div class="m"><div class="lab"><span>${rich(lab)}</span><span>${rich(lvl)}</span></div><div class="track"><div class="fill" style="width:${pct}%"></div></div></div>`).join('');
-  const kpis = p.kpis.map(([b,l])=>`<div class="kpi"><div class="big">${rich(b)}</div><div class="lab">${rich(l)}</div></div>`).join('');
-  const mods = p.modules.map(([n,tag,prim])=>`<span class="mod ${prim?'p':''}">${rich(n)}<span class="mtag"${prim?'':' style="color:var(--mute)"'}>${rich(tag)}</span></span>`).join('');
-  const nav = p.nav_areas ? `
-      <div class="psec">Navigation areas</div>
-      <div class="navsub">Where they work in the product${p.nav_areas_note?` &mdash; <em>${rich(p.nav_areas_note)}</em>`:''}</div>
-      <div class="navs">${p.nav_areas.map(n=>`<span class="navchip">${rich(n)}</span>`).join('')}</div>` : '';
-  const [ul,uw,uwt] = p.upstream, [dl_,dw,dwt] = p.downstream;
-  const pdfLabel = KEY2PDF[key];
 
+  if(tab === 'glance'){
+    const snap = p.snapshot.map(([k,v])=>`<div class="r"><span class="k">${rich(k)}</span><span class="v">${rich(v)}</span></div>`).join('');
+    const meters = p.meters.map(([lab,lvl,pct])=>
+      `<div class="m"><div class="lab"><span>${rich(lab)}</span><span>${rich(lvl)}</span></div>
+        <div class="track"><div class="fill" style="width:${pct}%"></div></div></div>`).join('');
+    return `
+      <div class="pquote big"><span class="m">&ldquo;</span><p>${rich(p.quote)}</p></div>
+      <div class="twocol">
+        <div>
+          <div class="fsec">Who they are</div>
+          <p class="txt">${rich(p.who1)}</p>
+          ${p.who2?`<p class="txt">${rich(p.who2)}</p>`:''}
+        </div>
+        <div>
+          <div class="fsec">Snapshot</div>
+          <div class="snap one">${snap}</div>
+        </div>
+      </div>
+      <div class="fsec mt">Environment &amp; tech comfort</div>
+      <div class="twocol">
+        <p class="txt">${rich(p.environment)}</p>
+        <div class="meters">${meters}</div>
+      </div>
+      ${p.inwords?`<div class="inwords"><span class="iwl">In their words</span><p>${rich(p.inwords)}</p></div>`:''}`;
+  }
+
+  if(tab === 'day'){
+    const rows = p.day.map(([t,x])=>
+      `<li class="tstep"><span class="tdot" aria-hidden="true"></span>
+         <span class="tlab">${rich(t)}</span><span class="tbody">${rich(x)}</span></li>`).join('');
+    return `
+      <div class="fsec">A day in the life</div>
+      <p class="txt intro">The shape of a typical day, in the order it actually happens.</p>
+      <ol class="tline">${rows}</ol>`;
+  }
+
+  if(tab === 'needs'){
+    const kpis = p.kpis.map(([b,l])=>`<div class="kpi"><div class="big">${rich(b)}</div><div class="lab">${rich(l)}</div></div>`).join('');
+    return `
+      <div class="fsec">Goals, frustrations &amp; needs</div>
+      <div class="trip">
+        <div class="pnl g"><div class="h"><span class="dot"></span>Goals</div><ul>${li(p.goals)}</ul></div>
+        <div class="pnl f"><div class="h"><span class="dot"></span>Frustrations</div><ul>${li(p.frustrations)}</ul></div>
+        <div class="pnl n"><div class="h"><span class="dot"></span>Needs</div><ul>${li(p.needs)}</ul></div>
+      </div>
+      <div class="fsec mt">Measured on</div>
+      <p class="txt intro">The numbers this role is actually judged by.</p>
+      <div class="kpis">${kpis}</div>`;
+  }
+
+  if(tab === 'product'){
+    const mods = p.modules.map(([n,tag,prim])=>
+      `<span class="mod ${prim?'p':''}">${rich(n)}<span class="mtag"${prim?'':' style="color:var(--mute)"'}>${rich(tag)}</span></span>`).join('');
+    const nav = p.nav_areas ? `
+      <div class="fsec mt">Navigation areas</div>
+      <p class="txt intro">The product screens this role works in${p.nav_areas_note?`. ${rich(p.nav_areas_note)}`:'.'}</p>
+      <div class="navs">${p.nav_areas.map(n=>`<span class="navchip">${rich(n)}</span>`).join('')}</div>`
+      : `<div class="fsec mt">Navigation areas</div>
+         <div class="notice plain"><span class="ni">Not mapped</span>
+         <span>No navigation areas are recorded for this role yet.</span></div>`;
+    return `
+      <div class="fsec">ProShop modules they live in</div>
+      <p class="txt intro">Where they spend their time, and what they only read from.</p>
+      <div class="mods">${mods}</div>
+      ${nav}`;
+  }
+
+  /* flow */
+  const [ul,uw,uwt] = p.upstream, [dl_,dw,dwt] = p.downstream;
   return `
-    <div class="pquote"><span class="m">&ldquo;</span><p>${rich(p.quote)}</p></div>
-    <div class="psec">Who they are</div>
-    <p class="txt">${rich(p.who1)}</p>
-    ${p.who2?`<p class="txt">${rich(p.who2)}</p>`:''}
-    <div class="psec">A day in the life</div>
-    <div class="tl2">${day}</div>
-    <div class="psec">Snapshot</div>
-    <div class="snap">${snap}</div>
-    <div class="psec">Environment &amp; tech comfort</div>
-    <p class="txt" style="margin-bottom:13px">${rich(p.environment)}</p>
-    <div class="meters">${meters}</div>
-    <div class="psec">Goals, frustrations &amp; needs</div>
-    <div class="trip">
-      <div class="pnl g"><div class="h"><span class="dot"></span>Goals</div><ul>${li(p.goals)}</ul></div>
-      <div class="pnl f"><div class="h"><span class="dot"></span>Frustrations</div><ul>${li(p.frustrations)}</ul></div>
-      <div class="pnl n"><div class="h"><span class="dot"></span>Needs</div><ul>${li(p.needs)}</ul></div>
-    </div>
-    <div class="psec">Measured on</div>
-    <div class="kpis">${kpis}</div>
-    <div class="psec">ProShop modules they live in</div>
-    <div class="mods">${mods}</div>
-    ${nav}
-    <div class="psec">Where they sit in the flow</div>
+    <div class="fsec">Where they sit in the flow</div>
+    <p class="txt intro">What reaches them, what they do with it, and who inherits the result.</p>
     <div class="flowrow">
       <div class="fnode"><div class="l">${rich(ul)}</div><div class="w">${rich(uw)}</div><div class="ww">${rich(uwt)}</div></div>
       <div class="farr"><span class="tt">${rich(p.in_arrow).replace(/&nbsp;/g,' ')}</span>${FLOWARROW}</div>
@@ -956,12 +1037,8 @@ function renderRich(key){
       <div class="farr"><span class="tt">${rich(p.out_arrow).replace(/&nbsp;/g,' ')}</span>${FLOWARROW}</div>
       <div class="fnode"><div class="l">${rich(dl_)}</div><div class="w">${rich(dw)}</div><div class="ww">${rich(dwt)}</div></div>
     </div>
-    <p class="txt" style="font-size:11px;color:var(--mute);margin-top:10px">${rich(p.flow_note)}</p>
-    <p class="txt" style="font-size:11px;color:var(--mute);margin-top:8px">${rich(p.footnote)}</p>
-    <div class="pdlrow">
-      <span class="note">Authored and updated 9/14/2026 by Samantha Jorgenson, Product Operations Manager</span>
-      ${pdfLabel?`<button class="btn flame" type="button" onclick="dl('${attr(pdfLabel)}')">Download this persona (PDF) ${DOWN}</button>`:''}
-    </div>`;
+    <p class="txt flownote">${rich(p.flow_note)}</p>
+    <p class="foot-note">${rich(p.footnote)}</p>`;
 }
 
 function dl(label){
