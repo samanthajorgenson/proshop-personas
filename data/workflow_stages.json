@@ -1,0 +1,32 @@
+[
+  {
+    "id": "stage.win",
+    "label": "Win",
+    "alt_label": "Pre-Production",
+    "order": 1
+  },
+  {
+    "id": "stage.plan",
+    "label": "Plan",
+    "alt_label": "Procurement",
+    "order": 2
+  },
+  {
+    "id": "stage.build",
+    "label": "Build",
+    "alt_label": "Production",
+    "order": 3
+  },
+  {
+    "id": "stage.learn",
+    "label": "Learn",
+    "alt_label": "Post-Production",
+    "order": 4
+  },
+  {
+    "id": "stage.cross-cutting",
+    "label": "Cross-cutting",
+    "alt_label": "Cross-cutting",
+    "order": 99
+  }
+]

@@ -67,6 +67,30 @@ The **Position lens was removed from the site** on 2026-09-14 — a flat taxonom
 was not usable or actionable on its own. It lives at [`reference/positions.md`](reference/positions.md),
 which is not linked from the hub.
 
+### The connective layer (`data/`)
+
+A version-controlled dataset of **entities and the relationships between them**, extracted from
+the 32 canonical PSKB Persona Profiles on 2026-09-28. It powers BI, roadmap-feature tagging and
+(eventually) the hub itself, which today still reads hard-coded content from `personas.js`.
+
+**The rule that governs every line: reference, never copy.** Entities store an `id`, a `label`, a
+`canonical_url`, enum fields and relationships as arrays of ids. They never hold a second copy of
+persona, module or buyer content — that stays in PSKB and is reached through the link. A copied
+field is a bug, not a feature. A validation pass greps for prose on every run.
+
+Ownership follows the governance recommendation: **Product Ops owns the connections, not the
+content.** CX Enablement owns persona content, PMM owns buyer/ICP, Product/CX own module docs,
+IT/Admin owns the position taxonomy. Access and entitlement data is out of scope and must never
+enter `data/`.
+
+Two things to know before using it:
+
+- **The functional-group bridge covers 15 of the 32 personas.** The hub's nine groups came from an
+  older 14-persona CX list and do not span the 32-profile set. Unmapped personas and candidate
+  mappings are listed in `_extraction_log.md` awaiting a ruling.
+- **`_extraction_log.md` is the record of what was decided and why.** Read it before trusting or
+  changing the graph.
+
 ### Routes
 
 Hash routing gives every view a real, shareable URL; the back button, refresh and bookmarks all
@@ -125,6 +149,14 @@ proshop-personas/                 (repo root — served by GitHub Pages)
 ├── index.html                    THE PERSONA HUB — landing + three lenses (hand-authored)
 ├── personas.js                   ALL HUB CONTENT — edit content here, not in index.html
 ├── design-tokens.css             Every colour/size token — the one-file Figma swap
+├── data/                         THE CONNECTIVE LAYER — entities + relationships (JSON-in-Git)
+│   ├── personas.json             32 canonical personas, referenced by link
+│   ├── departments.json          12 department hubs
+│   ├── modules.json              31 deduped ProShop modules
+│   ├── functional_groups.json    Product Ops' bridge: groups → canonical personas
+│   ├── workflow_stages.json      Win / Plan / Build / Learn / cross-cutting
+│   ├── _schema.md                Field reference for each entity type
+│   └── _extraction_log.md        Counts, id↔pageid map, validation, open rulings
 ├── reference/
 │   └── positions.md              Position taxonomy — internal reference, NOT on the site
 ├── teaching-tool.html            The previous single-lens tool. Kept for its ProShop 101

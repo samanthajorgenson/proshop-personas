@@ -1,0 +1,1204 @@
+[
+  {
+    "id": "persona.account-manager",
+    "label": "Account Manager",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633171172/Account+Manager+Persona+Profile",
+    "source_page_id": "2633171172",
+    "department": "dept.sales-and-estimating",
+    "role_group": "Overhead Support",
+    "also_known_as": null,
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.contacts",
+      "module.estimates",
+      "module.quotes",
+      "module.customer-pos"
+    ],
+    "dashboards": [
+      "Sales Dashboard",
+      "Customer Service Dashboard"
+    ],
+    "kpis": [
+      "RFQ response / lead time",
+      "On-time delivery",
+      "Monthly sales $"
+    ],
+    "external_tools": [
+      "CRM",
+      "Sales Portal (paperless)"
+    ],
+    "upstream": [],
+    "downstream": [
+      "persona.estimator",
+      "persona.sales-manager",
+      "persona.customer-service-representative"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.accountant",
+    "label": "Accountant",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633072781/Accountant+Persona+Profile",
+    "source_page_id": "2633072781",
+    "department": "dept.finance-and-accounting",
+    "role_group": "Overhead Support",
+    "also_known_as": "Reporting",
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.work-orders",
+      "module.bills",
+      "module.invoices"
+    ],
+    "dashboards": [
+      "Finance Dashboard",
+      "Profit Entry",
+      "Sales Breakdown",
+      "Profit Breakdown",
+      "Machine Overhead"
+    ],
+    "kpis": [
+      "WIP Booking Frequency",
+      "Monthly Gross Profit Margin %",
+      "Overhead Coverage Rate %"
+    ],
+    "external_tools": [
+      "Accounting integration (QuickBooks, Sage, Xero)"
+    ],
+    "upstream": [
+      "persona.bookkeeper"
+    ],
+    "downstream": [
+      "persona.controller-owner-senior-management"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.assembly-technician",
+    "label": "Assembly Technician",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633269524/Assembly+Technician+Persona+Profile",
+    "source_page_id": "2633269524",
+    "department": "dept.manufacturing-and-production",
+    "role_group": "Shop Floor",
+    "also_known_as": null,
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.work-orders",
+      "module.parts",
+      "module.cots"
+    ],
+    "dashboards": [
+      "Queued Work",
+      "Scheduled Work",
+      "Job Progress"
+    ],
+    "kpis": [
+      "Scrap rate %",
+      "Direct labor efficiency / time-tracking accuracy",
+      "On-time delivery %"
+    ],
+    "external_tools": [],
+    "upstream": [],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.bookkeeper",
+    "label": "Bookkeeper",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632712446/Bookkeeper+Persona+Profile",
+    "source_page_id": "2632712446",
+    "department": "dept.finance-and-accounting",
+    "role_group": "Overhead Support",
+    "also_known_as": "Billing and Invoicing",
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.vendor-pos",
+      "module.bills",
+      "module.customer-pos",
+      "module.work-orders",
+      "module.packing-slips",
+      "module.invoices"
+    ],
+    "dashboards": [
+      "Finance Systems",
+      "Finance Dashboard",
+      "Profit Entry"
+    ],
+    "kpis": [
+      "WIP Booking Frequency",
+      "Time Tracking Compliance %",
+      "Monthly Gross Profit Margin %"
+    ],
+    "external_tools": [
+      "Accounting integration (QuickBooks, Sage, Xero)"
+    ],
+    "upstream": [],
+    "downstream": [
+      "persona.accountant"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.cnc-programmer",
+    "label": "CNC Programmer",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632974523/CNC+Programmer+Persona+Profile",
+    "source_page_id": "2632974523",
+    "department": "dept.planning-and-engineering",
+    "role_group": "Overhead Support",
+    "also_known_as": null,
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.work-orders",
+      "module.tools",
+      "module.rtas",
+      "module.fixtures"
+    ],
+    "dashboards": [
+      "Project Manager Dashboard",
+      "Planner Dashboard"
+    ],
+    "kpis": [
+      "Machine Utilization %",
+      "First Article Acceptance Rate"
+    ],
+    "external_tools": [
+      "CAD/CAM",
+      "Tool Matrices",
+      "Machine Monitoring (Datanomix)"
+    ],
+    "upstream": [
+      "persona.planner"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.calibration-technician",
+    "label": "Calibration Technician",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633498908/Calibration+Technician+Persona+Profile",
+    "source_page_id": "2633498908",
+    "department": "dept.quality-assurance",
+    "role_group": "Production Support (QA)",
+    "also_known_as": null,
+    "product_archetype": "archetype.qa-quinn",
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.equipment",
+      "module.vendor-pos",
+      "module.cots"
+    ],
+    "dashboards": [
+      "Maintenance Queue"
+    ],
+    "kpis": [
+      "Calibration Compliance Rate %",
+      "Out-of-Tolerance Calibration Findings"
+    ],
+    "external_tools": [],
+    "upstream": [],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.controller-owner-senior-management",
+    "label": "Controller / Owner / Senior Management",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633269553/Controller+Owner+Senior+Management+Persona+Profile",
+    "source_page_id": "2633269553",
+    "department": "dept.finance-and-accounting",
+    "role_group": "Overhead Leadership",
+    "also_known_as": null,
+    "product_archetype": "archetype.owner-owen",
+    "seniority": "Leadership",
+    "modules": [
+      "module.work-orders",
+      "module.invoices",
+      "module.bills"
+    ],
+    "dashboards": [
+      "Finance Dashboard",
+      "Profit Entry",
+      "Sales Breakdown",
+      "Profit Breakdown",
+      "Machine Overhead"
+    ],
+    "kpis": [
+      "Direct Gross Profit Margin %",
+      "Profit per Direct Labor Hour",
+      "Monthly Gross Profit Margin %",
+      "Overhead Coverage Rate %",
+      "Gross Sales per Employee"
+    ],
+    "external_tools": [
+      "Accounting integration (QuickBooks, Sage, Xero)"
+    ],
+    "upstream": [
+      "persona.accountant",
+      "persona.bookkeeper"
+    ],
+    "downstream": [
+      "persona.estimator"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.customer-service-representative",
+    "label": "Customer Service Representative",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633040045/Customer+Service+Representative+Persona+Profile",
+    "source_page_id": "2633040045",
+    "department": "dept.sales-and-estimating",
+    "role_group": "Overhead Support",
+    "also_known_as": "Order Entry & Customer Service Representative",
+    "product_archetype": "archetype.customer-service-carla",
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.contacts",
+      "module.customer-pos",
+      "module.work-orders"
+    ],
+    "dashboards": [
+      "Sales Dashboard",
+      "Customer Service Dashboard"
+    ],
+    "kpis": [
+      "On-time delivery",
+      "RFQ response / lead time"
+    ],
+    "external_tools": [
+      "CRM",
+      "Sales Portal (paperless)"
+    ],
+    "upstream": [
+      "persona.account-manager",
+      "persona.estimator"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.estimator",
+    "label": "Estimator",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633269333/Estimator+Persona+Profile",
+    "source_page_id": "2633269333",
+    "department": "dept.sales-and-estimating",
+    "role_group": "Overhead Support",
+    "also_known_as": "Manufacturing Estimator",
+    "product_archetype": "archetype.estimator-eddie",
+    "seniority": "Individual contributor (seasoned)",
+    "modules": [
+      "module.estimates",
+      "module.quotes",
+      "module.parts",
+      "module.work-orders"
+    ],
+    "dashboards": [
+      "Sales Dashboard",
+      "Machine Portion of Overhead"
+    ],
+    "kpis": [
+      "Estimating accuracy & profitability",
+      "RFQ response / lead time"
+    ],
+    "external_tools": [
+      "Estimate Generator (paperless)",
+      "CAD/CAM"
+    ],
+    "upstream": [
+      "persona.account-manager",
+      "persona.customer-service-representative"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.facilities-maintenance-maintenance-technician",
+    "label": "Facilities Maintenance / Maintenance Technician",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633203898/Facilities+Maintenance+Maintenance+Technician+Persona+Profile",
+    "source_page_id": "2633203898",
+    "department": "dept.equipment-maintenance-and-calibration",
+    "role_group": "Shop Floor",
+    "also_known_as": null,
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.equipment",
+      "module.tasks"
+    ],
+    "dashboards": [
+      "Maintenance Queue"
+    ],
+    "kpis": [
+      "Preventative Maintenance Completion Rate %",
+      "Equipment Downtime (unplanned)"
+    ],
+    "external_tools": [],
+    "upstream": [],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.general-manager",
+    "label": "General Manager",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633138301/General+Manager+Persona+Profile",
+    "source_page_id": "2633138301",
+    "department": "dept.human-resource-management",
+    "role_group": "Overhead Leadership",
+    "also_known_as": null,
+    "product_archetype": null,
+    "seniority": "Leadership",
+    "modules": [
+      "module.company-positions",
+      "module.users"
+    ],
+    "dashboards": [
+      "Clock Punch Administration",
+      "Value Added Numbers"
+    ],
+    "kpis": [
+      "Active Users / License Utilization",
+      "Employee Training Compliance Rate %"
+    ],
+    "external_tools": [],
+    "upstream": [],
+    "downstream": [
+      "persona.human-resources"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.human-resources",
+    "label": "Human Resources",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632679517/Human+Resources+Persona+Profile",
+    "source_page_id": "2632679517",
+    "department": "dept.human-resource-management",
+    "role_group": "Overhead Support",
+    "also_known_as": null,
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.tasks",
+      "module.training",
+      "module.users"
+    ],
+    "dashboards": [
+      "Clock Punch Administration",
+      "Odd Time Tracking Entries",
+      "Value Added Numbers"
+    ],
+    "kpis": [
+      "Employee Training Compliance Rate %",
+      "Active Users / License Utilization",
+      "Time Tracking Accuracy"
+    ],
+    "external_tools": [],
+    "upstream": [
+      "persona.general-manager"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.it-manager-erp-administrator-compliance-officer",
+    "label": "IT Manager / ERP Administrator / Compliance Officer",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2709159959/IT+Manager+ERP+Administrator+Compliance+Officer+Persona+Profile",
+    "source_page_id": "2709159959",
+    "department": "dept.information-technology-and-cybersecurity",
+    "role_group": null,
+    "also_known_as": "IT Manager · ERP Administrator · System Administrator · Compliance Officer",
+    "product_archetype": null,
+    "seniority": null,
+    "modules": [
+      "module.users",
+      "module.standards"
+    ],
+    "dashboards": [],
+    "kpis": [
+      "Compliance audit findings",
+      "Active users / license utilisation",
+      "System uptime / availability"
+    ],
+    "external_tools": [],
+    "upstream": [],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.manufacturing-engineer",
+    "label": "Manufacturing Engineer",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632581291/Manufacturing+Engineer+Persona+Profile",
+    "source_page_id": "2632581291",
+    "department": "dept.planning-and-engineering",
+    "role_group": "Overhead Support",
+    "also_known_as": "ME",
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.work-orders",
+      "module.work-cells",
+      "module.equipment",
+      "module.tools",
+      "module.rtas",
+      "module.fixtures"
+    ],
+    "dashboards": [
+      "Project Manager Dashboard",
+      "Planner Dashboard"
+    ],
+    "kpis": [
+      "First Article Acceptance Rate",
+      "Machine Utilization %",
+      "Scrap Rate %"
+    ],
+    "external_tools": [
+      "CAD/CAM",
+      "Tool Matrices"
+    ],
+    "upstream": [
+      "persona.planner",
+      "persona.cnc-programmer"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.operations-manager",
+    "label": "Operations Manager",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633400493/Operations+Manager+Persona+Profile",
+    "source_page_id": "2633400493",
+    "department": "dept.scheduling-and-production-control",
+    "role_group": "Overhead Leadership",
+    "also_known_as": "Ops Manager",
+    "product_archetype": null,
+    "seniority": "Leadership",
+    "modules": [
+      "module.work-cells",
+      "module.work-orders",
+      "module.schedule"
+    ],
+    "dashboards": [
+      "Customer Service Dashboard",
+      "Shift Tie-in",
+      "Queued Work",
+      "Scheduled Work",
+      "Job Progress",
+      "Shop Progress"
+    ],
+    "kpis": [
+      "On-time delivery %",
+      "Schedule adherence %",
+      "Capacity utilization %"
+    ],
+    "external_tools": [
+      "Machine Monitoring",
+      "DLH Resource Allocation / Scheduling"
+    ],
+    "upstream": [
+      "persona.scheduler",
+      "persona.production-controller-expeditor"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.planner",
+    "label": "Planner",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632712403/Planner+Persona+Profile",
+    "source_page_id": "2632712403",
+    "department": "dept.planning-and-engineering",
+    "role_group": "Overhead Support",
+    "also_known_as": "Manufacturing Project Manager / Planner",
+    "product_archetype": "archetype.project-planner-paul",
+    "seniority": "Individual contributor / Lead",
+    "modules": [
+      "module.customer-pos",
+      "module.parts",
+      "module.cots",
+      "module.work-orders",
+      "module.work-cells",
+      "module.schedule",
+      "module.equipment",
+      "module.tools",
+      "module.rtas",
+      "module.fixtures"
+    ],
+    "dashboards": [
+      "Project Assignment",
+      "Project Manager Dashboard",
+      "Planner Dashboard"
+    ],
+    "kpis": [
+      "Budget adherence %",
+      "NCRs / RMAs (avoided)"
+    ],
+    "external_tools": [
+      "CAD/CAM",
+      "Tool Matrices",
+      "Dim Tagging (HighQA, Ground Control)"
+    ],
+    "upstream": [
+      "persona.customer-service-representative"
+    ],
+    "downstream": [
+      "persona.cnc-programmer",
+      "persona.manufacturing-engineer"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.production-controller-expeditor",
+    "label": "Production Controller / Expeditor",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632777909/Production+Controller+Expeditor+Persona+Profile",
+    "source_page_id": "2632777909",
+    "department": "dept.scheduling-and-production-control",
+    "role_group": "Overhead Support",
+    "also_known_as": "Expeditor",
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.work-cells",
+      "module.work-orders",
+      "module.schedule"
+    ],
+    "dashboards": [
+      "Queued Work",
+      "Scheduled Work",
+      "Job Progress",
+      "Shift Tie-in"
+    ],
+    "kpis": [
+      "Schedule adherence %",
+      "On-time delivery %",
+      "Work In Progress (WIP) Value"
+    ],
+    "external_tools": [
+      "Machine Monitoring"
+    ],
+    "upstream": [
+      "persona.scheduler"
+    ],
+    "downstream": [
+      "persona.operations-manager"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.production-machinist-cnc-operator",
+    "label": "Production Machinist / CNC Operator",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632909002/Production+Machinist+CNC+Operator+Persona+Profile",
+    "source_page_id": "2632909002",
+    "department": "dept.manufacturing-and-production",
+    "role_group": "Shop Floor",
+    "also_known_as": null,
+    "product_archetype": "archetype.machinist-michael",
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.work-orders",
+      "module.parts",
+      "module.schedule"
+    ],
+    "dashboards": [
+      "Queued Work",
+      "Scheduled Work",
+      "Job Progress",
+      "Shift Tie-in"
+    ],
+    "kpis": [
+      "Machine utilization %",
+      "Direct labor efficiency / time-tracking accuracy",
+      "On-time delivery %"
+    ],
+    "external_tools": [
+      "Machine Monitoring (Datanomix)"
+    ],
+    "upstream": [
+      "persona.setup-machinist"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.project-manager",
+    "label": "Project Manager",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632843373/Project+Manager+Persona+Profile",
+    "source_page_id": "2632843373",
+    "department": "dept.scheduling-and-production-control",
+    "role_group": "Overhead Support",
+    "also_known_as": null,
+    "product_archetype": "archetype.project-planner-paul",
+    "seniority": "Individual contributor / Lead",
+    "modules": [
+      "module.work-orders",
+      "module.schedule"
+    ],
+    "dashboards": [
+      "Customer Service Dashboard",
+      "Job Progress",
+      "Shop Progress"
+    ],
+    "kpis": [
+      "On-time delivery %",
+      "Work Order Lead Time",
+      "Schedule adherence %"
+    ],
+    "external_tools": [
+      "DLH Resource Allocation / Scheduling"
+    ],
+    "upstream": [
+      "persona.planner",
+      "persona.scheduler"
+    ],
+    "downstream": [
+      "persona.operations-manager"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.purchasing-agent-buyer",
+    "label": "Purchasing Agent / Buyer",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632712368/Purchasing+Agent+Buyer+Persona+Profile",
+    "source_page_id": "2632712368",
+    "department": "dept.purchasing-and-supply-chain",
+    "role_group": "Overhead Support",
+    "also_known_as": null,
+    "product_archetype": "archetype.buyer-bob",
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.vendor-pos",
+      "module.cots",
+      "module.tools",
+      "module.equipment",
+      "module.work-orders",
+      "module.packing-slips"
+    ],
+    "dashboards": [
+      "Purchasing Dashboard"
+    ],
+    "kpis": [
+      "Supplier On-Time Delivery (OTD) %",
+      "Purchase Order Lead Time",
+      "Inventory Turnover Rate"
+    ],
+    "external_tools": [
+      "KANBAN / Safety Stock Management"
+    ],
+    "upstream": [],
+    "downstream": [
+      "persona.purchasing-manager"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.purchasing-manager",
+    "label": "Purchasing Manager",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632712329/Purchasing+Manager+Persona+Profile",
+    "source_page_id": "2632712329",
+    "department": "dept.purchasing-and-supply-chain",
+    "role_group": "Overhead Support",
+    "also_known_as": null,
+    "product_archetype": "archetype.buyer-bob",
+    "seniority": "Manager",
+    "modules": [
+      "module.contacts",
+      "module.vendor-pos",
+      "module.non-conformance-reports",
+      "module.corrective-action-requests",
+      "module.preventative-action-requests",
+      "module.cots",
+      "module.tools",
+      "module.equipment"
+    ],
+    "dashboards": [
+      "Purchasing Dashboard"
+    ],
+    "kpis": [
+      "Supplier Quality / NCR Rate",
+      "SCAR Closure Rate",
+      "Material Cost Variance vs. Budget"
+    ],
+    "external_tools": [
+      "KANBAN / Safety Stock Management"
+    ],
+    "upstream": [
+      "persona.purchasing-agent-buyer",
+      "persona.shipping-and-receiving-clerk-logistics-coordinator"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.qms-coordinator",
+    "label": "QMS Coordinator",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632876211/QMS+Coordinator+Persona+Profile",
+    "source_page_id": "2632876211",
+    "department": "dept.quality-management-and-compliance",
+    "role_group": "Production Support (QA)",
+    "also_known_as": null,
+    "product_archetype": "archetype.qa-quinn",
+    "seniority": "Individual contributor / Coordinator",
+    "modules": [
+      "module.quality-procedures",
+      "module.tasks",
+      "module.audit-reports",
+      "module.corrective-action-requests",
+      "module.preventative-action-requests",
+      "module.return-material-authorizations"
+    ],
+    "dashboards": [
+      "Company Hub",
+      "Maintenance Queue"
+    ],
+    "kpis": [
+      "CAR / PAR Closure Rate",
+      "Customer RMA / Rework Rate",
+      "Internal Audit Findings"
+    ],
+    "external_tools": [],
+    "upstream": [],
+    "downstream": [
+      "persona.quality-manager"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.quality-engineer",
+    "label": "Quality Engineer",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632745089/Quality+Engineer+Persona+Profile",
+    "source_page_id": "2632745089",
+    "department": "dept.planning-and-engineering",
+    "role_group": "Production Support (QA)",
+    "also_known_as": null,
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.parts",
+      "module.work-orders",
+      "module.equipment",
+      "module.quality-procedures"
+    ],
+    "dashboards": [
+      "Inspection Dashboard",
+      "Project Manager Dashboard"
+    ],
+    "kpis": [
+      "First Article Acceptance Rate",
+      "NCR Rate",
+      "Escaped / Defect Rate"
+    ],
+    "external_tools": [
+      "Dim Tagging (HighQA, Ground Control)",
+      "CAD/CAM"
+    ],
+    "upstream": [
+      "persona.planner"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.quality-inspector",
+    "label": "Quality Inspector",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633498877/Quality+Inspector+Persona+Profile",
+    "source_page_id": "2633498877",
+    "department": "dept.quality-assurance",
+    "role_group": "Production Support (QA)",
+    "also_known_as": null,
+    "product_archetype": "archetype.qa-quinn",
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.parts",
+      "module.work-orders",
+      "module.equipment",
+      "module.non-conformance-reports"
+    ],
+    "dashboards": [
+      "Inspection Dashboard"
+    ],
+    "kpis": [
+      "First Article Acceptance Rate",
+      "NCR Rate",
+      "Escaped / Defect Rate"
+    ],
+    "external_tools": [
+      "Dim Tagging (HighQA, Ground Control)"
+    ],
+    "upstream": [],
+    "downstream": [
+      "persona.quality-supervisor-lead-inspector"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.quality-manager",
+    "label": "Quality Manager",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633072736/Quality+Manager+Persona+Profile",
+    "source_page_id": "2633072736",
+    "department": "dept.quality-management-and-compliance",
+    "role_group": "Production Support (QA)",
+    "also_known_as": null,
+    "product_archetype": "archetype.qa-quinn",
+    "seniority": "Manager",
+    "modules": [
+      "module.quality-manual",
+      "module.quality-procedures",
+      "module.tasks",
+      "module.training",
+      "module.approvals",
+      "module.audit-reports",
+      "module.standards",
+      "module.documents",
+      "module.corrective-action-requests",
+      "module.preventative-action-requests",
+      "module.equipment"
+    ],
+    "dashboards": [
+      "Supplier Performance",
+      "Company Hub",
+      "Training Breakdown Matrix",
+      "Maintenance Queue",
+      "Personal Documents Queue"
+    ],
+    "kpis": [
+      "Internal Audit Findings (Open vs. Closed)",
+      "Document Control Compliance",
+      "Training Compliance Rate %",
+      "Customer RMA / Rework Rate"
+    ],
+    "external_tools": [],
+    "upstream": [
+      "persona.qms-coordinator",
+      "persona.quality-inspector"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.quality-supervisor-lead-inspector",
+    "label": "Quality Supervisor / Lead Inspector",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633007308/Quality+Supervisor+Lead+Inspector+Persona+Profile",
+    "source_page_id": "2633007308",
+    "department": "dept.quality-assurance",
+    "role_group": "Production Support (QA)",
+    "also_known_as": null,
+    "product_archetype": "archetype.qa-quinn",
+    "seniority": "Lead / Supervisor",
+    "modules": [
+      "module.parts",
+      "module.work-orders",
+      "module.non-conformance-reports",
+      "module.return-material-authorizations",
+      "module.quality-procedures"
+    ],
+    "dashboards": [
+      "Inspection Dashboard"
+    ],
+    "kpis": [
+      "NCR Rate",
+      "Escaped / Defect Rate",
+      "CAR Closure Rate",
+      "First Article Acceptance Rate"
+    ],
+    "external_tools": [
+      "Dim Tagging (HighQA, Ground Control)"
+    ],
+    "upstream": [
+      "persona.quality-inspector"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.sales-manager",
+    "label": "Sales Manager",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633269489/Sales+Manager+Persona+Profile",
+    "source_page_id": "2633269489",
+    "department": "dept.sales-and-estimating",
+    "role_group": "Overhead Support",
+    "also_known_as": null,
+    "product_archetype": null,
+    "seniority": "Manager",
+    "modules": [
+      "module.contacts",
+      "module.estimates",
+      "module.quotes",
+      "module.customer-pos",
+      "module.parts",
+      "module.work-orders"
+    ],
+    "dashboards": [
+      "Sales Dashboard",
+      "Project Assignment",
+      "Customer Service Dashboard",
+      "Machine Portion of Overhead",
+      "Delivery Numbers",
+      "Late or Scheduled to be Late Work Orders"
+    ],
+    "kpis": [
+      "RFQ response / lead time",
+      "Estimating accuracy & profitability",
+      "On-time delivery",
+      "Monthly sales $"
+    ],
+    "external_tools": [
+      "CRM",
+      "Estimate Generator (paperless)",
+      "Sales Portal (paperless)",
+      "CAD/CAM"
+    ],
+    "upstream": [
+      "persona.account-manager",
+      "persona.customer-service-representative"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.scheduler",
+    "label": "Scheduler",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633236649/Scheduler+Persona+Profile",
+    "source_page_id": "2633236649",
+    "department": "dept.scheduling-and-production-control",
+    "role_group": "Overhead Support",
+    "also_known_as": null,
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.work-cells",
+      "module.work-orders",
+      "module.schedule"
+    ],
+    "dashboards": [
+      "Scheduled Work",
+      "Queued Work",
+      "Shop Progress"
+    ],
+    "kpis": [
+      "Schedule adherence %",
+      "Capacity utilization %",
+      "On-time delivery %"
+    ],
+    "external_tools": [
+      "DLH Resource Allocation / Scheduling"
+    ],
+    "upstream": [
+      "persona.planner"
+    ],
+    "downstream": [
+      "persona.production-controller-expeditor",
+      "persona.operations-manager"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.setup-machinist",
+    "label": "Setup Machinist",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632941654/Setup+Machinist+Persona+Profile",
+    "source_page_id": "2632941654",
+    "department": "dept.manufacturing-and-production",
+    "role_group": "Shop Floor",
+    "also_known_as": null,
+    "product_archetype": "archetype.machinist-michael",
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.work-orders",
+      "module.tools",
+      "module.fixtures",
+      "module.rtas"
+    ],
+    "dashboards": [
+      "Queued Work",
+      "Scheduled Work",
+      "Job Progress"
+    ],
+    "kpis": [
+      "First Article Acceptance Rate",
+      "Machine utilization %",
+      "Scrap rate %"
+    ],
+    "external_tools": [
+      "Machine Monitoring (Datanomix)"
+    ],
+    "upstream": [
+      "persona.planner",
+      "persona.tool-crib-attendant-tooling-manager"
+    ],
+    "downstream": [
+      "persona.production-machinist-cnc-operator"
+    ],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.shipping-and-receiving-clerk-logistics-coordinator",
+    "label": "Shipping and Receiving Clerk / Logistics Coordinator",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633302143/Shipping+and+Receiving+Clerk+Logistics+Coordinator+Persona+Profile",
+    "source_page_id": "2633302143",
+    "department": "dept.shipping-and-receiving",
+    "role_group": "Shop Floor",
+    "also_known_as": "Inventory Manager & Shipping Coordinator",
+    "product_archetype": "archetype.inventory-ivan",
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.contacts",
+      "module.parts",
+      "module.work-orders",
+      "module.vendor-pos",
+      "module.packing-slips",
+      "module.cots",
+      "module.equipment",
+      "module.tools"
+    ],
+    "dashboards": [
+      "Shipping Dashboard",
+      "Inventory Control Dashboard"
+    ],
+    "kpis": [
+      "On-time shipment rate %",
+      "Receiving accuracy",
+      "OSP shipment cycle time",
+      "Shipping errors / discrepancy rate"
+    ],
+    "external_tools": [
+      "Carrier portals / shipping systems"
+    ],
+    "upstream": [
+      "persona.purchasing-agent-buyer"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.shop-supervisor",
+    "label": "Shop Supervisor",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2632974473/Shop+Supervisor+Persona+Profile",
+    "source_page_id": "2632974473",
+    "department": "dept.manufacturing-and-production",
+    "role_group": "Shop Floor",
+    "also_known_as": null,
+    "product_archetype": null,
+    "seniority": "Lead / Supervisor",
+    "modules": [
+      "module.work-orders",
+      "module.work-cells",
+      "module.schedule"
+    ],
+    "dashboards": [
+      "Shift Tie-in",
+      "Queued Work",
+      "Scheduled Work",
+      "Job Progress",
+      "Shop Progress"
+    ],
+    "kpis": [
+      "Direct labor efficiency / time-tracking accuracy",
+      "On-time delivery %",
+      "Machine utilization %"
+    ],
+    "external_tools": [
+      "Machine Monitoring"
+    ],
+    "upstream": [
+      "persona.scheduler"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  },
+  {
+    "id": "persona.tool-crib-attendant-tooling-manager",
+    "label": "Tool Crib Attendant / Tooling Manager",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2633564229/Tool+Crib+Attendant+Tooling+Manager+Persona+Profile",
+    "source_page_id": "2633564229",
+    "department": "dept.manufacturing-and-production",
+    "role_group": "Shop Floor",
+    "also_known_as": null,
+    "product_archetype": null,
+    "seniority": "Individual contributor",
+    "modules": [
+      "module.tools",
+      "module.cots",
+      "module.equipment"
+    ],
+    "dashboards": [
+      "Inventory Control Dashboard"
+    ],
+    "kpis": [
+      "Machine utilization %",
+      "Inventory turnover rate"
+    ],
+    "external_tools": [
+      "Tool Matrices",
+      "KANBAN / Safety Stock Management"
+    ],
+    "upstream": [
+      "persona.setup-machinist",
+      "persona.purchasing-agent-buyer"
+    ],
+    "downstream": [],
+    "lifecycle": "ACTIVE",
+    "pub_status": "DRAFT",
+    "review_status": "NEEDS REVIEW"
+  }
+]

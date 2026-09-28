@@ -1,0 +1,142 @@
+[
+  {
+    "id": "dept.equipment-maintenance-and-calibration",
+    "label": "Equipment Maintenance & Calibration",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2628354131/Equipment+Maintenance+Calibration+Department+Hub",
+    "source_page_id": "2628354131",
+    "type": "Support",
+    "personas": [
+      "persona.facilities-maintenance-maintenance-technician"
+    ]
+  },
+  {
+    "id": "dept.finance-and-accounting",
+    "label": "Finance & Accounting",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2628321460/Finance+Accounting+Department+Hub",
+    "source_page_id": "2628321460",
+    "type": "Support",
+    "personas": [
+      "persona.accountant",
+      "persona.bookkeeper",
+      "persona.controller-owner-senior-management"
+    ]
+  },
+  {
+    "id": "dept.human-resource-management",
+    "label": "Human Resource Management",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2628091958/Human+Resource+Management+Department+Hub",
+    "source_page_id": "2628091958",
+    "type": "Support",
+    "personas": [
+      "persona.general-manager",
+      "persona.human-resources"
+    ]
+  },
+  {
+    "id": "dept.information-technology-and-cybersecurity",
+    "label": "Information Technology & Cybersecurity",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2709618721/Information+Technology+Cybersecurity+Department+Hub",
+    "source_page_id": "2709618721",
+    "type": "Support",
+    "personas": [
+      "persona.it-manager-erp-administrator-compliance-officer"
+    ]
+  },
+  {
+    "id": "dept.manufacturing-and-production",
+    "label": "Manufacturing & Production",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2627633227/Manufacturing+Production+Department+Hub",
+    "source_page_id": "2627633227",
+    "type": "Production",
+    "personas": [
+      "persona.assembly-technician",
+      "persona.production-machinist-cnc-operator",
+      "persona.setup-machinist",
+      "persona.shop-supervisor",
+      "persona.tool-crib-attendant-tooling-manager"
+    ]
+  },
+  {
+    "id": "dept.planning-and-engineering",
+    "label": "Planning & Engineering",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2628452396/Planning+Engineering+Department+Hub",
+    "source_page_id": "2628452396",
+    "type": "Production",
+    "personas": [
+      "persona.cnc-programmer",
+      "persona.manufacturing-engineer",
+      "persona.planner",
+      "persona.quality-engineer"
+    ]
+  },
+  {
+    "id": "dept.purchasing-and-supply-chain",
+    "label": "Purchasing & Supply Chain",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2628288516/Purchasing+Supply+Chain+Department+Hub",
+    "source_page_id": "2628288516",
+    "type": "Production",
+    "personas": [
+      "persona.purchasing-agent-buyer",
+      "persona.purchasing-manager"
+    ]
+  },
+  {
+    "id": "dept.quality-assurance",
+    "label": "Quality Assurance",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2628321429/Quality+Assurance+Department+Hub",
+    "source_page_id": "2628321429",
+    "type": "Production",
+    "personas": [
+      "persona.calibration-technician",
+      "persona.quality-inspector",
+      "persona.quality-supervisor-lead-inspector"
+    ]
+  },
+  {
+    "id": "dept.quality-management-and-compliance",
+    "label": "Quality Management & Compliance",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2627862623/Quality+Management+Compliance+Department+Hub",
+    "source_page_id": "2627862623",
+    "type": "Support",
+    "personas": [
+      "persona.qms-coordinator",
+      "persona.quality-manager"
+    ]
+  },
+  {
+    "id": "dept.sales-and-estimating",
+    "label": "Sales & Estimating",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2610692115/Sales+Estimating+Department+Hub",
+    "source_page_id": "2610692115",
+    "type": "Production",
+    "personas": [
+      "persona.account-manager",
+      "persona.customer-service-representative",
+      "persona.estimator",
+      "persona.sales-manager"
+    ]
+  },
+  {
+    "id": "dept.scheduling-and-production-control",
+    "label": "Scheduling & Production Control",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2628354081/Scheduling+Production+Control+Department+Hub",
+    "source_page_id": "2628354081",
+    "type": "Production",
+    "personas": [
+      "persona.operations-manager",
+      "persona.production-controller-expeditor",
+      "persona.project-manager",
+      "persona.scheduler"
+    ]
+  },
+  {
+    "id": "dept.shipping-and-receiving",
+    "label": "Shipping & Receiving",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2627829846/Shipping+Receiving+Department+Hub",
+    "source_page_id": "2627829846",
+    "type": "Production",
+    "personas": [
+      "persona.shipping-and-receiving-clerk-logistics-coordinator"
+    ]
+  }
+]

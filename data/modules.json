@@ -1,0 +1,390 @@
+[
+  {
+    "id": "module.approvals",
+    "label": "Approvals",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2286714929/Approvals",
+    "source_page_id": "2286714929",
+    "used_by_personas": [
+      "persona.quality-manager"
+    ]
+  },
+  {
+    "id": "module.audit-reports",
+    "label": "Audit Reports",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287337492/Audit+Reports",
+    "source_page_id": "2287337492",
+    "used_by_personas": [
+      "persona.qms-coordinator",
+      "persona.quality-manager"
+    ]
+  },
+  {
+    "id": "module.bills",
+    "label": "Bills",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287173635/Bills",
+    "source_page_id": "2287173635",
+    "used_by_personas": [
+      "persona.accountant",
+      "persona.bookkeeper",
+      "persona.controller-owner-senior-management"
+    ]
+  },
+  {
+    "id": "module.cots",
+    "label": "COTS",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287108195/COTS",
+    "source_page_id": "2287108195",
+    "used_by_personas": [
+      "persona.assembly-technician",
+      "persona.calibration-technician",
+      "persona.planner",
+      "persona.purchasing-agent-buyer",
+      "persona.purchasing-manager",
+      "persona.shipping-and-receiving-clerk-logistics-coordinator",
+      "persona.tool-crib-attendant-tooling-manager"
+    ]
+  },
+  {
+    "id": "module.company-positions",
+    "label": "Company Positions",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2286682120/Company+Positions",
+    "source_page_id": "2286682120",
+    "used_by_personas": [
+      "persona.general-manager"
+    ]
+  },
+  {
+    "id": "module.contacts",
+    "label": "Contacts",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287075413/Contacts",
+    "source_page_id": "2287075413",
+    "used_by_personas": [
+      "persona.account-manager",
+      "persona.customer-service-representative",
+      "persona.purchasing-manager",
+      "persona.sales-manager",
+      "persona.shipping-and-receiving-clerk-logistics-coordinator"
+    ]
+  },
+  {
+    "id": "module.corrective-action-requests",
+    "label": "Corrective Action Requests",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2286747729/Corrective+Action+Requests",
+    "source_page_id": "2286747729",
+    "used_by_personas": [
+      "persona.purchasing-manager",
+      "persona.qms-coordinator",
+      "persona.quality-manager"
+    ]
+  },
+  {
+    "id": "module.customer-pos",
+    "label": "Customer POs",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287075394/Customer+POs",
+    "source_page_id": "2287075394",
+    "used_by_personas": [
+      "persona.account-manager",
+      "persona.bookkeeper",
+      "persona.customer-service-representative",
+      "persona.planner",
+      "persona.sales-manager"
+    ]
+  },
+  {
+    "id": "module.documents",
+    "label": "Documents",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287173673/Documents",
+    "source_page_id": "2287173673",
+    "used_by_personas": [
+      "persona.quality-manager"
+    ]
+  },
+  {
+    "id": "module.equipment",
+    "label": "Equipment",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287272133/Equipment",
+    "source_page_id": "2287272133",
+    "used_by_personas": [
+      "persona.calibration-technician",
+      "persona.facilities-maintenance-maintenance-technician",
+      "persona.manufacturing-engineer",
+      "persona.planner",
+      "persona.purchasing-agent-buyer",
+      "persona.purchasing-manager",
+      "persona.quality-engineer",
+      "persona.quality-inspector",
+      "persona.quality-manager",
+      "persona.shipping-and-receiving-clerk-logistics-coordinator",
+      "persona.tool-crib-attendant-tooling-manager"
+    ]
+  },
+  {
+    "id": "module.estimates",
+    "label": "Estimates",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287140928/Estimates",
+    "source_page_id": "2287140928",
+    "used_by_personas": [
+      "persona.account-manager",
+      "persona.estimator",
+      "persona.sales-manager"
+    ]
+  },
+  {
+    "id": "module.fixtures",
+    "label": "Fixtures",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2286747691/Fixtures",
+    "source_page_id": "2286747691",
+    "used_by_personas": [
+      "persona.cnc-programmer",
+      "persona.manufacturing-engineer",
+      "persona.planner",
+      "persona.setup-machinist"
+    ]
+  },
+  {
+    "id": "module.invoices",
+    "label": "Invoices",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287272076/Invoices",
+    "source_page_id": "2287272076",
+    "used_by_personas": [
+      "persona.accountant",
+      "persona.bookkeeper",
+      "persona.controller-owner-senior-management"
+    ]
+  },
+  {
+    "id": "module.non-conformance-reports",
+    "label": "Non-Conformance Reports",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2286780482/Non-Conformance+Reports",
+    "source_page_id": "2286780482",
+    "used_by_personas": [
+      "persona.purchasing-manager",
+      "persona.quality-inspector",
+      "persona.quality-supervisor-lead-inspector"
+    ]
+  },
+  {
+    "id": "module.packing-slips",
+    "label": "Packing Slips",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2286747672/Packing+Slips",
+    "source_page_id": "2286747672",
+    "used_by_personas": [
+      "persona.bookkeeper",
+      "persona.purchasing-agent-buyer",
+      "persona.shipping-and-receiving-clerk-logistics-coordinator"
+    ]
+  },
+  {
+    "id": "module.parts",
+    "label": "Parts",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287108138/Parts",
+    "source_page_id": "2287108138",
+    "used_by_personas": [
+      "persona.assembly-technician",
+      "persona.estimator",
+      "persona.planner",
+      "persona.production-machinist-cnc-operator",
+      "persona.quality-engineer",
+      "persona.quality-inspector",
+      "persona.quality-supervisor-lead-inspector",
+      "persona.sales-manager",
+      "persona.shipping-and-receiving-clerk-logistics-coordinator"
+    ]
+  },
+  {
+    "id": "module.preventative-action-requests",
+    "label": "Preventative Action Requests",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287239209/Preventative+Action+Requests",
+    "source_page_id": "2287239209",
+    "used_by_personas": [
+      "persona.purchasing-manager",
+      "persona.qms-coordinator",
+      "persona.quality-manager"
+    ]
+  },
+  {
+    "id": "module.quality-manual",
+    "label": "Quality Manual",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287272152/Quality+Manual",
+    "source_page_id": "2287272152",
+    "used_by_personas": [
+      "persona.quality-manager"
+    ]
+  },
+  {
+    "id": "module.quality-procedures",
+    "label": "Quality Procedures",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2286747710/Quality+Procedures",
+    "source_page_id": "2286747710",
+    "used_by_personas": [
+      "persona.qms-coordinator",
+      "persona.quality-engineer",
+      "persona.quality-manager",
+      "persona.quality-supervisor-lead-inspector"
+    ]
+  },
+  {
+    "id": "module.quotes",
+    "label": "Quotes",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287304744/Quotes",
+    "source_page_id": "2287304744",
+    "used_by_personas": [
+      "persona.account-manager",
+      "persona.estimator",
+      "persona.sales-manager"
+    ]
+  },
+  {
+    "id": "module.rtas",
+    "label": "RTAs",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287108176/RTAs",
+    "source_page_id": "2287108176",
+    "used_by_personas": [
+      "persona.cnc-programmer",
+      "persona.manufacturing-engineer",
+      "persona.planner",
+      "persona.setup-machinist"
+    ]
+  },
+  {
+    "id": "module.return-material-authorizations",
+    "label": "Return Material Authorizations",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2286714948/Return+Material+Authorizations",
+    "source_page_id": "2286714948",
+    "used_by_personas": [
+      "persona.qms-coordinator",
+      "persona.quality-supervisor-lead-inspector"
+    ]
+  },
+  {
+    "id": "module.schedule",
+    "label": "Schedule",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287140966/Schedule",
+    "source_page_id": "2287140966",
+    "used_by_personas": [
+      "persona.operations-manager",
+      "persona.planner",
+      "persona.production-controller-expeditor",
+      "persona.production-machinist-cnc-operator",
+      "persona.project-manager",
+      "persona.scheduler",
+      "persona.shop-supervisor"
+    ]
+  },
+  {
+    "id": "module.standards",
+    "label": "Standards",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2286977109/Standards",
+    "source_page_id": "2286977109",
+    "used_by_personas": [
+      "persona.it-manager-erp-administrator-compliance-officer",
+      "persona.quality-manager"
+    ]
+  },
+  {
+    "id": "module.tasks",
+    "label": "Tasks",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287042942/Tasks",
+    "source_page_id": "2287042942",
+    "used_by_personas": [
+      "persona.facilities-maintenance-maintenance-technician",
+      "persona.human-resources",
+      "persona.qms-coordinator",
+      "persona.quality-manager"
+    ]
+  },
+  {
+    "id": "module.tools",
+    "label": "Tools",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287140947/Tools",
+    "source_page_id": "2287140947",
+    "used_by_personas": [
+      "persona.cnc-programmer",
+      "persona.manufacturing-engineer",
+      "persona.planner",
+      "persona.purchasing-agent-buyer",
+      "persona.purchasing-manager",
+      "persona.setup-machinist",
+      "persona.shipping-and-receiving-clerk-logistics-coordinator",
+      "persona.tool-crib-attendant-tooling-manager"
+    ]
+  },
+  {
+    "id": "module.training",
+    "label": "Training",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287075432/Training",
+    "source_page_id": "2287075432",
+    "used_by_personas": [
+      "persona.human-resources",
+      "persona.quality-manager"
+    ]
+  },
+  {
+    "id": "module.users",
+    "label": "Users",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287370241/Users",
+    "source_page_id": "2287370241",
+    "used_by_personas": [
+      "persona.general-manager",
+      "persona.human-resources",
+      "persona.it-manager-erp-administrator-compliance-officer"
+    ]
+  },
+  {
+    "id": "module.vendor-pos",
+    "label": "Vendor POs",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287272095/Vendor+POs",
+    "source_page_id": "2287272095",
+    "used_by_personas": [
+      "persona.bookkeeper",
+      "persona.calibration-technician",
+      "persona.purchasing-agent-buyer",
+      "persona.purchasing-manager",
+      "persona.shipping-and-receiving-clerk-logistics-coordinator"
+    ]
+  },
+  {
+    "id": "module.work-cells",
+    "label": "Work Cells",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2287173654/Work+Cells",
+    "source_page_id": "2287173654",
+    "used_by_personas": [
+      "persona.manufacturing-engineer",
+      "persona.operations-manager",
+      "persona.planner",
+      "persona.production-controller-expeditor",
+      "persona.scheduler",
+      "persona.shop-supervisor"
+    ]
+  },
+  {
+    "id": "module.work-orders",
+    "label": "Work Orders",
+    "canonical_url": "https://adionsystems.atlassian.net/wiki/spaces/PSKB/pages/2286780462/Work+Orders",
+    "source_page_id": "2286780462",
+    "used_by_personas": [
+      "persona.accountant",
+      "persona.assembly-technician",
+      "persona.bookkeeper",
+      "persona.cnc-programmer",
+      "persona.controller-owner-senior-management",
+      "persona.customer-service-representative",
+      "persona.estimator",
+      "persona.manufacturing-engineer",
+      "persona.operations-manager",
+      "persona.planner",
+      "persona.production-controller-expeditor",
+      "persona.production-machinist-cnc-operator",
+      "persona.project-manager",
+      "persona.purchasing-agent-buyer",
+      "persona.quality-engineer",
+      "persona.quality-inspector",
+      "persona.quality-supervisor-lead-inspector",
+      "persona.sales-manager",
+      "persona.scheduler",
+      "persona.setup-machinist",
+      "persona.shipping-and-receiving-clerk-logistics-coordinator",
+      "persona.shop-supervisor"
+    ]
+  }
+]

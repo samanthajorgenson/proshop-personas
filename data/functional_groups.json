@@ -1,0 +1,131 @@
+[
+  {
+    "id": "group.estimator",
+    "label": "The Estimator",
+    "workflow_stage": "stage.win",
+    "personas": [
+      "persona.estimator"
+    ],
+    "matched_via": "product_archetype:archetype.estimator-eddie",
+    "candidate_personas": [],
+    "rich_content_ref": "personas.js#PERSONAS[_key=01_estimator]",
+    "note": null
+  },
+  {
+    "id": "group.order-entry",
+    "label": "Order Entry",
+    "workflow_stage": "stage.win",
+    "personas": [
+      "persona.customer-service-representative"
+    ],
+    "matched_via": "product_archetype:archetype.customer-service-carla",
+    "candidate_personas": [],
+    "rich_content_ref": "personas.js#PERSONAS[_key=02_orderentry]",
+    "note": null
+  },
+  {
+    "id": "group.planner-pm",
+    "label": "Planner / PM",
+    "workflow_stage": "stage.win",
+    "personas": [
+      "persona.planner",
+      "persona.project-manager"
+    ],
+    "matched_via": "product_archetype:archetype.project-planner-paul",
+    "candidate_personas": [
+      "persona.manufacturing-engineer",
+      "persona.scheduler"
+    ],
+    "rich_content_ref": "personas.js#PERSONAS[_key=03_planner]",
+    "note": null
+  },
+  {
+    "id": "group.buyer-receiver",
+    "label": "Buyer & Receiver",
+    "workflow_stage": "stage.plan",
+    "personas": [
+      "persona.purchasing-agent-buyer",
+      "persona.purchasing-manager"
+    ],
+    "matched_via": "product_archetype:archetype.buyer-bob",
+    "candidate_personas": [],
+    "rich_content_ref": "personas.js#PERSONAS[_key=04_buyer_receiver]",
+    "note": null
+  },
+  {
+    "id": "group.operator-tool-crib",
+    "label": "Operator & Tool Crib",
+    "workflow_stage": "stage.build",
+    "personas": [
+      "persona.production-machinist-cnc-operator",
+      "persona.setup-machinist"
+    ],
+    "matched_via": "product_archetype:archetype.machinist-michael",
+    "candidate_personas": [
+      "persona.assembly-technician",
+      "persona.cnc-programmer",
+      "persona.shop-supervisor",
+      "persona.tool-crib-attendant-tooling-manager"
+    ],
+    "rich_content_ref": "personas.js#PERSONAS[_key=05_operator_toolcrib]",
+    "note": null
+  },
+  {
+    "id": "group.inventory-shipping",
+    "label": "Inventory & Shipping",
+    "workflow_stage": "stage.learn",
+    "personas": [
+      "persona.shipping-and-receiving-clerk-logistics-coordinator"
+    ],
+    "matched_via": "product_archetype:archetype.inventory-ivan",
+    "candidate_personas": [],
+    "rich_content_ref": "personas.js#PERSONAS[_key=06_inventory_shipping]",
+    "note": null
+  },
+  {
+    "id": "group.functional-qa",
+    "label": "Functional QA",
+    "workflow_stage": "stage.cross-cutting",
+    "personas": [
+      "persona.calibration-technician",
+      "persona.qms-coordinator",
+      "persona.quality-inspector",
+      "persona.quality-manager",
+      "persona.quality-supervisor-lead-inspector"
+    ],
+    "matched_via": "product_archetype:archetype.qa-quinn",
+    "candidate_personas": [
+      "persona.quality-engineer"
+    ],
+    "rich_content_ref": "personas.js#PERSONAS[_key=07_qa]",
+    "note": null
+  },
+  {
+    "id": "group.accounting",
+    "label": "Accounting",
+    "workflow_stage": "stage.cross-cutting",
+    "personas": [],
+    "matched_via": null,
+    "candidate_personas": [
+      "persona.accountant",
+      "persona.bookkeeper",
+      "persona.controller-owner-senior-management"
+    ],
+    "rich_content_ref": "personas.js#PERSONAS[_key=08_accounting]",
+    "note": "No archetype on this group; every association is a candidate for review."
+  },
+  {
+    "id": "group.shop-owner",
+    "label": "The Shop Owner",
+    "workflow_stage": "stage.cross-cutting",
+    "personas": [
+      "persona.controller-owner-senior-management"
+    ],
+    "matched_via": "product_archetype:archetype.owner-owen",
+    "candidate_personas": [
+      "persona.general-manager"
+    ],
+    "rich_content_ref": "personas.js#PERSONAS[_key=00_shopowner]",
+    "note": null
+  }
+]
